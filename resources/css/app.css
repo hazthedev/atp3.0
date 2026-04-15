@@ -1,0 +1,612 @@
+@import 'simple-datatables/dist/style.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @keyframes page-slide-in {
+        from {
+            opacity: 0;
+            transform: translateX(-18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-gray-50 font-sans text-sm text-gray-900 antialiased;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .page-transition-in {
+            animation: none !important;
+        }
+    }
+}
+
+@layer components {
+    .main-content {
+        @apply min-h-screen;
+
+        @media (min-width: 768px) {
+            padding-left: var(--sw, 256px);
+            transition: padding-left 0.15s ease;
+        }
+    }
+
+    .page-transition-in {
+        animation: page-slide-in 220ms ease-out both;
+        will-change: transform, opacity;
+    }
+
+    .btn-base {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .btn-primary {
+        @apply btn-base bg-blue-600 text-white shadow-sm hover:bg-blue-700 hover:shadow-md focus:ring-blue-500;
+    }
+
+    .btn-secondary {
+        @apply btn-base border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow-md focus:ring-blue-500;
+    }
+
+    .btn-danger {
+        @apply btn-base bg-red-600 text-white shadow-sm hover:bg-red-700 hover:shadow-md focus:ring-red-500;
+    }
+
+    .btn-ghost {
+        @apply btn-base bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:ring-blue-500;
+    }
+
+    .card {
+        @apply rounded-xl border border-gray-200 bg-white p-5 shadow-sm;
+    }
+
+    .card-hover {
+        @apply card cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+    }
+
+    .input-field {
+        @apply w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-900 shadow-sm transition-colors duration-150 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400;
+    }
+
+    select.input-field {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .input-error {
+        @apply border-red-500 focus:border-red-500 focus:ring-red-500/20;
+    }
+
+    .sidebar-link {
+        @apply flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 transition-all duration-150 hover:bg-gray-100 hover:text-gray-900;
+    }
+
+    .sidebar-link-active {
+        @apply sidebar-link border-l-[3px] border-blue-600 bg-blue-50 font-medium text-blue-700;
+    }
+
+    .stat-card {
+        @apply rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+    }
+
+    .table-shell {
+        @apply overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm;
+    }
+
+    .table-th {
+        @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500;
+    }
+
+    .table-td {
+        @apply px-4 py-3 text-sm text-gray-700;
+    }
+
+    .table-row {
+        @apply border-b border-gray-100 transition-colors duration-150 hover:bg-blue-50/50;
+    }
+
+    .enterprise-static-table {
+        @apply min-w-full border-collapse text-left text-sm text-slate-700;
+    }
+
+    .enterprise-static-table thead tr {
+        @apply bg-slate-50;
+    }
+
+    .enterprise-static-table th {
+        @apply border-b border-slate-200 px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500;
+        white-space: nowrap;
+    }
+
+    .enterprise-static-table td {
+        @apply border-b border-slate-100 px-3 py-2.5 text-sm text-slate-700;
+        white-space: nowrap;
+    }
+
+    .enterprise-static-table tbody tr {
+        @apply transition-colors duration-150 hover:bg-blue-50/60;
+    }
+
+    .enterprise-static-table tbody tr.is-selected,
+    .enterprise-static-table tbody tr.selected {
+        @apply bg-blue-50;
+    }
+
+    .min-w-full.border-collapse {
+        @apply text-sm text-slate-700;
+    }
+
+    .min-w-full.border-collapse thead tr {
+        @apply bg-slate-50;
+    }
+
+    .min-w-full.border-collapse th {
+        @apply border-b border-slate-200 px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500;
+    }
+
+    .min-w-full.border-collapse td {
+        @apply border-b border-slate-100 px-3 py-2.5 text-sm text-slate-700;
+    }
+
+    .min-w-full.border-collapse tbody tr {
+        @apply transition-colors duration-150 hover:bg-blue-50/40;
+    }
+
+    .datatable-host {
+        @apply overflow-hidden rounded-2xl bg-white;
+    }
+
+    .datatable-host .datatable-wrapper {
+        @apply flex flex-col;
+    }
+
+    .datatable-host .datatable-container {
+        @apply overflow-x-auto bg-white pb-1;
+    }
+
+    .datatable-host .datatable-top {
+        @apply flex flex-col gap-4 border-b border-slate-200 bg-slate-50/70 px-5 py-4 md:flex-row md:items-center md:justify-between;
+        margin-bottom: 0 !important;
+    }
+
+    .datatable-host .datatable-top,
+    .datatable-host .datatable-top .datatable-dropdown,
+    .datatable-host .datatable-top .datatable-dropdown label,
+    .datatable-host .datatable-search,
+    .datatable-host .datatable-bottom,
+    .datatable-host .datatable-info,
+    .datatable-host .datatable-pagination {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .datatable-host .datatable-top > div,
+    .datatable-host .datatable-top > nav,
+    .datatable-host .datatable-bottom > div,
+    .datatable-host .datatable-bottom > nav {
+        float: none;
+    }
+
+    .datatable-host .datatable-top .datatable-search {
+        @apply w-full md:mr-auto md:max-w-md md:flex-1;
+        order: 1;
+    }
+
+    .datatable-host .datatable-top .datatable-dropdown {
+        @apply shrink-0 md:ml-auto;
+        order: 2;
+    }
+
+    .datatable-host .datatable-top .datatable-dropdown label {
+        @apply inline-flex items-center gap-2 whitespace-nowrap text-sm font-medium text-slate-500;
+    }
+
+    .datatable-host .datatable-search .datatable-input {
+        @apply w-full rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm shadow-slate-100/80 placeholder:text-slate-400 focus:border-[#2f5bff] focus:outline-none focus:ring-4 focus:ring-[#2f5bff]/10 md:w-full;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='1.8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z'/%3E%3C/svg%3E");
+        background-position: 0.875rem center;
+        background-repeat: no-repeat;
+        background-size: 1rem 1rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        padding: 0.75rem 1rem 0.75rem 2.75rem;
+    }
+
+    .datatable-host .datatable-top .datatable-dropdown .datatable-selector {
+        @apply rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm shadow-slate-100/80 focus:border-[#2f5bff] focus:outline-none focus:ring-4 focus:ring-[#2f5bff]/10;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        min-width: 5rem;
+        padding: 0.75rem 2.75rem 0.75rem 1rem;
+    }
+
+    .datatable-host .datatable-table,
+    .datatable-host .datatable-table thead {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .datatable-host .datatable-table > thead > tr > th {
+        @apply border-b border-slate-200 bg-slate-50 px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500;
+    }
+
+    .datatable-host .datatable-table > tbody > tr > td {
+        @apply border-b border-slate-100 px-4 py-3 text-sm text-slate-700;
+        white-space: nowrap;
+    }
+
+    .datatable-host .datatable-table > tbody > tr {
+        @apply transition-colors duration-150 hover:bg-blue-50/40;
+    }
+
+    .datatable-host table[data-datatable-selectable="true"] > tbody > tr {
+        @apply cursor-pointer;
+    }
+
+    .datatable-host table[data-datatable-selectable="true"] > tbody > tr.selected > td {
+        @apply bg-blue-50 text-slate-900;
+    }
+
+    .datatable-host table[data-datatable-selectable="true"] > tbody > tr.selected:hover > td {
+        @apply bg-blue-100/70;
+    }
+
+    .datatable-host .datatable-sorter::before {
+        border-top-color: #94a3b8;
+        opacity: 0.35;
+    }
+
+    .datatable-host .datatable-sorter::after {
+        border-bottom-color: #94a3b8;
+        opacity: 0.35;
+    }
+
+    .datatable-host .datatable-ascending .datatable-sorter::after {
+        border-bottom-color: #2563eb;
+        opacity: 1;
+    }
+
+    .datatable-host .datatable-descending .datatable-sorter::before {
+        border-top-color: #2563eb;
+        opacity: 1;
+    }
+
+    .datatable-host .datatable-info {
+        @apply text-sm text-slate-500;
+    }
+
+    .datatable-host .datatable-bottom {
+        @apply flex flex-col gap-4 border-t border-slate-200 bg-white px-5 py-4 md:flex-row md:items-center md:justify-between;
+        margin-top: 0 !important;
+    }
+
+    .datatable-host .datatable-pagination {
+        @apply ml-auto;
+    }
+
+    .datatable-host .datatable-pagination-list {
+        @apply flex items-center gap-2;
+    }
+
+    .datatable-host .datatable-pagination-list .datatable-pagination-list-item {
+        float: none;
+    }
+
+    .datatable-host .datatable-pagination-list .datatable-pagination-list-item.datatable-hidden {
+        display: none;
+    }
+
+    .datatable-host .datatable-pagination-list-item-link {
+        @apply inline-flex h-9 min-w-[2.25rem] items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-600 shadow-sm shadow-slate-100/80 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700;
+        color: #475569 !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        line-height: 1rem !important;
+        text-indent: 0 !important;
+        -webkit-text-fill-color: currentColor;
+    }
+
+    .datatable-host .datatable-pagination-list .datatable-active .datatable-pagination-list-item-link {
+        @apply border-[#2f5bff] bg-[#2f5bff] text-white hover:border-[#284ef0] hover:bg-[#284ef0] hover:text-white;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff;
+    }
+
+    .datatable-host .datatable-pagination-list .datatable-disabled .datatable-pagination-list-item-link {
+        @apply cursor-not-allowed opacity-45 hover:border-gray-300 hover:bg-white hover:text-gray-600;
+    }
+
+    .sticky-form-actions {
+        @apply sticky bottom-4 z-10 flex flex-wrap items-center justify-end gap-3 rounded-xl border border-gray-200 bg-white/95 p-4 shadow-lg backdrop-blur;
+    }
+
+    .input-field-filled {
+        @apply border-gray-200 bg-gray-50/90 font-medium text-gray-800 placeholder:text-gray-400 focus:bg-white;
+    }
+
+    .subtab-shell {
+        @apply border-b border-gray-200 text-sm font-medium text-gray-600;
+    }
+
+    .subtab-list {
+        @apply -mb-px flex flex-wrap gap-x-2;
+    }
+
+    .subtab-item {
+        @apply mb-0;
+    }
+
+    .subtab-link {
+        @apply inline-flex items-center gap-2 rounded-t-lg border-b-2 border-transparent px-4 py-3 text-sm font-medium transition-colors duration-150;
+    }
+
+    .subtab-link-active {
+        @apply border-blue-600 text-blue-600;
+    }
+
+    .subtab-link-inactive {
+        @apply text-gray-500 hover:border-blue-300 hover:text-blue-600;
+    }
+
+    .segmented-option {
+        @apply inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-sm font-medium text-gray-600 transition;
+    }
+
+    .segmented-option-active {
+        @apply bg-white text-blue-600 shadow-sm ring-1 ring-inset ring-blue-100;
+    }
+
+    .attach-workspace-shell {
+        @apply rounded-2xl border border-gray-200 bg-white p-5 shadow-sm;
+    }
+
+    .attach-workspace-grid {
+        @apply grid gap-5 xl:grid-cols-[minmax(0,1fr)_104px_minmax(0,1fr)];
+    }
+
+    .attach-panel {
+        @apply rounded-xl border border-gray-200 p-4 shadow-sm;
+    }
+
+    .attach-panel-muted {
+        @apply bg-gray-50/80;
+    }
+
+    .attach-field-grid {
+        @apply grid grid-cols-[112px_minmax(0,1fr)] items-center gap-3;
+    }
+
+    .attach-field-grid + .attach-field-grid {
+        @apply mt-3;
+    }
+
+    .attach-field-label {
+        @apply text-xs font-semibold uppercase tracking-[0.16em] text-gray-500;
+    }
+
+    .attach-inline-control {
+        @apply grid grid-cols-[minmax(0,1fr)_40px] gap-2;
+    }
+
+    .attach-input {
+        @apply h-9 rounded-lg px-3 py-2 text-sm;
+    }
+
+    .attach-input-highlight {
+        @apply border-blue-300 bg-blue-50;
+    }
+
+    .attach-input-readonly {
+        @apply bg-white text-gray-600;
+    }
+
+    .attach-search-button-slot {
+        @apply self-start;
+    }
+
+    @media (min-width: 1280px) {
+        .attach-search-button-slot {
+            padding-top: 1.375rem;
+        }
+    }
+
+    .attach-mini-button {
+        @apply inline-flex h-9 items-center justify-center rounded-lg border border-gray-300 bg-white px-2 text-xs font-medium text-gray-600 shadow-sm transition hover:bg-gray-50 hover:text-gray-900;
+    }
+
+    .attach-mini-button-ghost {
+        @apply bg-gray-50;
+    }
+
+    .mel-radio-option {
+        @apply inline-flex items-center gap-2 text-sm text-gray-700;
+    }
+
+    .mel-radio-option input[type='radio'] {
+        @apply h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500;
+    }
+
+    .modification-tab-panel {
+        @apply rounded-xl border border-gray-200 bg-white p-5 shadow-sm;
+    }
+
+    .attach-table-shell {
+        @apply overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm;
+    }
+
+    .attach-grid-table {
+        @apply min-w-full border-collapse;
+    }
+
+    .attach-grid-table thead tr {
+        @apply bg-gray-50;
+    }
+
+    .attach-grid-table th {
+        @apply border-b border-gray-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-gray-500;
+    }
+
+    .attach-grid-table td {
+        @apply border-b border-gray-100 px-3 py-2.5 text-sm text-gray-700;
+    }
+
+    .attach-grid-table tbody tr {
+        @apply cursor-pointer transition-colors hover:bg-blue-50/70;
+    }
+
+    .attach-grid-table tbody tr.is-selected {
+        @apply bg-blue-50;
+    }
+
+    .attach-grid-table tbody tr.is-empty {
+        @apply cursor-default hover:bg-transparent;
+    }
+
+    .attach-grid-table tbody tr.is-empty td {
+        @apply text-transparent;
+    }
+
+    .attach-transfer-stack {
+        @apply flex flex-col justify-center gap-3;
+    }
+
+    .attach-date-row {
+        @apply grid grid-cols-[112px_120px_32px_88px_minmax(0,1fr)] items-center gap-3;
+    }
+
+    .attach-date-row-right {
+        @apply grid-cols-[112px_120px_32px_88px];
+    }
+
+    .attach-inline-label {
+        @apply text-right;
+    }
+
+    .attach-checkbox-inline {
+        @apply flex items-center gap-2 text-sm text-gray-600;
+    }
+
+    .attach-checkbox-inline input,
+    .attach-checkbox-row input {
+        @apply h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500;
+    }
+
+    .attach-textarea-row {
+        @apply grid grid-cols-[112px_minmax(0,1fr)] items-start gap-3;
+    }
+
+    .attach-textarea {
+        @apply min-h-[64px] resize-none rounded-lg px-3 py-2;
+    }
+
+    .attach-checkbox-row {
+        @apply flex items-center gap-3 text-sm text-gray-600;
+    }
+
+    .attach-workspace-footer {
+        @apply mt-5 flex items-center gap-3;
+    }
+
+    .pending-base-table {
+        @apply min-w-full border-collapse;
+    }
+
+    .pending-base-table thead tr {
+        @apply bg-gray-50;
+    }
+
+    .pending-base-table th {
+        @apply border-b border-gray-200 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500;
+    }
+
+    .pending-base-table td {
+        @apply border-b border-gray-100 px-3 py-2 text-sm text-gray-700;
+        white-space: nowrap;
+    }
+
+    .pending-base-table tbody tr {
+        @apply transition-colors hover:bg-blue-50/70;
+    }
+
+    .pending-base-table tbody tr.is-selected > td,
+    .pending-base-table tbody tr.selected > td,
+    .pending-base-table tbody tr[aria-selected='true'] > td {
+        @apply bg-blue-50 text-slate-900;
+    }
+
+    .enterprise-static-table,
+    .pending-base-table,
+    .min-w-full.border-collapse {
+        @apply text-left text-sm text-slate-700;
+    }
+
+    .enterprise-static-table thead tr,
+    .pending-base-table thead tr,
+    .min-w-full.border-collapse thead tr {
+        @apply bg-slate-50;
+    }
+
+    .enterprise-static-table th,
+    .pending-base-table th,
+    .min-w-full.border-collapse th {
+        @apply border-b border-slate-200 px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500;
+        white-space: nowrap;
+    }
+
+    .enterprise-static-table td,
+    .pending-base-table td,
+    .min-w-full.border-collapse td {
+        @apply border-b border-slate-100 px-4 py-3 text-sm text-slate-700;
+    }
+
+    .enterprise-static-table tbody tr,
+    .pending-base-table tbody tr,
+    .min-w-full.border-collapse tbody tr {
+        @apply transition-colors duration-150 hover:bg-blue-50/40;
+    }
+
+    .enterprise-static-table tbody tr.is-selected > td,
+    .enterprise-static-table tbody tr.selected > td,
+    .enterprise-static-table tbody tr[aria-selected='true'] > td,
+    .pending-base-table tbody tr.is-selected > td,
+    .pending-base-table tbody tr.selected > td,
+    .pending-base-table tbody tr[aria-selected='true'] > td,
+    .min-w-full.border-collapse tbody tr.is-selected > td,
+    .min-w-full.border-collapse tbody tr.selected > td,
+    .min-w-full.border-collapse tbody tr[aria-selected='true'] > td {
+        @apply bg-blue-50 text-slate-900;
+    }
+
+    @media (max-width: 1280px) {
+        .attach-workspace-grid {
+            @apply grid-cols-1;
+        }
+
+        .attach-transfer-stack {
+            @apply flex-row justify-start;
+        }
+
+        .attach-date-row,
+        .attach-date-row-right {
+            @apply grid-cols-1;
+        }
+
+    }
+}
+
