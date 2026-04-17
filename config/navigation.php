@@ -290,8 +290,8 @@ return [
         ],
     ],
     [
-        'label' => 'Lookups',
-        'route' => 'lookups.index',
-        'icon' => 'book-solid',
+        'label'     => 'My Workspace',
+        'icon'      => 'star',
+        'workspace' => true,
     ],
 ];
