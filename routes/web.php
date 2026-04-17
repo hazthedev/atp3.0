@@ -195,6 +195,33 @@ Route::prefix('initialization')->name('initialization.')->group(function () use 
     ]);
 });
 
+Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes): void {
+    $registerRoutes([
+        ['/user-management/user-groups', 'pages.stub', 'user-management.user-groups'],
+        ['/user-management/user-authorizations', 'pages.stub', 'user-management.user-authorizations'],
+        ['/stock-management/item-groups', 'pages.stub', 'stock-management.item-groups'],
+        ['/stock-management/warehouses', 'pages.stub', 'stock-management.warehouses'],
+        ['/fleet/ipc', 'pages.stub', 'fleet.ipc'],
+        ['/fleet/equipment/variant', 'pages.stub', 'fleet.equipment.variant'],
+        ['/fleet/modification/type', 'pages.stub', 'fleet.modification.type'],
+        ['/fleet/maintenance-program/visit', 'pages.stub', 'fleet.maintenance-program.visit'],
+        ['/fleet/maintenance-program/utilization-model', 'pages.stub', 'fleet.maintenance-program.utilization-model'],
+        ['/fleet/penalties', 'pages.stub', 'fleet.penalties'],
+        ['/flight-operations/departure-arrival-locations', 'pages.stub', 'flight-operations.departure-arrival-locations'],
+        ['/mro/work-order-type', 'pages.stub', 'mro.work-order-type'],
+        ['/utilities/counter-synchronization', 'pages.stub', 'utilities.counter-synchronization'],
+        ['/utilities/max-value-bulk-update', 'pages.stub', 'utilities.max-value-bulk-update'],
+        ['/utilities/fl-counters-bulk-update', 'pages.stub', 'utilities.fl-counters-bulk-update'],
+        ['/utilities/cec-status-bulk-update', 'pages.stub', 'utilities.cec-status-bulk-update'],
+    ]);
+});
+
+Route::prefix('hr')->name('hr.')->group(function () use ($registerRoutes): void {
+    $registerRoutes([
+        ['/employee-master-data', 'pages.stub', 'employee-master-data'],
+    ]);
+});
+
 Route::prefix('lookups')->name('lookups.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
         ['/', 'pages.lookups.index', 'index'],

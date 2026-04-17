@@ -10,13 +10,87 @@ return [
         'label' => 'Administration',
         'icon' => 'badge-verified',
         'children' => [
-            ['label' => 'Functional Location Type', 'route' => 'system.aircraft-type.index'],
-            ['label' => 'Counter', 'route' => 'system.counter.index', 'icon' => 'chart-bar'],
-            ['label' => 'User Management', 'route' => 'system.user-management.index'],
-            ['label' => 'Manage Status', 'route' => 'system.manage-status.index'],
-            ['label' => 'Profile', 'route' => 'system.profile'],
-            ['label' => 'Settings', 'route' => 'system.settings'],
-            ['label' => 'Task Types', 'route' => 'system.tasks'],
+            [
+                'label' => 'User Management',
+                'icon' => 'user-circle',
+                'children' => [
+                    ['label' => 'User', 'route' => 'system.user-management.index', 'icon' => 'user-circle'],
+                    ['label' => 'User Groups', 'route' => 'admin.user-management.user-groups', 'icon' => 'id-card'],
+                    ['label' => 'User Authorizations', 'route' => 'admin.user-management.user-authorizations', 'icon' => 'lock-closed'],
+                ],
+            ],
+            [
+                'label' => 'Stock Management',
+                'icon' => 'archive-box',
+                'children' => [
+                    ['label' => 'Item Groups', 'route' => 'admin.stock-management.item-groups', 'icon' => 'queue-list'],
+                    ['label' => 'Warehouses', 'route' => 'admin.stock-management.warehouses', 'icon' => 'archive-box'],
+                ],
+            ],
+            [
+                'label' => 'Fleet Management',
+                'icon' => 'cube',
+                'children' => [
+                    [
+                        'label' => 'Functional Location',
+                        'icon' => 'building-office-2',
+                        'children' => [
+                            ['label' => 'Type', 'route' => 'system.aircraft-type.index', 'icon' => 'document-text'],
+                        ],
+                    ],
+                    ['label' => 'I.P.C.', 'route' => 'admin.fleet.ipc', 'icon' => 'clipboard-document-list'],
+                    [
+                        'label' => 'Equipment',
+                        'icon' => 'cog-6-tooth',
+                        'children' => [
+                            ['label' => 'Variant', 'route' => 'admin.fleet.equipment.variant', 'icon' => 'document-text'],
+                        ],
+                    ],
+                    [
+                        'label' => 'Modification',
+                        'icon' => 'sparkles',
+                        'children' => [
+                            ['label' => 'Type', 'route' => 'admin.fleet.modification.type', 'icon' => 'document-text'],
+                        ],
+                    ],
+                    [
+                        'label' => 'Maintenance Program',
+                        'icon' => 'wrench-screwdriver',
+                        'children' => [
+                            ['label' => 'Visit', 'route' => 'admin.fleet.maintenance-program.visit', 'icon' => 'calendar-days'],
+                            ['label' => 'Utilization Model', 'route' => 'admin.fleet.maintenance-program.utilization-model', 'icon' => 'chart-bar'],
+                        ],
+                    ],
+                    ['label' => 'Counters', 'route' => 'system.counter.index', 'icon' => 'chart-bar'],
+                    ['label' => 'Penalties', 'route' => 'admin.fleet.penalties', 'icon' => 'exclamation-triangle'],
+                ],
+            ],
+            [
+                'label' => 'Flight Operations',
+                'icon' => 'megaphone-solid',
+                'children' => [
+                    ['label' => 'Departure / Arrival Locations', 'route' => 'admin.flight-operations.departure-arrival-locations', 'icon' => 'map-pin'],
+                ],
+            ],
+            [
+                'label' => 'MRO Management',
+                'icon' => 'mro-receipt',
+                'children' => [
+                    ['label' => 'Task Type', 'route' => 'system.tasks', 'icon' => 'document-text'],
+                    ['label' => 'Work Order Type', 'route' => 'admin.mro.work-order-type', 'icon' => 'briefcase'],
+                ],
+            ],
+            [
+                'label' => 'Utilities',
+                'icon' => 'adjustments-horizontal',
+                'children' => [
+                    ['label' => 'Counter Synchronization', 'route' => 'admin.utilities.counter-synchronization', 'icon' => 'arrows-right-left'],
+                    ['label' => 'Max Value Bulk Update', 'route' => 'admin.utilities.max-value-bulk-update', 'icon' => 'pencil-square'],
+                    ['label' => 'FL Counters Bulk Update', 'route' => 'admin.utilities.fl-counters-bulk-update', 'icon' => 'pencil-square'],
+                    ['label' => 'Customer Equipment Card Status Bulk Update', 'route' => 'admin.utilities.cec-status-bulk-update', 'icon' => 'pencil-square'],
+                ],
+            ],
+            ['label' => 'Settings', 'route' => 'system.settings', 'icon' => 'cog-6-tooth'],
         ],
     ],
     [
@@ -33,6 +107,13 @@ return [
                     'system.business-partner-master-data.edit',
                 ],
             ],
+        ],
+    ],
+    [
+        'label' => 'Human Resources',
+        'icon' => 'identification',
+        'children' => [
+            ['label' => 'Employee Master Data', 'route' => 'hr.employee-master-data', 'icon' => 'user-circle'],
         ],
     ],
     [

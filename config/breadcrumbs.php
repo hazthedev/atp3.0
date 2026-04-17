@@ -154,6 +154,23 @@ $append([
     'system.user-management.create' => ['Administration', 'User Management', 'Create'],
     'system.user-management.edit' => ['Administration', 'User Management', 'Edit'],
     'system.manage-status.index' => ['Administration', 'Manage Status'],
+    'admin.user-management.user-groups' => ['Administration', 'User Management', 'User Groups'],
+    'admin.user-management.user-authorizations' => ['Administration', 'User Management', 'User Authorizations'],
+    'admin.stock-management.item-groups' => ['Administration', 'Stock Management', 'Item Groups'],
+    'admin.stock-management.warehouses' => ['Administration', 'Stock Management', 'Warehouses'],
+    'admin.fleet.ipc' => ['Administration', 'Fleet Management', 'I.P.C.'],
+    'admin.fleet.equipment.variant' => ['Administration', 'Fleet Management', 'Equipment', 'Variant'],
+    'admin.fleet.modification.type' => ['Administration', 'Fleet Management', 'Modification', 'Type'],
+    'admin.fleet.maintenance-program.visit' => ['Administration', 'Fleet Management', 'Maintenance Program', 'Visit'],
+    'admin.fleet.maintenance-program.utilization-model' => ['Administration', 'Fleet Management', 'Maintenance Program', 'Utilization Model'],
+    'admin.fleet.penalties' => ['Administration', 'Fleet Management', 'Penalties'],
+    'admin.flight-operations.departure-arrival-locations' => ['Administration', 'Flight Operations', 'Departure / Arrival Locations'],
+    'admin.mro.work-order-type' => ['Administration', 'MRO Management', 'Work Order Type'],
+    'admin.utilities.counter-synchronization' => ['Administration', 'Utilities', 'Counter Synchronization'],
+    'admin.utilities.max-value-bulk-update' => ['Administration', 'Utilities', 'Max Value Bulk Update'],
+    'admin.utilities.fl-counters-bulk-update' => ['Administration', 'Utilities', 'FL Counters Bulk Update'],
+    'admin.utilities.cec-status-bulk-update' => ['Administration', 'Utilities', 'Customer Equipment Card Status Bulk Update'],
+    'hr.employee-master-data' => ['Human Resources', 'Employee Master Data'],
 ]);
 
 // Map of plain-string segment labels to their landing route.
@@ -175,6 +192,9 @@ $breadcrumbs['_parent_routes'] = [
     'Reports'                    => 'reports.fleet-synthesis',
     'Business Partners'          => 'system.business-partner-master-data.index',
     'Administration'             => 'system.profile',
+    'Human Resources'            => 'hr.employee-master-data',
+    'Stock Management'           => 'admin.stock-management.item-groups',
+    'Utilities'                  => 'admin.utilities.counter-synchronization',
 ];
 
 return $breadcrumbs;
