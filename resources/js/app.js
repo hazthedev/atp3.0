@@ -485,6 +485,30 @@ document.addEventListener('livewire:navigated', () => {
     requestAnimationFrame(bootFlowbite);
 });
 
+Alpine.store('workspace', {
+    items: JSON.parse(localStorage.getItem('workspace_items') || '[]'),
+
+    add(item) {
+        if (!this.has(item.route)) {
+            this.items.push(item);
+            this._persist();
+        }
+    },
+
+    remove(route) {
+        this.items = this.items.filter(i => i.route !== route);
+        this._persist();
+    },
+
+    has(route) {
+        return this.items.some(i => i.route === route);
+    },
+
+    _persist() {
+        localStorage.setItem('workspace_items', JSON.stringify(this.items));
+    },
+});
+
 Livewire.start();
 queueMicrotask(bootFlowbite);
 queueMicrotask(startDatatableMutationObserver);
