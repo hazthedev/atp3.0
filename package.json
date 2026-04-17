@@ -18,6 +18,7 @@
     "dependencies": {
         "@alpinejs/collapse": "^3.15.8",
         "alpinejs": "^3.15.8",
+        "claude-mem": "^12.1.6",
         "flowbite": "^3.1.2",
         "simple-datatables": "^10.2.0"
     }

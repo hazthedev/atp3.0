@@ -32,14 +32,7 @@
         <x-slot name="tbody">
             @foreach ($records as $record)
                 <tr class="table-row">
-                    <td class="table-td">
-                        <a href="{{ route('fleet.functional-location.show', ['id' => $record['id']]) }}" class="group/drill inline-flex items-center gap-3 font-semibold text-gray-900 transition hover:text-blue-700">
-                            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100 transition group-hover/drill:bg-blue-100">
-                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                            </span>
-                            <span>{{ $record['code'] }}</span>
-                        </a>
-                    </td>
+                    <td class="table-td"><x-enterprise.table-cell variant="arrow" :href="route('fleet.functional-location.show', ['id' => $record['id']])">{{ $record['code'] }}</x-enterprise.table-cell></td>
                     <td class="table-td">{{ $record['serial_no'] }}</td>
                     <td class="table-td">{{ $record['registration'] }}</td>
                     <td class="table-td">{{ $record['type'] }}</td>

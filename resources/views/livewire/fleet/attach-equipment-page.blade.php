@@ -29,9 +29,8 @@
             <div class="flex flex-col gap-4">
 
                 {{-- Functional Location lookup fields --}}
-                <div class="attach-panel attach-panel-muted">
-                    <div class="attach-field-grid">
-                        <label class="attach-field-label" for="fl_code">Code</label>
+                <x-enterprise.panel :muted="true" class="space-y-3">
+                    <x-enterprise.field-row label="Code" for="fl_code">
                         <x-enterprise.input
                             id="fl_code"
                             variant="lookup"
@@ -50,22 +49,20 @@
                                 </button>
                             </x-slot:lookupAction>
                         </x-enterprise.input>
-                    </div>
+                    </x-enterprise.field-row>
 
                     @foreach ([
                         ['label' => 'Serial no',    'value' => $functionalLocation['serial_no']    ?? ''],
                         ['label' => 'Registration', 'value' => $functionalLocation['registration'] ?? ''],
                         ['label' => 'Type',         'value' => $functionalLocation['type']         ?? ''],
                     ] as $field)
-                        <div class="attach-field-grid">
-                            <span class="attach-field-label">{{ $field['label'] }}</span>
+                        <x-enterprise.field-row :label="$field['label']">
                             <x-enterprise.input variant="disabled" class="attach-input" value="{{ $field['value'] }}" />
-                        </div>
+                        </x-enterprise.field-row>
                     @endforeach
 
                     {{-- MEL Item: small code cell + description with embedded search --}}
-                    <div class="attach-field-grid">
-                        <span class="attach-field-label">MEL Item</span>
+                    <x-enterprise.field-row label="MEL Item">
                         <div class="grid grid-cols-[56px_minmax(0,1fr)] gap-2">
                             <x-enterprise.input variant="disabled" class="attach-input" value="" />
                             <x-enterprise.input
@@ -75,8 +72,8 @@
                                 disabled
                             />
                         </div>
-                    </div>
-                </div>
+                    </x-enterprise.field-row>
+                </x-enterprise.panel>
 
                 {{-- Installed equipment table --}}
                 <x-enterprise.table-shell
@@ -110,43 +107,35 @@
                 </x-enterprise.table-shell>
 
                 {{-- Uninstallation / detach controls --}}
-                <div class="attach-panel attach-panel-muted space-y-3">
-                    <div class="attach-date-row">
-                        <span class="attach-field-label">Uninstallation date</span>
+                <x-enterprise.panel :muted="true" class="space-y-3">
+                    <x-enterprise.date-row label="Uninstallation date">
                         <x-enterprise.input wire:model.live="uninstallationDate" class="attach-input" />
-                        <span class="attach-field-label attach-inline-label">Time</span>
+                        <span class="text-right text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Time</span>
                         <x-enterprise.input wire:model.live="uninstallationTime" class="attach-input" />
-                        <label class="attach-checkbox-inline">
-                            <input type="checkbox" wire:model.live="uninstallationScheduled" />
-                            <span>Scheduled</span>
-                        </label>
-                    </div>
+                        <x-enterprise.checkbox :inline="true" label="Scheduled" wire:model.live="uninstallationScheduled" />
+                    </x-enterprise.date-row>
 
-                    <div class="attach-textarea-row">
-                        <span class="attach-field-label">Comment</span>
-                        <textarea rows="2" wire:model.live="detachComment" class="input-field attach-textarea"></textarea>
-                    </div>
+                    <x-enterprise.textarea-row label="Comment" :rows="2" wire:model.live="detachComment" />
 
-                    <label class="attach-checkbox-row">
-                        <input type="checkbox" wire:model.live="updateCountersOnFunctionalLocation" />
-                        <span>Update counters on Functional Location</span>
-                    </label>
+                    <x-enterprise.checkbox
+                        label="Update counters on Functional Location"
+                        wire:model.live="updateCountersOnFunctionalLocation"
+                    />
 
                     @foreach ([
                         ['label' => 'Return Reason 1', 'model' => 'returnReason1'],
                         ['label' => 'Return Reason 2', 'model' => 'returnReason2'],
                         ['label' => 'Return Reason 3', 'model' => 'returnReason3'],
                     ] as $field)
-                        <div class="attach-field-grid">
-                            <span class="attach-field-label">{{ $field['label'] }}</span>
+                        <x-enterprise.field-row :label="$field['label']">
                             <x-enterprise.input
                                 variant="lookup"
                                 class="attach-input"
                                 wire:model.live="{{ $field['model'] }}"
                             />
-                        </div>
+                        </x-enterprise.field-row>
                     @endforeach
-                </div>
+                </x-enterprise.panel>
             </div>
 
             {{-- ─── TRANSFER BUTTONS ─── --}}
@@ -181,16 +170,15 @@
             <div class="flex flex-col gap-4">
 
                 {{-- Selected available equipment details --}}
-                <div class="attach-panel attach-panel-muted" style="margin-bottom: 2.5rem;">
-                    <div class="attach-field-grid">
-                        <span class="attach-field-label">Equipment ID</span>
+                <x-enterprise.panel :muted="true" class="space-y-3" style="margin-bottom: 2.5rem;">
+                    <x-enterprise.field-row label="Equipment ID">
                         <x-enterprise.input
                             variant="lookup"
                             class="attach-input"
                             value="{{ $selectedAvailableEquipment['equipment_id'] ?? '' }}"
                             disabled
                         />
-                    </div>
+                    </x-enterprise.field-row>
 
                     @foreach ([
                         ['label' => 'Serial no',     'key' => 'serial_no'],
@@ -198,16 +186,15 @@
                         ['label' => 'Category part',  'key' => 'category_part'],
                         ['label' => 'Variant',        'key' => 'variant'],
                     ] as $field)
-                        <div class="attach-field-grid">
-                            <span class="attach-field-label">{{ $field['label'] }}</span>
+                        <x-enterprise.field-row :label="$field['label']">
                             <x-enterprise.input
                                 variant="disabled"
                                 class="attach-input"
                                 value="{{ $selectedAvailableEquipment[$field['key']] ?? '' }}"
                             />
-                        </div>
+                        </x-enterprise.field-row>
                     @endforeach
-                </div>
+                </x-enterprise.panel>
 
                 {{-- Available equipment table --}}
                 <x-enterprise.table-shell
@@ -239,28 +226,24 @@
                 </x-enterprise.table-shell>
 
                 {{-- Installation / attach controls --}}
-                <div class="attach-panel attach-panel-muted space-y-3">
-                    <div class="attach-date-row attach-date-row-right">
-                        <span class="attach-field-label">Installation date</span>
+                <x-enterprise.panel :muted="true" class="space-y-3">
+                    <x-enterprise.date-row label="Installation date" :compact="true">
                         <x-enterprise.input wire:model.live="installationDate" class="attach-input" />
-                        <span class="attach-field-label attach-inline-label">Time</span>
+                        <span class="text-right text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Time</span>
                         <x-enterprise.input wire:model.live="installationTime" class="attach-input" />
-                    </div>
+                    </x-enterprise.date-row>
 
-                    <div class="attach-textarea-row">
-                        <span class="attach-field-label">Comment</span>
-                        <textarea rows="2" wire:model.live="attachComment" class="input-field attach-textarea"></textarea>
-                    </div>
+                    <x-enterprise.textarea-row label="Comment" :rows="2" wire:model.live="attachComment" />
 
                     <div class="grid grid-cols-2 gap-x-4 gap-y-2">
-                        <label class="attach-checkbox-row">
-                            <input type="checkbox" wire:model.live="updateCountersOnEquipment" />
-                            <span>Update counters on Equipment</span>
-                        </label>
-                        <label class="attach-checkbox-row">
-                            <input type="checkbox" wire:model.live="updateMaintenancePlan" />
-                            <span>Update the Maintenance Plan</span>
-                        </label>
+                        <x-enterprise.checkbox
+                            label="Update counters on Equipment"
+                            wire:model.live="updateCountersOnEquipment"
+                        />
+                        <x-enterprise.checkbox
+                            label="Update the Maintenance Plan"
+                            wire:model.live="updateMaintenancePlan"
+                        />
                     </div>
 
                     @foreach ([
@@ -268,18 +251,18 @@
                         ['model' => 'inheritsOwner',       'label' => 'Equipment Inherits Owner from Functional Location'],
                         ['model' => 'inheritsMaintCenter', 'label' => 'Equipment Inherits Maintenance Center from Functional Location'],
                     ] as $option)
-                        <label class="attach-checkbox-row">
-                            <input type="checkbox" wire:model.live="{{ $option['model'] }}" />
-                            <span>{{ $option['label'] }}</span>
-                        </label>
+                        <x-enterprise.checkbox
+                            :label="$option['label']"
+                            wire:model.live="{{ $option['model'] }}"
+                        />
                     @endforeach
-                </div>
+                </x-enterprise.panel>
             </div>
         </div>
 
-        <footer class="attach-workspace-footer">
+        <x-enterprise.action-bar>
             <button type="button" wire:click="confirmPreview" class="btn-primary">OK</button>
             <a href="{{ route('fleet.functional-location.customer') }}" class="btn-secondary">Cancel</a>
-        </footer>
+        </x-enterprise.action-bar>
     </section>
 </div>

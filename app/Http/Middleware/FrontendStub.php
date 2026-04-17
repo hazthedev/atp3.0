@@ -6,21 +6,29 @@ use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class FrontendStub
 {
+    private static ?User $stub = null;
+
     public function handle(Request $request, Closure $next): mixed
     {
         if (! $request->routeIs('login', 'register') && ! Auth::check()) {
-            $fake = new User([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'role' => 'admin',
-            ]);
+            if (self::$stub === null) {
+                self::$stub = User::firstOrCreate(
+                    ['email' => 'test@example.com'],
+                    [
+                        'name' => 'Test User',
+                        'role' => 'admin',
+                        'password' => Hash::make(Str::random(40)),
+                    ],
+                );
+                self::$stub->role = 'admin';
+            }
 
-            $fake->id = 1;
-
-            Auth::setUser($fake);
+            Auth::setUser(self::$stub);
         }
 
         return $next($request);

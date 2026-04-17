@@ -1,5 +1,6 @@
 @php
     $emptyState = (bool) ($emptyState ?? false);
+    $readonly   = (bool) ($readonly ?? true);
     $recordSelected = ! $emptyState;
     $selectedRecord = $record ?? [
         'id' => $recordId ?? 1,
@@ -221,13 +222,18 @@
     >
         <x-slot name="actions">
             @if ($recordSelected)
-                <a href="{{ route('fleet.technical-logs.index') }}" class="btn-secondary">
-                    <x-icon name="document" class="h-4 w-4" />
-                    Technical Log
-                </a>
-                <a href="{{ route('fleet.functional-location.edit', ['id' => $selectedRecord['id']]) }}" class="btn-primary">Edit Record</a>
+                @if ($readonly)
+                    <a href="{{ route('fleet.technical-logs.index') }}" class="btn-secondary">
+                        <x-icon name="document" class="h-4 w-4" />
+                        Technical Log
+                    </a>
+                    <a href="{{ route('fleet.functional-location.edit', ['id' => $selectedRecord['id']]) }}" class="btn-primary">Edit Record</a>
+                @else
+                    <a href="{{ route('fleet.functional-location.show', ['id' => $selectedRecord['id']]) }}" class="btn-secondary">Cancel</a>
+                    <button type="button" class="btn-primary">Save</button>
+                @endif
             @else
-                <a href="{{ route('fleet.functional-location.index') }}" class="btn-primary">Search Functional Locations</a>
+                <a href="{{ route('fleet.functional-location.customer') }}" class="btn-primary">Customer Functional Location</a>
             @endif
         </x-slot>
     </x-page-header>
@@ -236,9 +242,9 @@
         <x-empty-state
             icon="magnifying-glass"
             label="No functional location selected"
-            description="Open Search Functional Locations and click an aircraft ID row to populate this workspace with customer, equipment, counter, and event data."
+            description="Open Customer Functional Location and click an aircraft ID row to populate this workspace with customer, equipment, counter, and event data."
         >
-            <a href="{{ route('fleet.functional-location.index') }}" class="btn-primary">Go to Search Functional Locations</a>
+            <a href="{{ route('fleet.functional-location.customer') }}" class="btn-primary">Go to Customer Functional Location</a>
         </x-empty-state>
     @endunless
 
@@ -253,13 +259,14 @@
                             :name="$field['name']"
                             :value="$field['value']"
                             :options="$field['options']"
+                            :disabled="$readonly"
                         />
                     @else
                         <x-enterprise.input
                             :id="$field['name']"
                             :name="$field['name']"
                             :value="$field['value']"
-                            :variant="$field['variant'] ?? null"
+                            :variant="$readonly ? 'disabled' : ($field['variant'] ?? null)"
                             :tone="$field['tone'] ?? null"
                         />
                     @endif
@@ -280,7 +287,7 @@
                             :id="$field['name']"
                             :name="$field['name']"
                             :value="$field['value']"
-                            :variant="$field['variant'] ?? null"
+                            :variant="$readonly ? 'disabled' : ($field['variant'] ?? null)"
                         />
                     </div>
                 @endforeach
@@ -296,6 +303,7 @@
                         value="free"
                         class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                         x-model="addressSource"
+                        @disabled($readonly)
                     >
                     <span>Free address</span>
                 </label>
@@ -314,7 +322,7 @@
                         @if (($field['type'] ?? 'input') === 'select')
                             <div class="space-y-1.5">
                                 <x-form.label :for="$field['name']">{{ $field['label'] }}</x-form.label>
-                                @if ($alwaysDisabled)
+                                @if ($alwaysDisabled || $readonly)
                                     <x-form.select
                                         :id="$field['name']"
                                         :name="$field['name']"
@@ -335,7 +343,7 @@
                         @else
                             <div class="space-y-1.5">
                                 <x-form.label :for="$field['name']">{{ $field['label'] }}</x-form.label>
-                                @if ($alwaysDisabled)
+                                @if ($alwaysDisabled || $readonly)
                                     <x-enterprise.input
                                         :id="$field['name']"
                                         :name="$field['name']"
@@ -367,6 +375,7 @@
                                     value="owner"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                     x-model="addressSource"
+                                    @disabled($readonly)
                                 >
                                 <span>Owner</span>
                             </label>
@@ -377,6 +386,7 @@
                                     value="operator"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                     x-model="addressSource"
+                                    @disabled($readonly)
                                 >
                                 <span>Operator</span>
                             </label>
@@ -384,7 +394,7 @@
                     </div>
 
                     <div class="flex justify-start md:justify-end">
-                        <button type="button" class="btn-secondary min-w-32" :disabled="!recordSelected || addressSource === 'free'">Obtain</button>
+                        <button type="button" class="btn-secondary min-w-32" :disabled="!recordSelected || addressSource === 'free'" @disabled($readonly)>Obtain</button>
                     </div>
                 </div>
             </div>
@@ -424,12 +434,7 @@
                                 <td class="table-td">{{ $row['residual'] }}</td>
                                 <td class="table-td">
                                     @if ($row['equipment_id'] !== '')
-                                        <a href="{{ route('fleet.equipment.show', ['id' => 1]) }}" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                            </span>
-                                            <span>{{ $row['equipment_id'] }}</span>
-                                        </a>
+                                        <x-enterprise.table-cell variant="arrow" :href="route('fleet.equipment.show', ['id' => 1])">{{ $row['equipment_id'] }}</x-enterprise.table-cell>
                                     @endif
                                 </td>
                                 <td class="table-td">{{ $row['info_source'] }}</td>
@@ -500,14 +505,7 @@
                         @foreach ($equipmentRows as $row)
                             <tr class="table-row">
                                 <td class="table-td">{{ $row['position'] }}</td>
-                                <td class="table-td">
-                                    <a href="{{ route('fleet.equipment.show', ['id' => 1]) }}" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                        <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                            <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                        </span>
-                                        <span>{{ $row['id'] }}</span>
-                                    </a>
-                                </td>
+                                <td class="table-td"><x-enterprise.table-cell variant="arrow" :href="route('fleet.equipment.show', ['id' => 1])">{{ $row['id'] }}</x-enterprise.table-cell></td>
                                 <td class="table-td">{{ $row['serial_no'] }}</td>
                                 <td class="table-td">{{ $row['item'] }}</td>
                                 <td class="table-td">{{ $row['item_desc'] }}</td>
@@ -549,14 +547,7 @@
                         @foreach ($modificationRows as $row)
                             <tr class="table-row">
                                 <td class="table-td">{{ $row['type'] }}</td>
-                                <td class="table-td">
-                                    <a href="{{ route('fleet.modification.show', ['id' => 1]) }}" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                        <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                            <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                        </span>
-                                        <span>{{ $row['reference'] }}</span>
-                                    </a>
-                                </td>
+                                <td class="table-td"><x-enterprise.table-cell variant="arrow" :href="route('fleet.modification.show', ['id' => 1])">{{ $row['reference'] }}</x-enterprise.table-cell></td>
                                 <td class="table-td">{{ $row['revision'] }}</td>
                                 <td class="table-td">{{ $row['embodied'] }}</td>
                                 <td class="table-td">{{ $row['applied_on'] }}</td>
@@ -641,14 +632,7 @@
                         <x-slot name="tbody">
                             @foreach ($eventWorkpackageRows as $row)
                                 <tr class="table-row">
-                                    <td class="table-td">
-                                        <a href="#" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                            </span>
-                                            <span>{{ $row['code'] }}</span>
-                                        </a>
-                                    </td>
+                                    <td class="table-td"><x-enterprise.table-cell variant="arrow">{{ $row['code'] }}</x-enterprise.table-cell></td>
                                     <td class="table-td">{{ $row['status'] }}</td>
                                     <td class="table-td">{{ $row['simulation_date'] }}</td>
                                     <td class="table-td">{{ $row['planned_date'] }}</td>
@@ -677,14 +661,7 @@
                         <x-slot name="tbody">
                             @foreach ($eventRepairRows as $row)
                                 <tr class="table-row">
-                                    <td class="table-td">
-                                        <a href="#" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                            </span>
-                                            <span>{{ $row['code'] }}</span>
-                                        </a>
-                                    </td>
+                                    <td class="table-td"><x-enterprise.table-cell variant="arrow">{{ $row['code'] }}</x-enterprise.table-cell></td>
                                     <td class="table-td">{{ $row['subject'] }}</td>
                                     <td class="table-td">{{ $row['status'] }}</td>
                                     <td class="table-td">{{ $row['date_in'] }}</td>
@@ -712,14 +689,7 @@
                         <x-slot name="tbody">
                             @foreach ($eventInstalledBaseRows as $row)
                                 <tr class="table-row">
-                                    <td class="table-td">
-                                        <a href="#" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                            </span>
-                                            <span>{{ $row['code'] }}</span>
-                                        </a>
-                                    </td>
+                                    <td class="table-td"><x-enterprise.table-cell variant="arrow">{{ $row['code'] }}</x-enterprise.table-cell></td>
                                     <td class="table-td">{{ $row['creation_date'] }}</td>
                                     <td class="table-td">{{ $row['date_event'] }}</td>
                                     <td class="table-td">{{ $row['time_event'] }}</td>
@@ -754,14 +724,7 @@
                                             <x-icon name="x-circle" class="h-3.5 w-3.5" />
                                         </span>
                                     </td>
-                                    <td class="table-td">
-                                        <a href="#" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                            </span>
-                                            <span>{{ $row['log_number'] }}</span>
-                                        </a>
-                                    </td>
+                                    <td class="table-td"><x-enterprise.table-cell variant="arrow">{{ $row['log_number'] }}</x-enterprise.table-cell></td>
                                     <td class="table-td">{{ $row['description'] }}</td>
                                     <td class="table-td">{{ $row['status'] }}</td>
                                     <td class="table-td">{{ $row['ata'] }}</td>
@@ -816,14 +779,7 @@
                         <x-slot name="tbody">
                             @foreach ($eventWorkOrderRows as $row)
                                 <tr class="table-row">
-                                    <td class="table-td">
-                                        <a href="#" class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700">
-                                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
-                                                <x-icon name="chevron-right" class="h-3.5 w-3.5" />
-                                            </span>
-                                            <span>{{ $row['code'] }}</span>
-                                        </a>
-                                    </td>
+                                    <td class="table-td"><x-enterprise.table-cell variant="arrow">{{ $row['code'] }}</x-enterprise.table-cell></td>
                                     <td class="table-td">{{ $row['title'] }}</td>
                                     <td class="table-td">{{ $row['intervention_type'] }}</td>
                                     <td class="table-td">{{ $row['status'] }}</td>
