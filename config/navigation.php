@@ -7,6 +7,11 @@ return [
         'icon' => 'home',
     ],
     [
+        'label' => 'My Workspace',
+        'icon' => 'bookmark',
+        'workspace' => true,
+    ],
+    [
         'label' => 'Administration',
         'icon' => 'cog-6-tooth',
         'children' => [
