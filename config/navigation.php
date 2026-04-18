@@ -8,14 +8,14 @@ return [
     ],
     [
         'label' => 'Administration',
-        'icon' => 'badge-verified',
+        'icon' => 'cog-6-tooth',
         'children' => [
             [
                 'label' => 'User Management',
                 'icon' => 'user-circle',
                 'children' => [
                     ['label' => 'User', 'route' => 'system.user-management.index', 'icon' => 'user-circle'],
-                    ['label' => 'User Groups', 'route' => 'admin.user-management.user-groups', 'icon' => 'id-card'],
+                    ['label' => 'User Groups', 'route' => 'admin.user-management.user-groups', 'icon' => 'queue-list'],
                     ['label' => 'User Authorizations', 'route' => 'admin.user-management.user-authorizations', 'icon' => 'lock-closed'],
                 ],
             ],
@@ -67,14 +67,14 @@ return [
             ],
             [
                 'label' => 'Flight Operations',
-                'icon' => 'megaphone-solid',
+                'icon' => 'map-pin',
                 'children' => [
                     ['label' => 'Departure / Arrival Locations', 'route' => 'admin.flight-operations.departure-arrival-locations', 'icon' => 'map-pin'],
                 ],
             ],
             [
                 'label' => 'MRO Management',
-                'icon' => 'mro-receipt',
+                'icon' => 'wrench-screwdriver',
                 'children' => [
                     ['label' => 'Task Type', 'route' => 'system.tasks', 'icon' => 'document-text'],
                     ['label' => 'Work Order Type', 'route' => 'admin.mro.work-order-type', 'icon' => 'briefcase'],
@@ -95,7 +95,7 @@ return [
     ],
     [
         'label' => 'Business Partners',
-        'icon' => 'id-card',
+        'icon' => 'identification',
         'children' => [
             [
                 'label' => 'Business Partner Master Data',
@@ -183,7 +183,7 @@ return [
                     [
                         'label' => 'Maintenance Program',
                         'route' => 'fleet.maintenance.maintenance-program',
-                        'icon' => 'book-solid',
+                        'icon' => 'document-text',
                     ],
                     [
                         'label' => 'Maintenance Plan',
@@ -233,7 +233,7 @@ return [
     ],
     [
         'label' => 'Flight Operations',
-        'icon' => 'megaphone-solid',
+        'icon' => 'map-pin',
         'children' => [
             [
                 'label' => 'Flight Records',
@@ -247,7 +247,7 @@ return [
     ],
     [
         'label' => 'MRO Management',
-        'icon' => 'mro-receipt',
+        'icon' => 'wrench-screwdriver',
         'children' => [
             [
                 'label' => 'Repair Information Cockpit',
@@ -292,6 +292,6 @@ return [
     [
         'label' => 'Lookups',
         'route' => 'lookups.index',
-        'icon' => 'book-solid',
+        'icon' => 'magnifying-glass',
     ],
 ];
