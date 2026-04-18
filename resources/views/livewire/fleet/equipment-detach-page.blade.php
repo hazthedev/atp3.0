@@ -1,11 +1,4 @@
 @php
-    $statusClasses = match ($statusTone) {
-        'green' => 'border-emerald-200 bg-emerald-50 text-emerald-700',
-        'amber' => 'border-amber-200 bg-amber-50 text-amber-700',
-        'red' => 'border-red-200 bg-red-50 text-red-700',
-        default => 'border-blue-200 bg-blue-50 text-blue-700',
-    };
-
     $equipmentFields = [
         ['label' => 'Equipment No.', 'key' => 'equipment_no'],
         ['label' => 'Serial Number', 'key' => 'serial_number'],
@@ -22,13 +15,7 @@
         description="Equipment detach workspace using the same searchable modal pattern as the attach flow."
     />
 
-    @if ($statusMessage)
-        <div class="flex items-center rounded-lg border p-4 text-sm {{ $statusClasses }}" role="alert">
-            <x-icon name="information-circle" class="mr-2.5 h-5 w-5 shrink-0" />
-            <span>{{ $statusMessage }}</span>
-        </div>
-    @endif
-
+    <x-status-message :message="$statusMessage" :tone="$statusTone" />
     <x-card title="Detach Equipment" description="Choose the equipment to detach and review its father equipment context." padding="p-6">
         <div class="space-y-8">
             <div class="space-y-6">
