@@ -1,11 +1,4 @@
 @php
-    $statusClasses = match ($statusTone) {
-        'green' => 'border-emerald-200 bg-emerald-50 text-emerald-700',
-        'amber' => 'border-amber-200 bg-amber-50 text-amber-700',
-        'red' => 'border-red-200 bg-red-50 text-red-700',
-        default => 'border-blue-200 bg-blue-50 text-blue-700',
-    };
-
     $lookupHeading = $scope === 'functional-location' ? 'Search Functional Locations' : 'Search Equipments';
     $lookupDescription = $scope === 'functional-location'
         ? 'Choose the functional location to apply visits and task lists against.'
@@ -37,13 +30,7 @@
         description="Apply visits or task lists to the selected equipment or functional location using the current ATP maintenance workspace."
     />
 
-    @if ($statusMessage)
-        <div class="flex items-center rounded-lg border p-4 text-sm {{ $statusClasses }}" role="alert">
-            <x-icon name="information-circle" class="mr-2.5 h-5 w-5 shrink-0" />
-            <span>{{ $statusMessage }}</span>
-        </div>
-    @endif
-
+    <x-status-message :message="$statusMessage" :tone="$statusTone" />
     <section class="max-w-[1280px] space-y-5">
         <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
             {{-- Two-column top layout --}}
