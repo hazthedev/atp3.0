@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             MroStatusObjectSeeder::class,
             ItemSeeder::class,
             EquipmentSeeder::class,
+            FunctionalLocationSeeder::class,
         ]);
     }
 }
