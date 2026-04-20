@@ -68,10 +68,7 @@
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Allow Increase/decrease" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
-                            <label class="attach-checkbox-inline">
-                                <input type="checkbox" x-model="counter.allow_change" />
-                                <span>Enable manual adjustments</span>
-                            </label>
+                            <x-enterprise.checkbox inline label="Enable manual adjustments" x-model="counter.allow_change" />
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Value ..." for="counter_value_mode" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
@@ -102,25 +99,16 @@
                                     <option>Engine Hours</option>
                                     <option>Landing Count</option>
                                 </select>
-                                <label class="attach-checkbox-inline">
-                                    <input type="checkbox" x-model="counter.linked_measure_propagation" />
-                                    <span>Linked Measure Propagation</span>
-                                </label>
+                                <x-enterprise.checkbox inline label="Linked Measure Propagation" x-model="counter.linked_measure_propagation" />
                             </div>
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Propagation" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
-                            <label class="attach-checkbox-inline">
-                                <input type="checkbox" x-model="counter.propagation" />
-                                <span>Apply value propagation</span>
-                            </label>
+                            <x-enterprise.checkbox inline label="Apply value propagation" x-model="counter.propagation" />
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Count real cycles & hours" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
-                            <label class="attach-checkbox-inline">
-                                <input type="checkbox" x-model="counter.count_real_cycles_hours" />
-                                <span>Track real-time counter updates</span>
-                            </label>
+                            <x-enterprise.checkbox inline label="Track real-time counter updates" x-model="counter.count_real_cycles_hours" />
                         </x-enterprise.field-row>
                     </div>
 
