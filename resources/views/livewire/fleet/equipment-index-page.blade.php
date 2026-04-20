@@ -38,7 +38,7 @@
             @foreach ($rows as $row)
                 <tr class="table-row">
                     <td class="table-td">
-                        <a href="{{ route('fleet.equipment.show', ['id' => $row['id']]) }}" class="group/drill inline-flex items-center gap-3 font-semibold text-gray-900 transition hover:text-blue-700">
+                        <a href="{{ route('fleet.equipment.customer-equipment-card', ['id' => $row['id']]) }}" class="group/drill inline-flex items-center gap-3 font-semibold text-gray-900 transition hover:text-blue-700">
                             <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100 transition group-hover/drill:bg-blue-100">
                                 <x-icon name="chevron-right" class="h-3.5 w-3.5" />
                             </span>
