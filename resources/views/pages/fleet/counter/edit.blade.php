@@ -6,6 +6,7 @@
     @include('pages.partials.form-page',         array (
           'title' => 'Edit Counter',
           'description' => 'Modify counter thresholds, references, and labels.',
+          'isEdit' => true,
         ))
 
 @endsection

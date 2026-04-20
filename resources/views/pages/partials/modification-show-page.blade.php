@@ -107,6 +107,7 @@
     $propertyChoiceRows = array_fill(0, 4, ['name' => '']);
 @endphp
 
+<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
 <div
     class="space-y-6"
     x-data="{
@@ -130,7 +131,19 @@
     <x-page-header
         title="Modification"
         description="Modification workspace using the legacy operational tab structure, adapted into the current ATP design system."
-    />
+    >
+        <x-slot name="actions">
+            <template x-if="!editing">
+                <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+            </template>
+            <template x-if="editing">
+                <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+            </template>
+            <template x-if="editing">
+                <button type="button" class="btn-primary" @click="toggle()">Save</button>
+            </template>
+        </x-slot>
+    </x-page-header>
 
     <section class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
         <div class="space-y-5">
@@ -762,4 +775,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

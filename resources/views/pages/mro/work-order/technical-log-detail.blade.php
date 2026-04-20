@@ -47,6 +47,7 @@
 @endphp
 
 @section('content')
+    <div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
     <div
         class="space-y-6"
         x-data="{
@@ -60,7 +61,19 @@
         <x-page-header
             title="Technical Log"
             description="Review the selected technical log, defect history, corrective actions, deferral data, attachments, and properties in the ATP MRO workspace."
-        />
+        >
+            <x-slot name="actions">
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="toggle()">Save</button>
+                </template>
+            </x-slot>
+        </x-page-header>
 
         <section class="attach-workspace-shell max-w-[1180px] space-y-5">
             <template x-if="statusMessage">
@@ -254,5 +267,6 @@
                 </x-enterprise.action-bar>
             </x-enterprise.panel>
         </section>
+    </div>
     </div>
 @endsection

@@ -257,13 +257,28 @@
     }
 @endphp
 
+<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
 <div class="space-y-6" x-data="tabs('general')">
     <x-page-header
         :title="$title"
         :description="$recordLoaded
             ? 'Equipment customer-card workspace using populated form controls and the approved ATP tab style.'
             : 'Blank customer equipment card shell ready for record lookup from Search Equipments.'"
-    />
+    >
+        @if ($recordLoaded)
+            <x-slot name="actions">
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="toggle()">Save</button>
+                </template>
+            </x-slot>
+        @endif
+    </x-page-header>
 
     @unless ($recordLoaded)
         <x-empty-state
@@ -1197,8 +1212,9 @@
             <div class="mr-auto">
                 <x-record-meta :items="$metadata" />
             </div>
-            <button type="button" class="btn-secondary">Cancel</button>
-            <button type="button" class="btn-primary">OK</button>
+            <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+            <button type="button" class="btn-primary" @click="toggle()">OK</button>
         @endif
     </div>
+</div>
 </div>

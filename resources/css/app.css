@@ -608,5 +608,16 @@
         }
 
     }
+
+    [data-edit-scope][data-editing='true'] input:not([data-edit-locked='true']):not([type='checkbox']):not([type='radio']),
+    [data-edit-scope][data-editing='true'] select:not([data-edit-locked='true']),
+    [data-edit-scope][data-editing='true'] textarea:not([data-edit-locked='true']) {
+        @apply bg-white text-gray-900 border-gray-300 cursor-text;
+    }
+
+    [data-edit-scope][data-editing='true'] input[type='checkbox']:not([data-edit-locked='true']),
+    [data-edit-scope][data-editing='true'] input[type='radio']:not([data-edit-locked='true']) {
+        @apply cursor-pointer opacity-100;
+    }
 }
 

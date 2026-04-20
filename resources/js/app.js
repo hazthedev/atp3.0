@@ -59,6 +59,46 @@ Alpine.data('tabs', (initialTab = 'overview') => ({
     },
 }));
 
+Alpine.data('editMode', (initialEditing = false) => ({
+    editing: !!initialEditing,
+
+    init() {
+        this.$nextTick(() => this._applyState());
+    },
+
+    _formElements() {
+        return this.$root.querySelectorAll('input, select, textarea');
+    },
+
+    _applyState() {
+        this._formElements().forEach((el) => {
+            if (el.dataset.editLocked === 'true') return;
+            if (this.editing) {
+                el.disabled = false;
+                el.removeAttribute('readonly');
+            } else {
+                el.disabled = true;
+            }
+        });
+    },
+
+    toggle() {
+        this.editing = !this.editing;
+        this._applyState();
+    },
+
+    enter() {
+        if (this.editing) return;
+        this.editing = true;
+        this._applyState();
+    },
+
+    cancel() {
+        this.editing = false;
+        this._applyState();
+    },
+}));
+
 const datatableInstances = new WeakMap();
 const datatableResizeObservers = new WeakMap();
 const datatableHostSizes = new WeakMap();

@@ -6,6 +6,7 @@
     @include('pages.partials.form-page',         array (
           'title' => 'Edit User Management',
           'description' => 'Frontend-only edit experience for updating an existing user management.',
+          'isEdit' => true,
         ))
 
 @endsection
