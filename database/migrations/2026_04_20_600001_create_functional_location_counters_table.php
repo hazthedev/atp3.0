@@ -29,7 +29,7 @@ return new class extends Migration
             $table->boolean('is_used')->default(true);
             $table->timestamps();
 
-            $table->unique(['functional_location_id', 'counter_ref_id']);
+            $table->unique(['functional_location_id', 'counter_ref_id'], 'fl_counter_unique');
         });
     }
 
