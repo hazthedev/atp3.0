@@ -94,14 +94,37 @@
         ['name' => 'country',      'label' => 'Country',  'value' => $selectedRecord['country'],      'disabled_when' => 'owner', 'variant' => 'lookup'],
     ];
 
-    $counterRows = [
-        ['counter_desc' => 'TSN', 'value' => '13193:44', 'tone' => 'amber', 'unit' => 'Min', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '142:01', 'equipment_id' => '47899', 'info_source' => 'Planning sheet'],
-        ['counter_desc' => 'CSN', 'value' => '20608', 'tone' => 'amber', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '11392', 'equipment_id' => '290', 'info_source' => 'Planning sheet'],
-        ['counter_desc' => 'START', 'value' => '3722', 'tone' => 'green', 'unit' => 'Nb of starting up', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '', 'equipment_id' => '', 'info_source' => 'Planning sheet'],
-        ['counter_desc' => 'E#1CC', 'value' => '1275.25', 'tone' => 'amber', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '7248.75', 'equipment_id' => '6108', 'info_source' => 'Engine import'],
-        ['counter_desc' => 'E#1CTC', 'value' => '8607.21', 'tone' => 'green', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '3392.79', 'equipment_id' => '6112', 'info_source' => 'Engine import'],
-        ['counter_desc' => 'E#1PTC', 'value' => '10083.17', 'tone' => 'amber', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '1916.83', 'equipment_id' => '6116', 'info_source' => 'Engine import'],
-    ];
+    $dbFlCounters = $dbFlCounters ?? collect();
+    $dbFlCalendarCounter = $dbFlCalendarCounter ?? null;
+    $flModel = $flModel ?? null;
+
+    if ($dbFlCounters->isNotEmpty()) {
+        $counterRows = $dbFlCounters->map(function ($c): array {
+            $value = $c->value_hhmm ?: ($c->value_dec !== null ? (string) (float) $c->value_dec : '');
+            $max = $c->max_hhmm ?: ($c->max_dec !== null ? (string) (float) $c->max_dec : '');
+            return [
+                'counter_desc' => $c->counterRef?->name ?? '',
+                'value' => $value,
+                'tone' => $c->tone ?: ($c->is_used ? 'green' : 'grey'),
+                'unit' => $c->counterRef?->measure_unit ?? '',
+                'reading_date' => optional($c->reading_date)->format('d.m.y') ?? '',
+                'max' => $max,
+                'remaining' => $c->remaining ?? '',
+                'residual' => $c->residual ?? '',
+                'equipment_id' => $c->linked_equi_id ?? '',
+                'info_source' => $c->info_source ?? '',
+            ];
+        })->all();
+    } else {
+        $counterRows = [
+            ['counter_desc' => 'TSN', 'value' => '13193:44', 'tone' => 'amber', 'unit' => 'Min', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '142:01', 'equipment_id' => '47899', 'info_source' => 'Planning sheet'],
+            ['counter_desc' => 'CSN', 'value' => '20608', 'tone' => 'amber', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '11392', 'equipment_id' => '290', 'info_source' => 'Planning sheet'],
+            ['counter_desc' => 'START', 'value' => '3722', 'tone' => 'green', 'unit' => 'Nb of starting up', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '', 'equipment_id' => '', 'info_source' => 'Planning sheet'],
+            ['counter_desc' => 'E#1CC', 'value' => '1275.25', 'tone' => 'amber', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '7248.75', 'equipment_id' => '6108', 'info_source' => 'Engine import'],
+            ['counter_desc' => 'E#1CTC', 'value' => '8607.21', 'tone' => 'green', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '3392.79', 'equipment_id' => '6112', 'info_source' => 'Engine import'],
+            ['counter_desc' => 'E#1PTC', 'value' => '10083.17', 'tone' => 'amber', 'unit' => 'Cycle', 'reading_date' => '15.12.25', 'max' => '', 'remaining' => '', 'residual' => '1916.83', 'equipment_id' => '6116', 'info_source' => 'Engine import'],
+        ];
+    }
 
     $equipmentRows = [
         ['position' => 'Airframe', 'id' => (string) $selectedRecord['id'], 'serial_no' => $selectedRecord['serial_no'], 'item' => $selectedRecord['type'], 'item_desc' => $selectedRecord['type'], 'variant' => $selectedRecord['type'], 'category_part' => 'Airframe'],
@@ -119,9 +142,23 @@
         ['type' => 'AW139 EA', 'reference' => '2025-0094 (REPE)', 'revision' => '', 'embodied' => 'X', 'applied_on' => '08.10.25', 'deleted' => '', 'removed_on' => '', 'status' => '', 'comment' => 'Workpackage'],
     ];
 
-    $counterSummaryRows = [
-        ['counter_desc' => '', 'value' => '', 'alert' => '', 'unit' => '', 'limit' => '', 'remaining' => '0.0000', 'residual' => '', 'equipment_id' => '', 'info_source' => ''],
-    ];
+    if ($dbFlCalendarCounter) {
+        $counterSummaryRows = [[
+            'counter_desc' => $dbFlCalendarCounter->label,
+            'value' => optional($dbFlCalendarCounter->value_date)->format('d.m.y') ?? '',
+            'alert' => $dbFlCalendarCounter->is_used ? 'green' : 'x',
+            'unit' => 'Days',
+            'limit' => $dbFlCalendarCounter->limit ?? '',
+            'remaining' => $dbFlCalendarCounter->remaining ?? '0.0000',
+            'residual' => $dbFlCalendarCounter->residual ?? '',
+            'equipment_id' => '',
+            'info_source' => $dbFlCalendarCounter->info_source ?? '',
+        ]];
+    } else {
+        $counterSummaryRows = [
+            ['counter_desc' => '', 'value' => '', 'alert' => '', 'unit' => '', 'limit' => '', 'remaining' => '0.0000', 'residual' => '', 'equipment_id' => '', 'info_source' => ''],
+        ];
+    }
 
     $propertyMetaFields = [
         ['name' => 'date_of_purchase', 'label' => 'Date of Purchase', 'value' => $selectedRecord['date_of_purchase']],
@@ -476,7 +513,11 @@
 
                 @if ($recordSelected)
                     <div class="grid gap-3 sm:grid-cols-2 lg:ml-auto lg:max-w-xl">
-                        <button type="button" class="btn-secondary justify-center">Update Counters</button>
+                        <button type="button" class="btn-primary justify-center"
+                                @disabled(! $flModel)
+                                @if ($flModel) @click="$dispatch('open-fl-counters', { flId: {{ $flModel->id }} })" @endif>
+                            Update Counters
+                        </button>
                         <button type="button" class="btn-secondary justify-center">Counter Reading</button>
                         <button type="button" class="btn-secondary justify-center">Counter History</button>
                         <button type="button" class="btn-secondary justify-center">Counter Hierarchy</button>
