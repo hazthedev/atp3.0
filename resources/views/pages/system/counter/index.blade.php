@@ -5,6 +5,7 @@
 @section('content')
     @php
         $measureUnits = \App\Models\MeasureUnit::orderBy('designation')->get();
+        $counterRefs = \App\Models\CounterRef::orderBy('code')->get();
 
         $counter = [
             'description' => 'Airframe Flight Hours',
@@ -101,12 +102,21 @@
 
                         <x-enterprise.field-row label="Linked measure" for="counter_linked_measure" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
                             <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,260px)] md:items-center">
-                                <select id="counter_linked_measure" x-model="counter.linked_measure" class="input-field attach-input">
-                                    <option value="">Select linked measure</option>
-                                    <option>Flight Cycles</option>
-                                    <option>Engine Hours</option>
-                                    <option>Landing Count</option>
-                                </select>
+                                <div class="flex items-center gap-2">
+                                    <select id="counter_linked_measure" x-model="counter.linked_measure" class="input-field attach-input flex-1">
+                                        <option value="">Select linked measure</option>
+                                        @foreach ($counterRefs as $ref)
+                                            <option value="{{ $ref->code }}">{{ $ref->code }} - {{ $ref->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button"
+                                            class="shrink-0 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                                            title="Manage MRO Counter Ref"
+                                            aria-label="Manage MRO Counter Ref"
+                                            @click="$dispatch('open-counter-refs')">
+                                        <x-icon name="pencil-square" class="h-4 w-4" />
+                                    </button>
+                                </div>
                                 <x-enterprise.checkbox inline label="Linked Measure Propagation" x-model="counter.linked_measure_propagation" />
                             </div>
                         </x-enterprise.field-row>
@@ -166,6 +176,7 @@
         </section>
 
         @livewire('admin.measure-unit-manager')
+        @livewire('admin.counter-ref-manager')
     </div>
 @endsection
 
