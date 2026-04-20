@@ -26,42 +26,55 @@
                                 <th class="border border-gray-200 px-2 py-1.5 w-32">Code</th>
                                 <th class="border border-gray-200 px-2 py-1.5 w-32">New Code</th>
                                 <th class="border border-gray-200 px-2 py-1.5">Designation</th>
-                                <th class="border border-gray-200 px-2 py-1.5 w-10"></th>
+                                <th class="border border-gray-200 px-2 py-1.5 w-24 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($rows as $index => $row)
-                                <tr wire:key="measure-unit-row-{{ $index }}">
+                                @php $isEditing = $editingIndex === $index; @endphp
+                                <tr wire:key="measure-unit-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                     <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                     <td class="border border-gray-200 px-0 py-0">
                                         <input
                                             type="text"
                                             wire:model="rows.{{ $index }}.code"
-                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            @readonly(! $isEditing)
+                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500"
                                         />
                                     </td>
                                     <td class="border border-gray-200 px-0 py-0">
                                         <input
                                             type="text"
                                             wire:model="rows.{{ $index }}.new_code"
-                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            @readonly(! $isEditing)
+                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500"
                                         />
                                     </td>
                                     <td class="border border-gray-200 px-0 py-0">
                                         <input
                                             type="text"
                                             wire:model="rows.{{ $index }}.designation"
-                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            @readonly(! $isEditing)
+                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500"
                                         />
                                     </td>
-                                    <td class="border border-gray-200 px-1 py-1 text-center align-middle">
-                                        <button type="button"
-                                                class="rounded-md p-1 text-gray-400 transition hover:bg-red-50 hover:text-red-500"
-                                                wire:click="removeRow({{ $index }})"
-                                                title="Remove row"
-                                                aria-label="Remove row">
-                                            <x-icon name="x-circle" class="h-4 w-4" />
-                                        </button>
+                                    <td class="border border-gray-200 px-1 py-1 align-middle">
+                                        <div class="flex items-center justify-center gap-1">
+                                            <button type="button"
+                                                    class="rounded-md p-1 transition hover:bg-amber-50 {{ $isEditing ? 'text-amber-600' : 'text-amber-500' }}"
+                                                    wire:click="editRow({{ $index }})"
+                                                    title="{{ $isEditing ? 'Stop editing' : 'Edit row' }}"
+                                                    aria-label="{{ $isEditing ? 'Stop editing' : 'Edit row' }}">
+                                                <x-icon name="pencil-square" class="h-4 w-4" />
+                                            </button>
+                                            <button type="button"
+                                                    class="rounded-md p-1 text-gray-400 transition hover:bg-red-50 hover:text-red-500"
+                                                    wire:click="removeRow({{ $index }})"
+                                                    title="Remove row"
+                                                    aria-label="Remove row">
+                                                <x-icon name="x-circle" class="h-4 w-4" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

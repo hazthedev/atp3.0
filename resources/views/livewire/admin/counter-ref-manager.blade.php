@@ -40,28 +40,32 @@
                                 <th class="border border-gray-200 px-2 py-1.5 w-24">Log instance</th>
                                 <th class="border border-gray-200 px-2 py-1.5 min-w-[150px]">Linked counter(potential calc)</th>
                                 <th class="border border-gray-200 px-2 py-1.5 w-32">Propagation on linked counter</th>
-                                <th class="border border-gray-200 px-2 py-1.5 w-10"></th>
+                                <th class="border border-gray-200 px-2 py-1.5 w-24 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($rows as $index => $row)
-                                <tr wire:key="counter-ref-row-{{ $index }}">
+                                @php
+                                    $isEditing = $editingIndex === $index;
+                                    $inputClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 disabled:opacity-100';
+                                @endphp
+                                <tr wire:key="counter-ref-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                     <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.code" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="text" wire:model="rows.{{ $index }}.code" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.name" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="text" wire:model="rows.{{ $index }}.name" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <select wire:model="rows.{{ $index }}.status" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <select wire:model="rows.{{ $index }}.status" @disabled(! $isEditing) class="{{ $inputClass }}">
                                             @foreach ($statusOptions as $option)
                                                 <option value="{{ $option }}">{{ $option }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <select wire:model="rows.{{ $index }}.measure_unit" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <select wire:model="rows.{{ $index }}.measure_unit" @disabled(! $isEditing) class="{{ $inputClass }}">
                                             <option value=""></option>
                                             @foreach ($measureUnitOptions as $designation)
                                                 <option value="{{ $designation }}">{{ $designation }}</option>
@@ -69,40 +73,40 @@
                                         </select>
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.incr_decr" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.incr_decr" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.allow_incr_decr" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.allow_incr_decr" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.min_value" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="text" wire:model="rows.{{ $index }}.min_value" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.max_value" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="text" wire:model="rows.{{ $index }}.max_value" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.initial_value" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="text" wire:model="rows.{{ $index }}.initial_value" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.propagation_flag" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.propagation_flag" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.used_for_residual_calc" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.used_for_residual_calc" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.allow_auto_incrementation" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.allow_auto_incrementation" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.orange_light_limit" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.orange_light_limit" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.sort_order" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.sort_order" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.log_instance" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.log_instance" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <select wire:model="rows.{{ $index }}.linked_counter" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <select wire:model="rows.{{ $index }}.linked_counter" @disabled(! $isEditing) class="{{ $inputClass }}">
                                             <option value=""></option>
                                             @foreach ($linkedCounterOptions as $option)
                                                 @continue($option['code'] === ($row['code'] ?? ''))
@@ -111,16 +115,25 @@
                                         </select>
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.propagation_on_linked_counter" class="w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" wire:model="rows.{{ $index }}.propagation_on_linked_counter" @readonly(! $isEditing) class="{{ $inputClass }}" />
                                     </td>
-                                    <td class="border border-gray-200 px-1 py-1 text-center align-middle">
-                                        <button type="button"
-                                                class="rounded-md p-1 text-gray-400 transition hover:bg-red-50 hover:text-red-500"
-                                                wire:click="removeRow({{ $index }})"
-                                                title="Remove row"
-                                                aria-label="Remove row">
-                                            <x-icon name="x-circle" class="h-4 w-4" />
-                                        </button>
+                                    <td class="border border-gray-200 px-1 py-1 align-middle">
+                                        <div class="flex items-center justify-center gap-1">
+                                            <button type="button"
+                                                    class="rounded-md p-1 transition hover:bg-amber-50 {{ $isEditing ? 'text-amber-600' : 'text-amber-500' }}"
+                                                    wire:click="editRow({{ $index }})"
+                                                    title="{{ $isEditing ? 'Stop editing' : 'Edit row' }}"
+                                                    aria-label="{{ $isEditing ? 'Stop editing' : 'Edit row' }}">
+                                                <x-icon name="pencil-square" class="h-4 w-4" />
+                                            </button>
+                                            <button type="button"
+                                                    class="rounded-md p-1 text-gray-400 transition hover:bg-red-50 hover:text-red-500"
+                                                    wire:click="removeRow({{ $index }})"
+                                                    title="Remove row"
+                                                    aria-label="Remove row">
+                                                <x-icon name="x-circle" class="h-4 w-4" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
