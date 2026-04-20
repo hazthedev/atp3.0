@@ -10,7 +10,24 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Item extends Model
 {
-    protected $fillable = ['code', 'description'];
+    protected $fillable = [
+        'code',
+        'description',
+        'in_stock',
+        'manufacturer',
+        'item_class',
+        'calibration',
+        'shelf_life',
+        'sales_item',
+        'manage_by_batch_serial',
+        'inventory_item',
+        'purchase_item',
+        'item_group',
+        'uom_group',
+        'alternative_part',
+        'serial_no_management',
+        'item_type',
+    ];
 
     public function counters(): HasMany
     {
