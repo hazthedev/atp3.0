@@ -110,6 +110,22 @@ return [
         ],
     ],
     [
+        'label' => 'Inventory',
+        'icon' => 'archive-box',
+        'children' => [
+            [
+                'label' => 'Item Master Data',
+                'route' => 'system.item-master-data.index',
+                'icon' => 'briefcase',
+                'active_routes' => [
+                    'system.item-master-data.index',
+                    'system.item-master-data.create',
+                    'system.item-master-data.edit',
+                ],
+            ],
+        ],
+    ],
+    [
         'label' => 'Human Resources',
         'icon' => 'identification',
         'children' => [
