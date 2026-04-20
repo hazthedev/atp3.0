@@ -155,6 +155,9 @@
 
     $blankCounterRows = range(1, 6);
     $blankCounterSummaryRows = range(1, 4);
+    $dbCounters = $dbCounters ?? collect();
+    $dbCalendarCounter = $dbCalendarCounter ?? null;
+    $equipmentModel = $equipmentModel ?? null;
     $blankModificationRows = range(1, 6);
     $blankEventRows = range(1, 8);
 
@@ -544,20 +547,41 @@
                         </x-slot>
 
                         <x-slot name="tbody">
-                            @foreach ($blankCounterRows as $rowNumber)
-                                <tr class="table-row">
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                </tr>
-                            @endforeach
+                            @if ($dbCounters->isNotEmpty())
+                                @foreach ($dbCounters as $c)
+                                    @php
+                                        $value = $c->value_hhmm ?: ($c->value_dec !== null ? number_format((float) $c->value_dec, 4) : '');
+                                        $max = $c->max_hhmm ?: ($c->max_dec !== null ? number_format((float) $c->max_dec, 4) : '');
+                                    @endphp
+                                    <tr @class(['table-row', 'text-gray-400' => ! $c->is_used])>
+                                        <td class="table-td font-medium">{{ $c->counterRef?->name }}</td>
+                                        <td class="table-td">{{ $value }}</td>
+                                        <td class="table-td"><span class="inline-block h-2.5 w-2.5 rounded-full {{ $c->is_used ? 'bg-emerald-500' : 'bg-gray-300' }}"></span></td>
+                                        <td class="table-td">{{ $c->counterRef?->measure_unit }}</td>
+                                        <td class="table-td">{{ optional($c->reading_date)->format('d.m.y') }}</td>
+                                        <td class="table-td">{{ $max }}</td>
+                                        <td class="table-td">{{ $c->remaining }}</td>
+                                        <td class="table-td">{{ $c->residual }}</td>
+                                        <td class="table-td">{{ $c->linked_equi_id }}</td>
+                                        <td class="table-td">{{ $c->info_source }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                @foreach ($blankCounterRows as $rowNumber)
+                                    <tr class="table-row">
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </x-slot>
                     </x-data-table>
 
@@ -577,24 +601,48 @@
                         </x-slot>
 
                         <x-slot name="tbody">
-                            @foreach ($blankCounterSummaryRows as $rowNumber)
-                                <tr class="table-row">
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
-                                    <td class="table-td"><span class="invisible">.</span></td>
+                            @if ($dbCalendarCounter)
+                                <tr @class(['table-row', 'text-gray-400' => ! $dbCalendarCounter->is_used])>
+                                    <td class="table-td font-medium">{{ $dbCalendarCounter->label }}</td>
+                                    <td class="table-td">{{ optional($dbCalendarCounter->value_date)->format('d.m.y') }}</td>
+                                    <td class="table-td">
+                                        @if (! $dbCalendarCounter->is_used)
+                                            <span class="font-bold text-red-500">X</span>
+                                        @else
+                                            <span class="inline-block h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                                        @endif
+                                    </td>
+                                    <td class="table-td">Days</td>
+                                    <td class="table-td">{{ $dbCalendarCounter->limit }}</td>
+                                    <td class="table-td">{{ $dbCalendarCounter->remaining }}</td>
+                                    <td class="table-td">{{ $dbCalendarCounter->residual }}</td>
+                                    <td class="table-td"></td>
+                                    <td class="table-td">{{ $dbCalendarCounter->info_source }}</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($blankCounterSummaryRows as $rowNumber)
+                                    <tr class="table-row">
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                        <td class="table-td"><span class="invisible">.</span></td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </x-slot>
                     </x-data-table>
 
                     <div class="flex flex-wrap gap-3">
-                        <button type="button" class="btn-secondary" @disabled(! $recordLoaded)>Update Counters</button>
+                        <button type="button" class="btn-primary"
+                                @disabled(! $equipmentModel)
+                                @if ($equipmentModel) @click="$dispatch('open-equipment-counters', { equipmentId: {{ $equipmentModel->id }} })" @endif>
+                            Update Counters
+                        </button>
                         <button type="button" class="btn-secondary" @disabled(! $recordLoaded)>Counter History</button>
                         <button type="button" class="btn-secondary" @disabled(! $recordLoaded)>Counters Reading</button>
                         <button type="button" class="btn-secondary" @disabled(! $recordLoaded)>Counter Hierarchy</button>
