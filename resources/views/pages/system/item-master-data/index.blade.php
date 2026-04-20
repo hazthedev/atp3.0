@@ -3,13 +3,17 @@
 @section('title', 'Item Master Data')
 
 @php
-    $items = [
-        ['id' => 410001, 'item_no' => 'AW139-001', 'description' => 'Main Rotor Blade Set', 'item_group' => 'Rotor Components', 'uom_group' => 'EA', 'price_list' => 'Price List 01', 'inventory' => 'Yes', 'sales' => 'No', 'purchase' => 'Yes'],
-        ['id' => 410044, 'item_no' => 'AW139-044', 'description' => 'Fuel Filter Assembly', 'item_group' => 'Consumables', 'uom_group' => 'EA', 'price_list' => 'Price List 01', 'inventory' => 'Yes', 'sales' => 'Yes', 'purchase' => 'Yes'],
-        ['id' => 410088, 'item_no' => 'AW189-088', 'description' => 'Landing Light Module', 'item_group' => 'Electrical', 'uom_group' => 'EA', 'price_list' => 'Price List 02', 'inventory' => 'Yes', 'sales' => 'No', 'purchase' => 'Yes'],
-        ['id' => 410144, 'item_no' => 'TOOL-144', 'description' => 'Torque Calibration Kit', 'item_group' => 'Tooling', 'uom_group' => 'SET', 'price_list' => 'Price List 03', 'inventory' => 'No', 'sales' => 'No', 'purchase' => 'Yes'],
-        ['id' => 410203, 'item_no' => 'CHEM-203', 'description' => 'Sealant Compound', 'item_group' => 'Chemicals', 'uom_group' => 'BOX', 'price_list' => 'Price List 01', 'inventory' => 'Yes', 'sales' => 'Yes', 'purchase' => 'Yes'],
-    ];
+    $items = \App\Models\Item::orderBy('code')->get()->map(fn ($row) => [
+        'id' => $row->id,
+        'item_no' => $row->code,
+        'description' => $row->description,
+        'item_group' => '',
+        'uom_group' => '',
+        'price_list' => '',
+        'inventory' => '',
+        'sales' => '',
+        'purchase' => '',
+    ])->all();
 @endphp
 
 @section('content')
