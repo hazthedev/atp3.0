@@ -2,7 +2,7 @@
     $emptyState = (bool) ($emptyState ?? false);
     $readonly   = (bool) ($readonly ?? true);
     $recordSelected = ! $emptyState;
-    $selectedRecord = $record ?? [
+    $selectedRecord = array_merge([
         'id' => $recordId ?? 1,
         'code' => '9M-WAA',
         'status' => 'Airworthy',
@@ -37,7 +37,7 @@
         'cum_flight_time' => '5461:58',
         'equipment_reference' => 'EQ-7701',
         'work_package_comment' => '20251101-9M-WAA-AW139',
-    ];
+    ], $record ?? []);
     $clearFieldValues = static function (array $fields): array {
         return array_map(static function (array $field): array {
             $field['value'] = ($field['type'] ?? 'input') === 'select' ? null : '';
