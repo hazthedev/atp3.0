@@ -51,8 +51,26 @@ class CounterRefManager extends Component
         ];
     }
 
+    public function removeRow(int $index): void
+    {
+        if (! array_key_exists($index, $this->rows)) {
+            return;
+        }
+
+        unset($this->rows[$index]);
+        $this->rows = array_values($this->rows);
+    }
+
     public function save(): void
     {
+        $keptIds = array_filter(array_column($this->rows, 'id'));
+        $originalIds = array_filter(array_column($this->originalRows, 'id'));
+        $deletedIds = array_diff($originalIds, $keptIds);
+
+        if ($deletedIds !== []) {
+            CounterRef::whereIn('id', $deletedIds)->delete();
+        }
+
         foreach ($this->rows as $row) {
             $code = trim((string) ($row['code'] ?? ''));
             $name = trim((string) ($row['name'] ?? ''));
