@@ -3,11 +3,16 @@
 @section('title', 'Customer Equipment Card')
 
 @php
-    $equipment = \App\Models\Equipment::with([
+    $requestedId = request('id');
+    $equipmentQuery = \App\Models\Equipment::with([
         'item',
         'counters.counterRef',
         'calendarCounter',
-    ])->first();
+    ]);
+
+    $equipment = $requestedId
+        ? $equipmentQuery->find($requestedId)
+        : $equipmentQuery->first();
 
     $counters = collect();
     if ($equipment) {
