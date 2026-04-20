@@ -6,7 +6,9 @@
     @php
         $measureUnits = \App\Models\MeasureUnit::orderBy('designation')->get();
         $counterRefs = \App\Models\CounterRef::orderBy('code')->get();
-        $statuses = \App\Models\MroStatusObject::orderBy('code')->get();
+        $statuses = \App\Models\MroStatusObject::whereIn('name', ['Validate', 'No Valid'])
+            ->orderBy('name')
+            ->get();
 
         $counter = [
             'description' => 'Airframe Flight Hours',
