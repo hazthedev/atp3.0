@@ -6,11 +6,11 @@
     @php
         $counter = [
             'description' => 'Airframe Flight Hours',
-            'status' => 'Active',
+            'status' => '00000006',
             'measure_unit' => 'Hours',
             'order' => '10',
             'allow_change' => true,
-            'value_mode' => 'Increasing',
+            'value_mode' => '1',
             'min_value' => '0',
             'max_value' => '12000',
             'initial_value' => '0',
@@ -73,9 +73,8 @@
 
                         <x-enterprise.field-row label="Value ..." for="counter_value_mode" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
                             <select id="counter_value_mode" x-model="counter.value_mode" class="input-field attach-input">
-                                <option>Increasing</option>
-                                <option>Decreasing</option>
-                                <option>Bidirectional</option>
+                                <option value="1">1 - Increase</option>
+                                <option value="2">2 - Decrease</option>
                             </select>
                         </x-enterprise.field-row>
 
@@ -115,9 +114,8 @@
                     <div class="space-y-4">
                         <x-enterprise.field-row label="Status" for="counter_status" class="grid-cols-[88px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
                             <select id="counter_status" x-model="counter.status" class="input-field attach-input">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                                <option>Advanced</option>
+                                <option value="00000007">00000007 - No Valid</option>
+                                <option value="00000006">00000006 - Validate</option>
                             </select>
                         </x-enterprise.field-row>
 
