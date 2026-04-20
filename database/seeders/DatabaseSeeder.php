@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MeasureUnitSeeder::class,
             CounterRefSeeder::class,
             MroStatusObjectSeeder::class,
+            ItemSeeder::class,
         ]);
     }
 }

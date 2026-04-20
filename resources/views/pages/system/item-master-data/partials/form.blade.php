@@ -128,15 +128,39 @@
             'remarks' => '',
         ];
 
-    $standardCounters = [
-        ['counter_desc' => 'FH', 'max_value' => '99999', 'tolerance' => '5', 'orange_light' => '500', 'status' => 'Active', 'modification_ref' => 'MOD-FH-01'],
-        ['counter_desc' => 'FC', 'max_value' => '99999', 'tolerance' => '3', 'orange_light' => '300', 'status' => 'Active', 'modification_ref' => 'MOD-FC-01'],
-    ];
+    $dbItem = \App\Models\Item::with(['counters.counterRef', 'calendarCounter'])->find($recordId);
+    $dbItemId = $dbItem?->id;
 
-    $calendarCounters = [
-        ['counter_desc' => 'Monthly Inspection', 'limit' => '1 month', 'orange_light' => '5 days', 'status' => 'Active'],
-        ['counter_desc' => 'Quarterly Review', 'limit' => '3 months', 'orange_light' => '15 days', 'status' => 'Active'],
-    ];
+    if ($dbItem) {
+        $item['item_no'] = $dbItem->code;
+        $item['description'] = $dbItem->description;
+    }
+
+    $standardCounters = $dbItem
+        ? $dbItem->counters->map(fn ($c) => [
+            'counter_desc' => $c->counterRef?->name ?? '',
+            'max_value' => $c->max_value_hhmm ?: ($c->max_value_dec ?: ''),
+            'tolerance' => $c->tolerance_hhmm ?: ($c->tolerance_dec ?: ''),
+            'orange_light' => ($c->orange_light_percent ?? 90) . '% of max.',
+            'status' => $c->status,
+            'modification_ref' => $c->modif_ref ?? '',
+        ])->values()->all()
+        : [
+            ['counter_desc' => 'FH', 'max_value' => '99999', 'tolerance' => '5', 'orange_light' => '500', 'status' => 'Active', 'modification_ref' => 'MOD-FH-01'],
+            ['counter_desc' => 'FC', 'max_value' => '99999', 'tolerance' => '3', 'orange_light' => '300', 'status' => 'Active', 'modification_ref' => 'MOD-FC-01'],
+        ];
+
+    $calendarCounters = $dbItem && $dbItem->calendarCounter
+        ? [[
+            'counter_desc' => $dbItem->calendarCounter->label,
+            'limit' => $dbItem->calendarCounter->limit_days ? $dbItem->calendarCounter->limit_days . ' days' : '',
+            'orange_light' => ($dbItem->calendarCounter->orange_light_days ?? 90) . ' days from the limit.',
+            'status' => $dbItem->calendarCounter->status,
+        ]]
+        : [
+            ['counter_desc' => 'Monthly Inspection', 'limit' => '1 month', 'orange_light' => '5 days', 'status' => 'Active'],
+            ['counter_desc' => 'Quarterly Review', 'limit' => '3 months', 'orange_light' => '15 days', 'status' => 'Active'],
+        ];
 
     $warehouseRows = [
         ['code' => 'KUL-MAIN', 'name' => 'Kuala Lumpur Main', 'locked' => 'No', 'first_bin' => 'A1-10', 'default_bin' => 'A1-10', 'enforce' => 'No', 'in_stock' => '4', 'committed' => '1', 'ordered' => '2', 'available' => '3'],
@@ -437,7 +461,25 @@
                 </div>
             </x-enterprise.panel>
         </div>
-        <div x-cloak x-show="activeTab === 'aero-one'">
+        <div x-cloak x-show="activeTab === 'aero-one'"
+             x-data="{ ctxOpen: false, ctxX: 0, ctxY: 0 }"
+             @click.outside="ctxOpen = false">
+            <div @contextmenu.prevent="ctxOpen = true; ctxX = $event.offsetX; ctxY = $event.offsetY" class="relative">
+                <div x-cloak x-show="ctxOpen"
+                     :style="`left: ${ctxX}px; top: ${ctxY}px`"
+                     class="absolute z-30 min-w-56 rounded-lg border border-gray-200 bg-white py-1 text-sm shadow-lg">
+                    @foreach (['Remove', 'Duplicate', 'New Activity', 'Business Partner Catalog Numbers', 'Bill of Materials', 'Alternative Items'] as $opt)
+                        <button type="button" class="w-full cursor-default px-3 py-1.5 text-left text-gray-400">{{ $opt }}</button>
+                    @endforeach
+                    <button type="button"
+                            class="w-full px-3 py-1.5 text-left text-gray-800 hover:bg-blue-50 hover:text-blue-700"
+                            @if ($dbItemId) @click="$dispatch('open-item-counters', { itemId: {{ $dbItemId }} }); ctxOpen = false" @else @click="ctxOpen = false" disabled @endif>
+                        Define Counters
+                    </button>
+                    @foreach (['Define Task Lists', 'Related Activities', 'Inventory Posting List', 'Inventory Audit Report', 'Bin Location Content List', 'Items List', 'Serial Number Transactions Report', 'Inventory Status', 'Create Purchase Quotation', 'Purchase Quotation Comparison Report', 'Purchase Request Report', 'Available-to-Promise', 'Relationship Map…'] as $opt)
+                        <button type="button" class="w-full cursor-default px-3 py-1.5 text-left text-gray-400">{{ $opt }}</button>
+                    @endforeach
+                </div>
             <x-enterprise.panel class="space-y-6">
                 <div class="space-y-3">
                     <div class="text-sm font-semibold text-gray-900">Standard Counters</div>
@@ -491,6 +533,7 @@
                     </x-enterprise.table-shell>
                 </div>
             </x-enterprise.panel>
+            </div>
         </div>
         <div x-cloak x-show="activeTab === 'sales'">
             <x-enterprise.panel class="space-y-6">
@@ -691,4 +734,6 @@
             <button type="button" class="btn-secondary" @click="cancelItem()">Cancel</button>
         </x-enterprise.action-bar>
     </section>
+
+    @livewire('fleet.item-counters-manager')
 </div>
