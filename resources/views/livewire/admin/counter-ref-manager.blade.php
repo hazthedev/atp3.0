@@ -20,13 +20,14 @@
 
                 <div class="max-h-[60vh] overflow-auto px-5 py-4">
                     <table class="w-full border-collapse text-sm">
-                        <thead class="sticky top-0 bg-gray-50">
-                            <tr class="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        <thead>
+                            <tr class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                                 <th class="border border-gray-200 px-2 py-1.5 w-10">#</th>
                                 <th class="border border-gray-200 px-2 py-1.5 w-32">Code</th>
                                 <th class="border border-gray-200 px-2 py-1.5 w-40">Name</th>
                                 <th class="border border-gray-200 px-2 py-1.5 w-32">Status</th>
                                 <th class="border border-gray-200 px-2 py-1.5">Measure Unit</th>
+                                <th class="border border-gray-200 px-2 py-1.5 w-10"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,10 +50,19 @@
                                         <input type="text" wire:model="rows.{{ $index }}.measure_unit"
                                                class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                     </td>
+                                    <td class="border border-gray-200 px-1 py-1 text-center align-middle">
+                                        <button type="button"
+                                                class="rounded-md p-1 text-gray-400 transition hover:bg-red-50 hover:text-red-500"
+                                                wire:click="removeRow({{ $index }})"
+                                                title="Remove row"
+                                                aria-label="Remove row">
+                                            <x-icon name="x-circle" class="h-4 w-4" />
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="5" class="px-2 py-2 text-right">
+                                <td colspan="6" class="px-2 py-2 text-right">
                                     <button type="button" class="btn-ghost px-3 text-xs" wire:click="addRow">
                                         <x-icon name="plus" class="h-4 w-4" />
                                         Add row
