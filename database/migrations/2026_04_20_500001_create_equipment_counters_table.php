@@ -12,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('equipment_counters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('equipment_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('equipment_id')->constrained('equipments')->cascadeOnDelete();
             $table->foreignId('counter_ref_id')->constrained()->cascadeOnDelete();
             $table->decimal('value_dec', 15, 4)->nullable();
             $table->string('value_hhmm')->nullable();
