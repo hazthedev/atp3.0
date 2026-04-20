@@ -463,11 +463,13 @@
         </div>
         <div x-cloak x-show="activeTab === 'aero-one'"
              x-data="{ ctxOpen: false, ctxX: 0, ctxY: 0 }"
-             @click.outside="ctxOpen = false">
-            <div @contextmenu.prevent="ctxOpen = true; ctxX = $event.offsetX; ctxY = $event.offsetY" class="relative">
+             @contextmenu.prevent="ctxOpen = true; ctxX = $event.clientX; ctxY = $event.clientY">
+            <div class="relative">
                 <div x-cloak x-show="ctxOpen"
+                     @click.outside="ctxOpen = false"
+                     @keydown.escape.window="ctxOpen = false"
                      :style="`left: ${ctxX}px; top: ${ctxY}px`"
-                     class="absolute z-30 min-w-56 rounded-lg border border-gray-200 bg-white py-1 text-sm shadow-lg">
+                     class="fixed z-50 min-w-56 rounded-lg border border-gray-200 bg-white py-1 text-sm shadow-lg">
                     @foreach (['Remove', 'Duplicate', 'New Activity', 'Business Partner Catalog Numbers', 'Bill of Materials', 'Alternative Items'] as $opt)
                         <button type="button" class="w-full cursor-default px-3 py-1.5 text-left text-gray-400">{{ $opt }}</button>
                     @endforeach
