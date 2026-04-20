@@ -59,8 +59,9 @@
                                     </td>
                                     <td class="border border-gray-200 p-0">
                                         <select wire:model="rows.{{ $index }}.status" @disabled(! $isEditing) class="{{ $inputClass }}">
+                                            <option value=""></option>
                                             @foreach ($statusOptions as $option)
-                                                <option value="{{ $option }}">{{ $option }}</option>
+                                                <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                             @endforeach
                                         </select>
                                     </td>

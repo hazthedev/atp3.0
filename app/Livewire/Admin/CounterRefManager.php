@@ -6,6 +6,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\CounterRef;
 use App\Models\MeasureUnit;
+use App\Models\MroStatusObject;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -25,8 +26,8 @@ class CounterRefManager extends Component
 
     public ?int $editingIndex = null;
 
-    /** @var array<int, string> */
-    public array $statusOptions = ['Validate', 'Draft', 'Inactive'];
+    /** @var array<int, array{code: string, name: string}> */
+    public array $statusOptions = [];
 
     /** @var array<int, string> */
     public array $measureUnitOptions = [];
@@ -157,6 +158,11 @@ class CounterRefManager extends Component
         $this->linkedCounterOptions = CounterRef::orderBy('code')
             ->get(['code', 'name'])
             ->map(fn (CounterRef $ref): array => ['code' => $ref->code, 'name' => $ref->name])
+            ->all();
+
+        $this->statusOptions = MroStatusObject::orderBy('code')
+            ->get(['code', 'name'])
+            ->map(fn (MroStatusObject $status): array => ['code' => $status->code, 'name' => $status->name])
             ->all();
     }
 
