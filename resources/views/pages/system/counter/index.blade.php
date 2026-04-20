@@ -4,10 +4,12 @@
 
 @section('content')
     @php
+        $measureUnits = \App\Models\MeasureUnit::orderBy('designation')->get();
+
         $counter = [
             'description' => 'Airframe Flight Hours',
             'status' => '00000006',
-            'measure_unit' => 'Hours',
+            'measure_unit' => '00000002',
             'order' => '10',
             'allow_change' => true,
             'value_mode' => '1',
@@ -58,13 +60,20 @@
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Measure Unit" for="counter_measure_unit" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
-                            <select id="counter_measure_unit" x-model="counter.measure_unit" class="input-field attach-input">
-                                <option>Hours</option>
-                                <option>Cycles</option>
-                                <option>Days</option>
-                                <option>Flight Hours</option>
-                                <option>Flight Cycles</option>
-                            </select>
+                            <div class="flex items-center gap-2">
+                                <select id="counter_measure_unit" x-model="counter.measure_unit" class="input-field attach-input flex-1">
+                                    @foreach ($measureUnits as $unit)
+                                        <option value="{{ $unit->code }}">{{ $unit->code }} - {{ $unit->designation }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button"
+                                        class="shrink-0 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                                        title="Manage measure units"
+                                        aria-label="Manage measure units"
+                                        @click="$dispatch('open-measure-units')">
+                                    <x-icon name="pencil-square" class="h-4 w-4" />
+                                </button>
+                            </div>
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Allow Increase/decrease" class="grid-cols-[184px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
@@ -155,6 +164,8 @@
                 <button type="button" class="btn-secondary" @click="cancelCounter()">Cancel</button>
             </x-enterprise.action-bar>
         </section>
+
+        @livewire('admin.measure-unit-manager')
     </div>
 @endsection
 
