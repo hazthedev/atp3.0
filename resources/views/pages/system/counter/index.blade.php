@@ -6,6 +6,7 @@
     @php
         $measureUnits = \App\Models\MeasureUnit::orderBy('designation')->get();
         $counterRefs = \App\Models\CounterRef::orderBy('code')->get();
+        $statuses = \App\Models\MroStatusObject::orderBy('code')->get();
 
         $counter = [
             'description' => 'Airframe Flight Hours',
@@ -132,10 +133,20 @@
 
                     <div class="space-y-4">
                         <x-enterprise.field-row label="Status" for="counter_status" class="grid-cols-[88px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
-                            <select id="counter_status" x-model="counter.status" class="input-field attach-input">
-                                <option value="00000007">00000007 - No Valid</option>
-                                <option value="00000006">00000006 - Validate</option>
-                            </select>
+                            <div class="flex items-center gap-2">
+                                <select id="counter_status" x-model="counter.status" class="input-field attach-input flex-1">
+                                    @foreach ($statuses as $status)
+                                        <option value="{{ $status->code }}">{{ $status->code }} - {{ $status->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button"
+                                        class="shrink-0 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                                        title="Manage MRO Status Object"
+                                        aria-label="Manage MRO Status Object"
+                                        @click="$dispatch('open-mro-status-objects')">
+                                    <x-icon name="pencil-square" class="h-4 w-4" />
+                                </button>
+                            </div>
                         </x-enterprise.field-row>
 
                         <x-enterprise.field-row label="Order" for="counter_order" class="grid-cols-[88px_minmax(0,1fr)]" label-class="text-sm font-medium text-slate-700">
@@ -177,6 +188,7 @@
 
         @livewire('admin.measure-unit-manager')
         @livewire('admin.counter-ref-manager')
+        @livewire('admin.mro-status-object-manager')
     </div>
 @endsection
 

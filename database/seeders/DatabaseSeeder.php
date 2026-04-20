@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MeasureUnitSeeder::class,
             CounterRefSeeder::class,
+            MroStatusObjectSeeder::class,
         ]);
     }
 }
