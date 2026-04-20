@@ -43,11 +43,15 @@
             <nav aria-label="Sidebar navigation">
                 <ul class="space-y-1">
                     @foreach ($items as $item)
-                        @include('components.sidebar-node', [
-                            'item' => $item,
-                            'level' => 0,
-                            'isItemActive' => $isItemActive,
-                        ])
+                        @if ($item['workspace'] ?? false)
+                            @include('components.sidebar-workspace', ['item' => $item])
+                        @else
+                            @include('components.sidebar-node', [
+                                'item' => $item,
+                                'level' => 0,
+                                'isItemActive' => $isItemActive,
+                            ])
+                        @endif
                     @endforeach
                 </ul>
             </nav>
