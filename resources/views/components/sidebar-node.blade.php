@@ -30,10 +30,33 @@
             </button>
         </div>
     @else
-        <a href="{{ route($item['route']) }}" class="{{ $linkClass }}" style="padding-left: {{ $indent }}rem;" title="{{ $item['label'] }}">
-            <x-icon :name="$item['icon'] ?? 'document'" class="h-5 w-5 shrink-0" />
-            <span x-cloak x-show="!sidebarCollapsed" class="truncate">{{ $item['label'] }}</span>
-        </a>
+        <div x-data="{ ctxOpen: false }" @click.outside="ctxOpen = false" class="relative">
+            <a href="{{ route($item['route']) }}"
+               class="{{ $linkClass }}"
+               style="padding-left: {{ $indent }}rem;"
+               title="{{ $item['label'] }}"
+               @contextmenu.prevent="ctxOpen = !ctxOpen">
+                <x-icon :name="$item['icon'] ?? 'document'" class="h-5 w-5 shrink-0" />
+                <span x-cloak x-show="!sidebarCollapsed" class="truncate">{{ $item['label'] }}</span>
+            </a>
+            <div x-cloak x-show="ctxOpen"
+                 class="absolute left-full top-0 z-50 ml-1 min-w-44 rounded-lg border border-gray-200 bg-white py-1 text-sm shadow-lg">
+                <template x-if="!$store.workspace.has('{{ $item['route'] }}')">
+                    <button type="button"
+                            class="w-full px-3 py-1.5 text-left text-gray-700 hover:bg-gray-50"
+                            @click="$store.workspace.add(@js(['label' => $item['label'], 'route' => $item['route'], 'icon' => $item['icon'] ?? '', 'url' => route($item['route'])])); ctxOpen = false">
+                        Add to My Workspace
+                    </button>
+                </template>
+                <template x-if="$store.workspace.has('{{ $item['route'] }}')">
+                    <button type="button"
+                            class="w-full px-3 py-1.5 text-left text-gray-700 hover:bg-gray-50"
+                            @click="$store.workspace.remove('{{ $item['route'] }}'); ctxOpen = false">
+                        Remove from My Workspace
+                    </button>
+                </template>
+            </div>
+        </div>
     @endif
 
     @if ($hasChildren)
