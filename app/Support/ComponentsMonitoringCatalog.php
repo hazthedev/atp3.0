@@ -319,8 +319,12 @@ class ComponentsMonitoringCatalog
     /**
      * @return array<string, string>|null
      */
-    public static function find(string $rowKey): ?array
+    public static function find(int|string|null $rowKey): ?array
     {
-        return self::all()->firstWhere('row_key', $rowKey);
+        if ($rowKey === null) {
+            return null;
+        }
+
+        return self::all()->firstWhere('row_key', (string) $rowKey);
     }
 }

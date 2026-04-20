@@ -1,25 +1,10 @@
-@php
-    $statusClasses = match ($statusTone) {
-        'green' => 'border-emerald-200 bg-emerald-50 text-emerald-700',
-        'amber' => 'border-amber-200 bg-amber-50 text-amber-700',
-        'red'   => 'border-red-200 bg-red-50 text-red-700',
-        default => 'border-blue-200 bg-blue-50 text-blue-700',
-    };
-@endphp
-
 <div class="space-y-6">
     <x-page-header
         title="Detach Equipment from Functional Location"
         description="Single-table detachment workspace — locate a functional location or search by equipment code, then detach."
     />
 
-    @if ($statusMessage)
-        <div class="flex items-center rounded-lg border p-4 text-sm {{ $statusClasses }}" role="alert">
-            <x-icon name="information-circle" class="mr-2.5 h-5 w-5 shrink-0" />
-            <span>{{ $statusMessage }}</span>
-        </div>
-    @endif
-
+    <x-status-message :message="$statusMessage" :tone="$statusTone" />
     <section class="attach-workspace-shell space-y-4">
 
         {{-- ── TOP: Functional location fields + Search via equipment ── --}}

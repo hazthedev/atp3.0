@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Fleet;
 
 use App\Support\PendingInstalledBaseUpdatesCatalog;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class PendingInstalledBaseUpdatesPage extends Component
@@ -60,24 +61,23 @@ class PendingInstalledBaseUpdatesPage extends Component
     }
 
     /**
-     * @return array<int, array<string, string|bool>>
+     * @return \Illuminate\Support\Collection<int, array<string, string|bool>>
      */
-    private function visibleRows(): array
+    private function visibleRows(): Collection
     {
         if (! $this->displayOpenWorkOrders) {
             return $this->rows();
         }
 
-        return array_values(array_filter(
-            $this->rows(),
-            static fn (array $row): bool => (bool) $row['display_open'],
-        ));
+        return $this->rows()
+            ->filter(static fn (array $row): bool => (bool) $row['display_open'])
+            ->values();
     }
 
     /**
-     * @return array<int, array<string, string|bool>>
+     * @return \Illuminate\Support\Collection<int, array<string, string|bool>>
      */
-    private function rows(): array
+    private function rows(): Collection
     {
         return PendingInstalledBaseUpdatesCatalog::all();
     }
