@@ -12,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('equipment_calendar_counters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('equipment_id')->unique()->constrained()->cascadeOnDelete();
+            $table->foreignId('equipment_id')->unique()->constrained('equipments')->cascadeOnDelete();
             $table->string('label')->default('Calendar Limit');
             $table->date('value_date')->nullable();
             $table->string('limit')->nullable();
