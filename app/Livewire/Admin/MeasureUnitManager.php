@@ -22,6 +22,8 @@ class MeasureUnitManager extends Component
 
     public string $statusTone = 'blue';
 
+    public ?int $editingIndex = null;
+
     public function mount(): void
     {
         $this->loadRows();
@@ -33,11 +35,13 @@ class MeasureUnitManager extends Component
         $this->loadRows();
         $this->open = true;
         $this->statusMessage = null;
+        $this->editingIndex = null;
     }
 
     public function closeModal(): void
     {
         $this->open = false;
+        $this->editingIndex = null;
     }
 
     public function addRow(): void
@@ -48,6 +52,8 @@ class MeasureUnitManager extends Component
             'new_code' => '',
             'designation' => '',
         ];
+
+        $this->editingIndex = array_key_last($this->rows);
     }
 
     public function removeRow(int $index): void
@@ -58,6 +64,21 @@ class MeasureUnitManager extends Component
 
         unset($this->rows[$index]);
         $this->rows = array_values($this->rows);
+
+        if ($this->editingIndex === $index) {
+            $this->editingIndex = null;
+        } elseif ($this->editingIndex !== null && $this->editingIndex > $index) {
+            $this->editingIndex--;
+        }
+    }
+
+    public function editRow(int $index): void
+    {
+        if (! array_key_exists($index, $this->rows)) {
+            return;
+        }
+
+        $this->editingIndex = $this->editingIndex === $index ? null : $index;
     }
 
     public function save(): void
@@ -102,6 +123,7 @@ class MeasureUnitManager extends Component
         }
 
         $this->loadRows();
+        $this->editingIndex = null;
         $this->statusMessage = 'Measure units saved.';
         $this->statusTone = 'green';
 

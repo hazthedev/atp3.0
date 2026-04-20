@@ -23,6 +23,8 @@ class CounterRefManager extends Component
 
     public string $statusTone = 'blue';
 
+    public ?int $editingIndex = null;
+
     /** @var array<int, string> */
     public array $statusOptions = ['Validate', 'Draft', 'Inactive'];
 
@@ -45,16 +47,19 @@ class CounterRefManager extends Component
         $this->loadOptions();
         $this->open = true;
         $this->statusMessage = null;
+        $this->editingIndex = null;
     }
 
     public function closeModal(): void
     {
         $this->open = false;
+        $this->editingIndex = null;
     }
 
     public function addRow(): void
     {
         $this->rows[] = $this->blankRow();
+        $this->editingIndex = array_key_last($this->rows);
     }
 
     public function removeRow(int $index): void
@@ -65,6 +70,21 @@ class CounterRefManager extends Component
 
         unset($this->rows[$index]);
         $this->rows = array_values($this->rows);
+
+        if ($this->editingIndex === $index) {
+            $this->editingIndex = null;
+        } elseif ($this->editingIndex !== null && $this->editingIndex > $index) {
+            $this->editingIndex--;
+        }
+    }
+
+    public function editRow(int $index): void
+    {
+        if (! array_key_exists($index, $this->rows)) {
+            return;
+        }
+
+        $this->editingIndex = $this->editingIndex === $index ? null : $index;
     }
 
     public function save(): void
@@ -118,6 +138,7 @@ class CounterRefManager extends Component
         }
 
         $this->loadRows();
+        $this->editingIndex = null;
         $this->statusMessage = 'Counter references saved.';
         $this->statusTone = 'green';
 

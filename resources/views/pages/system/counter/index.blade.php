@@ -43,7 +43,7 @@
             description="Maintain counter thresholds, linked-propagation behavior, and measure validity limits using the same modern ATP form workspace."
         />
 
-        <section class="attach-workspace-shell max-w-[980px] space-y-5">
+        <section class="attach-workspace-shell w-full space-y-5">
             <template x-if="statusMessage">
                 <div class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700" x-text="statusMessage"></div>
             </template>
