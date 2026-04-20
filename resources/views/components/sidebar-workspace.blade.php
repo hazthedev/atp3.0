@@ -34,7 +34,7 @@
                     <x-icon name="document" class="h-5 w-5 shrink-0" />
                     <span x-text="wsItem.label" class="truncate"></span>
                 </a>
-                <div x-show="ctxOpen"
+                <div x-cloak x-show="ctxOpen"
                      class="absolute left-full top-0 z-50 ml-1 min-w-44 rounded-lg border border-gray-200 bg-white py-1 text-sm shadow-lg">
                     <button type="button"
                             class="w-full px-3 py-1.5 text-left text-gray-700 hover:bg-gray-50"
