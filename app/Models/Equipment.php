@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Equipment extends Model
 {
+    protected $table = 'equipments';
+
     protected $fillable = [
         'equipment_no',
         'serial_number',
