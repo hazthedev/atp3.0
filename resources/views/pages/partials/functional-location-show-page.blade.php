@@ -73,7 +73,14 @@
     $generalFields = [
         ['name' => 'monthly_average_hours', 'label' => 'Monthly Average Hours', 'value' => '42.5'],
         ['name' => 'first_date_of_using',   'label' => 'First Date of Using',   'value' => '14 Mar 2017'],
+        ['name' => 'mission_type',          'label' => 'Mission Type',          'value' => $selectedRecord['mission_type'],       'variant' => 'lookup'],
+        ['name' => 'maint_center_code',     'label' => 'Maint. Center Code',    'value' => $selectedRecord['maint_center_code'],  'variant' => 'lookup'],
+        ['name' => 'maint_center_name',     'label' => 'Maint. Center Name',    'value' => $selectedRecord['maint_center_name']],
+        ['name' => 'environment_type',      'label' => 'Environment Type',      'value' => $selectedRecord['environment_type'],   'variant' => 'lookup'],
         ['name' => 'utilization_model',     'label' => 'Utilization Model',     'value' => $selectedRecord['utilization_model'],  'variant' => 'arrow-lookup'],
+        ['name' => 'oi_type',               'label' => 'Oil Type',               'value' => $selectedRecord['oi_type'],            'variant' => 'lookup'],
+        ['name' => 'ac_max_to_weight',      'label' => 'A/C Max TO Weight',     'value' => $selectedRecord['ac_max_to_weight']],
+        ['name' => 'ac_empty_weight',       'label' => 'A/C Empty Weight',      'value' => $selectedRecord['ac_empty_weight']],
     ];
 
     $addressFields = [
@@ -166,8 +173,10 @@
 
     $eventTabs = [
         ['id' => 'workpackages', 'label' => 'Workpackages', 'icon' => 'briefcase'],
+        ['id' => 'repairs', 'label' => 'Repairs', 'icon' => 'wrench-screwdriver'],
         ['id' => 'installed-base', 'label' => 'Installed Base', 'icon' => 'cube'],
         ['id' => 'technical-log', 'label' => 'Technical Log', 'icon' => 'document-text'],
+        ['id' => 'others', 'label' => 'Others', 'icon' => 'ellipsis-horizontal-circle'],
         ['id' => 'work-orders', 'label' => 'Work Orders', 'icon' => 'clipboard-document-list'],
     ];
 
@@ -181,6 +190,15 @@
         ['code' => '000017VO', 'status' => 'Closed', 'simulation_date' => '05.11.25', 'planned_date' => '', 'release_date' => '08.12.25', 'close_date' => '08.12.25', 'comment' => $selectedRecord['work_package_comment']],
     ];
 
+    $eventRepairRows = [
+        ['code' => '131008', 'subject' => 'WASSB/31324/1844 - ACCP 1 MONTH', 'status' => 'Closed', 'date_in' => '13.12.25', 'intervention_type' => 'Maintenance', 'date_out' => '13.12.25', 'return_reason' => 'Completed'],
+        ['code' => '131605', 'subject' => 'WASSB/31324/1851 - SYSTEM INTERFACE', 'status' => 'Open', 'date_in' => '12.12.25', 'intervention_type' => 'Maintenance', 'date_out' => '', 'return_reason' => 'Awaiting parts'],
+        ['code' => '131603', 'subject' => 'WASSB/31324/1850 - 50HRS + AD2020-0271', 'status' => 'Open', 'date_in' => '12.12.25', 'intervention_type' => 'Maintenance', 'date_out' => '', 'return_reason' => 'Inspection pending'],
+        ['code' => '131602', 'subject' => 'WASSB/31324/1849 - 25HRS INSPECTION', 'status' => 'Open', 'date_in' => '12.12.25', 'intervention_type' => 'Maintenance', 'date_out' => '', 'return_reason' => 'Review'],
+        ['code' => '131600', 'subject' => 'WASSB/31324/1848 - ACCP 2 WEEK', 'status' => 'Open', 'date_in' => '12.12.25', 'intervention_type' => 'Maintenance', 'date_out' => '', 'return_reason' => 'Review'],
+        ['code' => '130325', 'subject' => 'WASSB/31324/1841 - PORTABLE FIRE EXTI', 'status' => 'Closed', 'date_in' => '12.12.25', 'intervention_type' => 'Maintenance', 'date_out' => '12.12.25', 'return_reason' => 'Completed'],
+    ];
+
     $eventInstalledBaseRows = [
         ['code' => '661', 'creation_date' => '07.06.17', 'date_event' => '10.11.10', 'time_event' => '', 'type' => 'Attach on FL', 'subject' => 'Equipment attached to functional location'],
     ];
@@ -190,6 +208,10 @@
         ['log_number' => '000002L', 'description' => '05/05/19, 9232:34, AW002', 'status' => 'Closed', 'ata' => '', 'mel_item_reference' => '', 'mel_item_name' => '', 'fl_reference' => $selectedRecord['code'], 'task_number' => 'TL-00002L'],
         ['log_number' => '000002M', 'description' => '05.05.19, 9232:34, AW001', 'status' => 'Closed', 'ata' => '', 'mel_item_reference' => '', 'mel_item_name' => '', 'fl_reference' => $selectedRecord['code'], 'task_number' => 'TL-00002M'],
         ['log_number' => '000003Y', 'description' => 'DATE: 07/05/2019 A/F HRS', 'status' => 'Closed', 'ata' => '', 'mel_item_reference' => '', 'mel_item_name' => '', 'fl_reference' => $selectedRecord['code'], 'task_number' => 'TL-00003Y'],
+    ];
+
+    $eventOtherRows = [
+        ['code' => '', 'creation_date' => '', 'date_event' => '', 'type' => '', 'subject' => ''],
     ];
 
     $eventWorkOrderRows = [
@@ -216,8 +238,10 @@
         $modificationRows = [];
         $attachmentRows = [];
         $eventWorkpackageRows = [];
+        $eventRepairRows = [];
         $eventInstalledBaseRows = [];
         $eventTechnicalLogRows = [];
+        $eventOtherRows = [];
         $eventWorkOrderRows = [];
         $metadata = [
             ['label' => 'Updated By', 'value' => 'Not available'],
@@ -597,16 +621,41 @@
     </div>
 
     <div x-cloak x-show="activeTab === 'properties'" class="space-y-6">
-        <x-card title="Properties" description="User-defined properties for this functional location." padding="p-6">
-            <div class="space-y-4">
-                @foreach ($propertyMetaFields as $field)
-                    <x-form.input
-                        :label="$field['label']"
-                        :name="$field['name']"
-                        :value="$field['value']"
-                        class="input-field-filled"
-                    />
-                @endforeach
+        <x-card title="Properties" description="Aircraft commercial data plus installed-base anomaly controls." padding="p-6">
+            <div class="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+                <div class="rounded-xl border border-gray-200 bg-gray-50 p-5" x-data="{ anomaly: {{ $recordSelected ? 'true' : 'false' }} }">
+                    <h4 class="text-sm font-semibold text-gray-900">Installed Base Data Anomaly</h4>
+                    <div class="mt-4 space-y-4">
+                        <label class="flex items-center gap-3 text-sm text-gray-700">
+                            <input type="checkbox" x-model="anomaly" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span>Anomaly on Data</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm" :class="anomaly ? 'text-gray-700' : 'text-gray-400'">
+                            <input type="checkbox" :disabled="!anomaly" class="h-4 w-4 rounded border-gray-300 text-blue-600 disabled:opacity-50">
+                            <span>Lock</span>
+                        </label>
+
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <x-form.input label="Updated By" name="anomaly_updated_by" :value="$recordSelected ? 'Muhd Nur Yaakob' : ''" class="input-field-filled" />
+                            <x-form.input label="Date" name="anomaly_date" :value="$recordSelected ? '27 Mar 2026' : ''" class="input-field-filled" />
+                        </div>
+
+                        @if ($recordSelected)
+                            <button type="button" class="btn-secondary px-3 py-2 text-xs" :disabled="!anomaly">Comment</button>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    @foreach ($propertyMetaFields as $field)
+                        <x-form.input
+                            :label="$field['label']"
+                            :name="$field['name']"
+                            :value="$field['value']"
+                            class="input-field-filled"
+                        />
+                    @endforeach
+                </div>
             </div>
         </x-card>
     </div>
@@ -639,6 +688,35 @@
                                     <td class="table-td">{{ $row['release_date'] }}</td>
                                     <td class="table-td">{{ $row['close_date'] }}</td>
                                     <td class="table-td">{{ $row['comment'] }}</td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-data-table>
+                </div>
+
+                <div x-cloak x-show="activeTab === 'repairs'">
+                    <x-data-table :min-rows="10" :row-count="count($eventRepairRows)">
+                        <x-slot name="thead">
+                            <tr>
+                                <th class="table-th">Code</th>
+                                <th class="table-th">Subject</th>
+                                <th class="table-th">Status</th>
+                                <th class="table-th">Date In</th>
+                                <th class="table-th">Intervention Type</th>
+                                <th class="table-th">Date Out</th>
+                                <th class="table-th">Return Reason</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            @foreach ($eventRepairRows as $row)
+                                <tr class="table-row">
+                                    <td class="table-td"><x-enterprise.table-cell variant="arrow">{{ $row['code'] }}</x-enterprise.table-cell></td>
+                                    <td class="table-td">{{ $row['subject'] }}</td>
+                                    <td class="table-td">{{ $row['status'] }}</td>
+                                    <td class="table-td">{{ $row['date_in'] }}</td>
+                                    <td class="table-td">{{ $row['intervention_type'] }}</td>
+                                    <td class="table-td">{{ $row['date_out'] }}</td>
+                                    <td class="table-td">{{ $row['return_reason'] }}</td>
                                 </tr>
                             @endforeach
                         </x-slot>
@@ -703,6 +781,31 @@
                                     <td class="table-td">{{ $row['mel_item_name'] }}</td>
                                     <td class="table-td">{{ $row['fl_reference'] }}</td>
                                     <td class="table-td">{{ $row['task_number'] }}</td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-data-table>
+                </div>
+
+                <div x-cloak x-show="activeTab === 'others'">
+                    <x-data-table :min-rows="10" :row-count="count($eventOtherRows)">
+                        <x-slot name="thead">
+                            <tr>
+                                <th class="table-th">Code</th>
+                                <th class="table-th">Creation date</th>
+                                <th class="table-th">Date Event</th>
+                                <th class="table-th">Type</th>
+                                <th class="table-th">Subject</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            @foreach ($eventOtherRows as $row)
+                                <tr class="table-row">
+                                    <td class="table-td">{{ $row['code'] }}</td>
+                                    <td class="table-td">{{ $row['creation_date'] }}</td>
+                                    <td class="table-td">{{ $row['date_event'] }}</td>
+                                    <td class="table-td">{{ $row['type'] }}</td>
+                                    <td class="table-td">{{ $row['subject'] }}</td>
                                 </tr>
                             @endforeach
                         </x-slot>
