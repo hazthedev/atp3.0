@@ -137,7 +137,124 @@
                         </div>
                     </div>
                 @elseif ($tab === 'penalties')
-                    <div class="px-5 py-10 text-center text-sm text-gray-400">Penalties is not yet implemented.</div>
+                    <div class="space-y-3 px-5 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                Penalty rules that fire when a monitoring counter on this functional location changes.
+                            </div>
+                            <button type="button" class="btn-secondary" wire:click="addPenaltyRow">+ Add Rule</button>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-lg border border-gray-200">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500">
+                                    <tr>
+                                        <th class="px-3 py-2">Penalty</th>
+                                        <th class="px-3 py-2">Target Item</th>
+                                        <th class="px-3 py-2">Monitor</th>
+                                        <th class="px-3 py-2">Rate</th>
+                                        <th class="px-3 py-2">Rate Counter</th>
+                                        <th class="px-3 py-2">Static</th>
+                                        <th class="px-3 py-2">Static Counter</th>
+                                        <th class="px-3 py-2">Active</th>
+                                        <th class="px-3 py-2">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($penaltyRows as $index => $row)
+                                        @php $isEditing = $editingPenaltyIndex === $index; @endphp
+                                        <tr class="border-t border-gray-100 {{ $isEditing ? 'bg-amber-50' : '' }}">
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <select wire:model="penaltyRows.{{ $index }}.penalty_id" class="input-field">
+                                                        <option value="">—</option>
+                                                        @foreach ($penaltyOptions as $opt)
+                                                            <option value="{{ $opt['id'] }}">{{ $opt['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    {{ collect($penaltyOptions)->firstWhere('id', $row['penalty_id'])['name'] ?? '—' }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <select wire:model="penaltyRows.{{ $index }}.target_item_id" class="input-field">
+                                                        <option value="">(self)</option>
+                                                        @foreach ($targetItemOptions as $opt)
+                                                            <option value="{{ $opt['id'] }}">{{ $opt['code'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    {{ collect($targetItemOptions)->firstWhere('id', $row['target_item_id'])['code'] ?? '(self)' }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <select wire:model="penaltyRows.{{ $index }}.monitoring_counter_ref_id" class="input-field">
+                                                        <option value="">—</option>
+                                                        @foreach ($counterRefOptions as $opt)
+                                                            <option value="{{ $opt['id'] }}">{{ $opt['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    {{ collect($counterRefOptions)->firstWhere('id', $row['monitoring_counter_ref_id'])['name'] ?? '—' }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <input type="text" wire:model="penaltyRows.{{ $index }}.rate_value" class="input-field w-20" />
+                                                @else
+                                                    {{ $row['rate_value'] }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <select wire:model="penaltyRows.{{ $index }}.rate_counter_ref_id" class="input-field">
+                                                        <option value="">—</option>
+                                                        @foreach ($counterRefOptions as $opt)
+                                                            <option value="{{ $opt['id'] }}">{{ $opt['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    {{ collect($counterRefOptions)->firstWhere('id', $row['rate_counter_ref_id'])['name'] ?? '—' }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <input type="text" wire:model="penaltyRows.{{ $index }}.static_value" class="input-field w-20" />
+                                                @else
+                                                    {{ $row['static_value'] }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                @if ($isEditing)
+                                                    <select wire:model="penaltyRows.{{ $index }}.static_counter_ref_id" class="input-field">
+                                                        <option value="">—</option>
+                                                        @foreach ($counterRefOptions as $opt)
+                                                            <option value="{{ $opt['id'] }}">{{ $opt['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    {{ collect($counterRefOptions)->firstWhere('id', $row['static_counter_ref_id'])['name'] ?? '—' }}
+                                                @endif
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                <input type="checkbox" wire:model="penaltyRows.{{ $index }}.is_active" @disabled(! $isEditing) />
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                <button type="button" class="text-amber-600 hover:text-amber-800" wire:click="editPenaltyRow({{ $index }})" title="Edit">&#9998;</button>
+                                                <button type="button" class="ml-2 text-red-600 hover:text-red-800" wire:click="removePenaltyRow({{ $index }})" title="Remove">&times;</button>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="9" class="px-3 py-6 text-center text-sm text-gray-400">No penalty rules defined for this functional location.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 @else
                     <div class="px-5 py-10 text-center text-sm text-gray-400">Specific tab is not yet implemented.</div>
                 @endif

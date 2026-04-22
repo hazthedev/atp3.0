@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace App\Livewire\Fleet;
 
 use App\Models\CounterHistory;
+use App\Models\CounterRef;
 use App\Models\FunctionalLocation;
 use App\Models\FunctionalLocationCalendarCounter;
 use App\Models\FunctionalLocationCounter;
+use App\Models\Item;
+use App\Models\Penalty;
+use App\Models\PenaltyRule;
+use App\Services\PenaltyCascadeResult;
+use App\Services\PenaltyEngine;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -44,6 +50,23 @@ class FunctionalLocationCountersManager extends Component
 
     public string $statusTone = 'blue';
 
+    /** @var array<int, array<string, mixed>> */
+    public array $penaltyRows = [];
+
+    /** @var array<int, array<string, mixed>> */
+    public array $originalPenaltyRows = [];
+
+    public ?int $editingPenaltyIndex = null;
+
+    /** @var array<int, array{id: int, code: string, name: string}> */
+    public array $penaltyOptions = [];
+
+    /** @var array<int, array{id: int, code: string, name: string}> */
+    public array $counterRefOptions = [];
+
+    /** @var array<int, array{id: int, code: string, name: string}> */
+    public array $targetItemOptions = [];
+
     #[On('open-fl-counters')]
     public function openModal(int $flId): void
     {
@@ -59,10 +82,95 @@ class FunctionalLocationCountersManager extends Component
         $this->type = $fl->type ?? '';
 
         $this->loadRows();
+        $this->loadPenaltyOptions();
+        $this->loadPenaltyRows();
         $this->tab = 'general';
         $this->open = true;
         $this->statusMessage = null;
         $this->deactivatePropagation = false;
+        $this->editingPenaltyIndex = null;
+    }
+
+    private function loadPenaltyOptions(): void
+    {
+        $this->penaltyOptions = Penalty::where('is_active', true)
+            ->orderBy('code')
+            ->get(['id', 'code', 'name'])
+            ->map(fn (Penalty $p): array => ['id' => $p->id, 'code' => $p->code, 'name' => $p->name])
+            ->all();
+
+        $this->counterRefOptions = CounterRef::orderBy('name')
+            ->get(['id', 'code', 'name'])
+            ->map(fn (CounterRef $r): array => ['id' => $r->id, 'code' => $r->code, 'name' => $r->name])
+            ->all();
+
+        $this->targetItemOptions = Item::orderBy('code')
+            ->get(['id', 'code', 'description'])
+            ->map(fn (Item $i): array => ['id' => $i->id, 'code' => $i->code, 'name' => $i->description])
+            ->all();
+    }
+
+    private function loadPenaltyRows(): void
+    {
+        $this->penaltyRows = PenaltyRule::where('subject_type', 'functional_location')
+            ->where('subject_id', $this->flId)
+            ->orderBy('id')
+            ->get()
+            ->map(fn (PenaltyRule $r): array => [
+                'id' => $r->id,
+                'penalty_id' => $r->penalty_id,
+                'target_item_id' => $r->target_item_id,
+                'monitoring_counter_ref_id' => $r->monitoring_counter_ref_id,
+                'rate_value' => (string) $r->rate_value,
+                'rate_counter_ref_id' => $r->rate_counter_ref_id,
+                'static_value' => (string) $r->static_value,
+                'static_counter_ref_id' => $r->static_counter_ref_id,
+                'is_active' => (bool) $r->is_active,
+            ])
+            ->all();
+
+        $this->originalPenaltyRows = $this->penaltyRows;
+    }
+
+    public function addPenaltyRow(): void
+    {
+        $this->penaltyRows[] = [
+            'id' => null,
+            'penalty_id' => null,
+            'target_item_id' => null,
+            'monitoring_counter_ref_id' => null,
+            'rate_value' => '0',
+            'rate_counter_ref_id' => null,
+            'static_value' => '0',
+            'static_counter_ref_id' => null,
+            'is_active' => true,
+        ];
+        $this->editingPenaltyIndex = array_key_last($this->penaltyRows);
+    }
+
+    public function removePenaltyRow(int $index): void
+    {
+        if (! array_key_exists($index, $this->penaltyRows)) {
+            return;
+        }
+
+        unset($this->penaltyRows[$index]);
+        $this->penaltyRows = array_values($this->penaltyRows);
+
+        if ($this->editingPenaltyIndex === $index) {
+            $this->editingPenaltyIndex = null;
+        } elseif ($this->editingPenaltyIndex !== null && $this->editingPenaltyIndex > $index) {
+            $this->editingPenaltyIndex--;
+        }
+    }
+
+    public function editPenaltyRow(int $index): void
+    {
+        if (! array_key_exists($index, $this->penaltyRows)) {
+            return;
+        }
+
+        $this->editingPenaltyIndex = $this->editingPenaltyIndex === $index ? null : $index;
     }
 
     public function closeModal(): void
@@ -70,13 +178,15 @@ class FunctionalLocationCountersManager extends Component
         $this->open = false;
     }
 
-    public function save(): void
+    public function save(PenaltyEngine $engine): void
     {
         if ($this->flId === null) {
             return;
         }
 
-        DB::transaction(function (): void {
+        $cascadeSummary = new PenaltyCascadeResult();
+
+        DB::transaction(function () use ($engine, $cascadeSummary): void {
             $userId = auth()->id();
 
             foreach ($this->rows as $row) {
@@ -92,6 +202,7 @@ class FunctionalLocationCountersManager extends Component
 
                 $prevValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
                 $prevValueHhmm = $counter->value_hhmm;
+                $prevReadingDate = optional($counter->reading_date)->format('Y-m-d');
 
                 $newValueDec = $this->toDecimal($row['value_dec'] ?? null);
                 $newValueHhmm = $this->nullIfBlank($row['value_hhmm'] ?? null);
@@ -109,7 +220,9 @@ class FunctionalLocationCountersManager extends Component
                     'is_used' => ! empty($row['value_dec']) || ! empty($row['value_hhmm']),
                 ]);
 
-                $changed = $prevValueDec !== $newValueDec || ($prevValueHhmm ?? '') !== ($newValueHhmm ?? '');
+                $valueChanged = $prevValueDec !== $newValueDec || ($prevValueHhmm ?? '') !== ($newValueHhmm ?? '');
+                $dateChanged = ($prevReadingDate ?? '') !== ($newReadingDate ?? '');
+                $changed = $valueChanged || $dateChanged;
 
                 if ($changed && $counter->counter_ref_id !== null) {
                     CounterHistory::create([
@@ -131,6 +244,26 @@ class FunctionalLocationCountersManager extends Component
                         'user_id' => $userId,
                     ]);
                 }
+
+                // Trigger penalty cascade on positive value delta only.
+                if ($valueChanged
+                    && $prevValueDec !== null
+                    && $newValueDec !== null
+                    && $counter->counter_ref_id !== null
+                ) {
+                    $delta = $newValueDec - $prevValueDec;
+                    if ($delta > 0) {
+                        $partial = $engine->cascade(
+                            PenaltyEngine::SUBJECT_FL,
+                            $counter->functional_location_id,
+                            $counter->counter_ref_id,
+                            $delta,
+                            [],
+                            'fl_counters_manager:' . $counter->id,
+                        );
+                        $this->mergeCascadeResult($cascadeSummary, $partial);
+                    }
+                }
             }
 
             if (! empty($this->calendar['id'])) {
@@ -144,13 +277,30 @@ class FunctionalLocationCountersManager extends Component
                     'is_used' => ! empty($this->calendar['limit']) || ! empty($this->calendar['value_date']),
                 ]);
             }
+
+            $this->savePenaltyRows();
         });
 
         $this->loadRows();
-        $this->statusMessage = 'Functional location counters updated.';
+
+        $message = 'Functional location counters updated.';
+        if ($cascadeSummary->rulesFired !== []) {
+            $message .= ' Penalty cascade: ' . $cascadeSummary->summary() . '.';
+        }
+        $this->statusMessage = $message;
         $this->statusTone = 'green';
 
         $this->dispatch('fl-counters-updated');
+    }
+
+    private function mergeCascadeResult(PenaltyCascadeResult $into, PenaltyCascadeResult $partial): void
+    {
+        $into->rulesFired = array_merge($into->rulesFired, $partial->rulesFired);
+        $into->affectedTargets = array_merge($into->affectedTargets, $partial->affectedTargets);
+        $into->historyRowsWritten += $partial->historyRowsWritten;
+        $into->maxDepthReached = max($into->maxDepthReached, $partial->maxDepthReached);
+        $into->depthLimitHit = $into->depthLimitHit || $partial->depthLimitHit;
+        $into->warnings = array_merge($into->warnings, $partial->warnings);
     }
 
     public function isDirty(): bool
@@ -196,6 +346,51 @@ class FunctionalLocationCountersManager extends Component
         ];
 
         $this->originalCalendar = $this->calendar;
+    }
+
+    private function savePenaltyRows(): void
+    {
+        $keptIds = array_filter(array_column($this->penaltyRows, 'id'));
+        $originalIds = array_filter(array_column($this->originalPenaltyRows, 'id'));
+        $deletedIds = array_diff($originalIds, $keptIds);
+
+        if ($deletedIds !== []) {
+            PenaltyRule::whereIn('id', $deletedIds)->delete();
+        }
+
+        foreach ($this->penaltyRows as $row) {
+            $penaltyId = $row['penalty_id'] ?? null;
+            $monitoringId = $row['monitoring_counter_ref_id'] ?? null;
+
+            if (! $penaltyId || ! $monitoringId) {
+                continue;
+            }
+
+            $payload = [
+                'penalty_id' => (int) $penaltyId,
+                'subject_type' => 'functional_location',
+                'subject_id' => $this->flId,
+                'target_item_id' => $row['target_item_id'] ? (int) $row['target_item_id'] : null,
+                'monitoring_counter_ref_id' => (int) $monitoringId,
+                'rate_value' => (float) ($row['rate_value'] ?? 0),
+                'rate_counter_ref_id' => $row['rate_counter_ref_id'] ? (int) $row['rate_counter_ref_id'] : null,
+                'static_value' => (float) ($row['static_value'] ?? 0),
+                'static_counter_ref_id' => $row['static_counter_ref_id'] ? (int) $row['static_counter_ref_id'] : null,
+                'is_active' => (bool) ($row['is_active'] ?? true),
+            ];
+
+            if (! empty($row['id'])) {
+                $rule = PenaltyRule::find($row['id']);
+                if ($rule !== null) {
+                    $rule->update($payload);
+                }
+            } else {
+                PenaltyRule::create($payload);
+            }
+        }
+
+        $this->loadPenaltyRows();
+        $this->editingPenaltyIndex = null;
     }
 
     private function toDecimal(mixed $value): ?float
