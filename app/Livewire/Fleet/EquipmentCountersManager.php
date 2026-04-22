@@ -109,14 +109,27 @@ class EquipmentCountersManager extends Component
                 $newReadingDate = $this->nullIfBlank($row['reading_date'] ?? null);
                 $newReadingHour = trim((string) ($row['reading_hour'] ?? '00:00')) ?: '00:00';
 
+                if ($newValueDec === null && $newValueHhmm !== null) {
+                    $newValueDec = $this->hhmmToMinutes($newValueHhmm);
+                }
+                if ($prevValueDec === null && $prevValueHhmm !== null) {
+                    $prevValueDec = $this->hhmmToMinutes($prevValueHhmm);
+                }
+
+                $newMaxDec = $this->toDecimal($row['max_dec'] ?? null);
+                $newMaxHhmm = $this->nullIfBlank($row['max_hhmm'] ?? null);
+                if ($newMaxDec === null && $newMaxHhmm !== null) {
+                    $newMaxDec = $this->hhmmToMinutes($newMaxHhmm);
+                }
+
                 $counter->update([
                     'propagate' => $this->deactivatePropagation ? false : (bool) ($row['propagate'] ?? true),
                     'reading_date' => $newReadingDate,
                     'reading_hour' => $newReadingHour,
                     'value_dec' => $newValueDec,
                     'value_hhmm' => $newValueHhmm,
-                    'max_dec' => $this->toDecimal($row['max_dec'] ?? null),
-                    'max_hhmm' => $this->nullIfBlank($row['max_hhmm'] ?? null),
+                    'max_dec' => $newMaxDec,
+                    'max_hhmm' => $newMaxHhmm,
                     'is_used' => ! empty($row['value_dec']) || ! empty($row['value_hhmm']),
                 ]);
 
@@ -255,6 +268,22 @@ class EquipmentCountersManager extends Component
         }
 
         return (float) str_replace(',', '', (string) $value);
+    }
+
+    private function hhmmToMinutes(?string $hhmm): ?float
+    {
+        if ($hhmm === null) {
+            return null;
+        }
+        $trimmed = trim($hhmm);
+        if ($trimmed === '') {
+            return null;
+        }
+        if (! preg_match('/^(\d+)(?::([0-5]?\d))?$/', $trimmed, $m)) {
+            return null;
+        }
+
+        return (float) $m[1] * 60 + (float) ($m[2] ?? 0);
     }
 
     private function nullIfBlank(mixed $value): ?string
