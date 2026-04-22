@@ -27,4 +27,16 @@ class CounterRef extends Model
         'linked_counter',
         'propagation_on_linked_counter',
     ];
+
+    protected $casts = [
+        'incr_decr' => 'integer',
+        'allow_incr_decr' => 'integer',
+        'propagation_flag' => 'integer',
+        'used_for_residual_calc' => 'integer',
+        'allow_auto_incrementation' => 'integer',
+        'orange_light_limit' => 'integer',
+        'sort_order' => 'integer',
+        'log_instance' => 'integer',
+        'propagation_on_linked_counter' => 'integer',
+    ];
 }

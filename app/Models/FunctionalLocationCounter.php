@@ -28,6 +28,12 @@ class FunctionalLocationCounter extends Model
     ];
 
     protected $casts = [
+        'functional_location_id' => 'integer',
+        'counter_ref_id' => 'integer',
+        'linked_equipment_id' => 'integer',
+        'counter_info_source_id' => 'integer',
+        'value_dec' => 'float',
+        'max_dec' => 'float',
         'reading_date' => 'date',
         'propagate' => 'boolean',
         'is_used' => 'boolean',

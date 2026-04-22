@@ -29,6 +29,10 @@ class Item extends Model
         'item_type',
     ];
 
+    protected $casts = [
+        'in_stock' => 'float',
+    ];
+
     public function counters(): HasMany
     {
         return $this->hasMany(ItemCounter::class);

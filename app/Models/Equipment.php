@@ -28,6 +28,10 @@ class Equipment extends Model
         'mel',
     ];
 
+    protected $casts = [
+        'item_id' => 'integer',
+    ];
+
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
