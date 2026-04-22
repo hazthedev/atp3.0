@@ -7,6 +7,7 @@ return [
         'children' => [
             ['label' => 'User Dashboard', 'route' => 'dashboard.user', 'icon' => 'user-circle'],
             ['label' => 'Fleet Dashboard', 'route' => 'dashboard.fleet', 'icon' => 'chart-bar'],
+            ['label' => 'Fleet Synthesis', 'route' => 'reports.fleet-synthesis', 'icon' => 'squares-2x2'],
         ],
     ],
     [
