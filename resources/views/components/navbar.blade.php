@@ -1,5 +1,5 @@
 <header class="sticky top-0 z-20 border-b border-gray-200 bg-white/95 backdrop-blur">
-    <div class="flex h-16 items-center justify-between gap-4 px-4 md:px-6">
+    <div class="flex min-h-16 items-center justify-between gap-4 px-4 py-3 md:px-6">
         <div class="flex items-center gap-3">
             <button type="button" class="btn-ghost px-3 md:hidden" @click="toggleMobileSidebar()" aria-label="Open navigation">
                 <x-icon name="bars-3" />
@@ -9,9 +9,9 @@
                 <x-icon name="bars-3" />
             </button>
 
-            <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Weststar ATP</p>
-                <h1 class="text-lg font-semibold text-gray-900">@yield('title', 'Dashboard')</h1>
+            <div class="min-w-0">
+                <h1 class="truncate text-lg font-semibold text-gray-900">@yield('title', 'Dashboard')</h1>
+                <x-breadcrumb />
             </div>
         </div>
 

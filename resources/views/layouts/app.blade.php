@@ -16,7 +16,6 @@
 
         <main class="page-transition-in p-4 md:p-6">
             <div class="mx-auto w-full max-w-[1600px] space-y-6">
-                <x-breadcrumb />
                 @yield('content')
             </div>
         </main>
