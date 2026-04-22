@@ -3,8 +3,11 @@
 return [
     [
         'label' => 'Dashboard',
-        'route' => 'dashboard',
         'icon' => 'home',
+        'children' => [
+            ['label' => 'User Dashboard', 'route' => 'dashboard.user', 'icon' => 'user-circle'],
+            ['label' => 'Fleet Dashboard', 'route' => 'dashboard.fleet', 'icon' => 'chart-bar'],
+        ],
     ],
     [
         'label' => 'Administration',
@@ -24,6 +27,7 @@ return [
                 'icon' => 'archive-box',
                 'children' => [
                     ['label' => 'Item Groups', 'route' => 'admin.stock-management.item-groups', 'icon' => 'queue-list'],
+                    ['label' => 'Category Part', 'route' => 'admin.stock-management.category-part', 'icon' => 'squares-2x2'],
                     ['label' => 'Warehouses', 'route' => 'admin.stock-management.warehouses', 'icon' => 'archive-box'],
                 ],
             ],
@@ -31,36 +35,9 @@ return [
                 'label' => 'Fleet Management',
                 'icon' => 'cube',
                 'children' => [
-                    [
-                        'label' => 'Functional Location',
-                        'icon' => 'building-office-2',
-                        'children' => [
-                            ['label' => 'Type', 'route' => 'system.aircraft-type.index', 'icon' => 'document-text'],
-                        ],
-                    ],
-                    ['label' => 'I.P.C.', 'route' => 'admin.fleet.ipc', 'icon' => 'clipboard-document-list'],
-                    [
-                        'label' => 'Equipment',
-                        'icon' => 'cog-6-tooth',
-                        'children' => [
-                            ['label' => 'Variant', 'route' => 'admin.fleet.equipment.variant', 'icon' => 'document-text'],
-                        ],
-                    ],
-                    [
-                        'label' => 'Modification',
-                        'icon' => 'sparkles',
-                        'children' => [
-                            ['label' => 'Type', 'route' => 'admin.fleet.modification.type', 'icon' => 'document-text'],
-                        ],
-                    ],
-                    [
-                        'label' => 'Maintenance Program',
-                        'icon' => 'wrench-screwdriver',
-                        'children' => [
-                            ['label' => 'Visit', 'route' => 'admin.fleet.maintenance-program.visit', 'icon' => 'calendar-days'],
-                            ['label' => 'Utilization Model', 'route' => 'admin.fleet.maintenance-program.utilization-model', 'icon' => 'chart-bar'],
-                        ],
-                    ],
+                    ['label' => 'Technical Publication Type', 'route' => 'admin.fleet.technical-publication-type', 'icon' => 'document-text'],
+                    ['label' => 'Status Management & Workflow', 'route' => 'admin.fleet.status-management-workflow', 'icon' => 'arrow-path'],
+                    ['label' => 'Task Type', 'route' => 'admin.fleet.task-type', 'icon' => 'document-text'],
                     ['label' => 'Counters', 'route' => 'system.counter.index', 'icon' => 'chart-bar'],
                     ['label' => 'Penalties', 'route' => 'admin.fleet.penalties', 'icon' => 'exclamation-triangle'],
                 ],
@@ -76,8 +53,9 @@ return [
                 'label' => 'MRO Management',
                 'icon' => 'mro-receipt',
                 'children' => [
-                    ['label' => 'Task Type', 'route' => 'system.tasks', 'icon' => 'document-text'],
                     ['label' => 'Work Order Type', 'route' => 'admin.mro.work-order-type', 'icon' => 'briefcase'],
+                    ['label' => 'Defect Type', 'route' => 'admin.mro.defect-type', 'icon' => 'exclamation-triangle'],
+                    ['label' => 'Status Management & Workflow', 'route' => 'admin.mro.status-management-workflow', 'icon' => 'arrow-path'],
                 ],
             ],
             [
@@ -88,6 +66,8 @@ return [
                     ['label' => 'Max Value Bulk Update', 'route' => 'admin.utilities.max-value-bulk-update', 'icon' => 'pencil-square'],
                     ['label' => 'FL Counters Bulk Update', 'route' => 'admin.utilities.fl-counters-bulk-update', 'icon' => 'pencil-square'],
                     ['label' => 'Customer Equipment Card Status Bulk Update', 'route' => 'admin.utilities.cec-status-bulk-update', 'icon' => 'pencil-square'],
+                    ['label' => 'Change Customer Information', 'route' => 'admin.utilities.change-customer-information', 'icon' => 'identification'],
+                    ['label' => 'Equipment Reference Evolution', 'route' => 'admin.utilities.equipment-reference-evolution', 'icon' => 'arrow-path'],
                 ],
             ],
             ['label' => 'Settings', 'route' => 'system.settings', 'icon' => 'cog-6-tooth'],
@@ -133,17 +113,43 @@ return [
         ],
     ],
     [
+        'label' => 'Technical Data',
+        'icon' => 'clipboard-document-list',
+        'children' => [
+            [
+                'label' => 'Configuration Management',
+                'icon' => 'squares-2x2',
+                'children' => [
+                    ['label' => 'Family', 'route' => 'technical-data.configuration-management.family', 'icon' => 'document-text'],
+                    ['label' => 'Type', 'route' => 'technical-data.configuration-management.type', 'icon' => 'document-text'],
+                    ['label' => 'Variant', 'route' => 'technical-data.configuration-management.variant', 'icon' => 'document-text'],
+                    ['label' => 'Applicable Configuration', 'route' => 'technical-data.configuration-management.applicable-configuration', 'icon' => 'document-text'],
+                ],
+            ],
+            ['label' => 'Technical Publications', 'route' => 'technical-data.technical-publications', 'icon' => 'document-text'],
+            [
+                'label' => 'Maintenance Program',
+                'icon' => 'wrench-screwdriver',
+                'children' => [
+                    ['label' => 'Visit', 'route' => 'technical-data.maintenance-program.visit', 'icon' => 'calendar-days'],
+                    ['label' => 'Task', 'route' => 'technical-data.maintenance-program.task', 'icon' => 'clipboard-document-list'],
+                    ['label' => 'Maintenance Program Administration', 'route' => 'technical-data.maintenance-program.administration', 'icon' => 'clipboard-document-check'],
+                ],
+            ],
+        ],
+    ],
+    [
         'label' => 'Fleet Management',
         'icon' => 'cube',
         'children' => [
             [
                 'label' => 'Functional Location',
-                'icon' => 'squares-2x2',
+                'icon' => 'building-office-2',
                 'children' => [
                     [
-                        'label' => 'Customer Functional Location',
+                        'label' => 'Functional Location Card',
                         'route' => 'fleet.functional-location.index',
-                        'icon' => 'building-office-2',
+                        'icon' => 'identification',
                         'active_routes' => [
                             'fleet.functional-location.index',
                             'fleet.functional-location.show',
@@ -152,7 +158,8 @@ return [
                     ],
                     ['label' => 'Attach equipment to functional location', 'route' => 'fleet.functional-location.attach-equipment', 'icon' => 'link'],
                     ['label' => 'Detach equipment from functional location', 'route' => 'fleet.functional-location.detach-equipment', 'icon' => 'scissors'],
-                    ['label' => 'Change customer information', 'route' => 'fleet.functional-location.change-customer-information', 'icon' => 'identification'],
+                    ['label' => 'Configuration Control', 'route' => 'fleet.functional-location.configuration-control', 'icon' => 'squares-2x2'],
+                    ['label' => 'Airworthiness Review', 'route' => 'fleet.functional-location.airworthiness-review', 'icon' => 'clipboard-document-check'],
                 ],
             ],
             [
@@ -160,7 +167,7 @@ return [
                 'icon' => 'cog-6-tooth',
                 'children' => [
                     [
-                        'label' => 'Customer Equipment Card',
+                        'label' => 'Equipment Card',
                         'route' => 'fleet.equipment.index',
                         'icon' => 'identification',
                         'active_routes' => [
@@ -171,61 +178,24 @@ return [
                     ['label' => 'Attach Equipment', 'route' => 'fleet.equipment.attach-equipment', 'icon' => 'arrow-down-tray'],
                     ['label' => 'Detach Equipment', 'route' => 'fleet.equipment.detach-equipment', 'icon' => 'arrow-up-tray'],
                     ['label' => 'Swap Equipment', 'route' => 'fleet.equipment.swap-equipment', 'icon' => 'arrows-right-left'],
-                    ['label' => 'Change customer information', 'route' => 'fleet.equipment.change-customer-information', 'icon' => 'user-circle'],
                 ],
             ],
             [
-                'label' => 'Modification',
-                'icon' => 'sparkles',
+                'label' => 'Technical Publications',
+                'icon' => 'document-text',
                 'children' => [
-                    [
-                        'label' => 'Modification',
-                        'route' => 'fleet.modification.index',
-                        'icon' => 'document-text',
-                        'active_routes' => [
-                            'fleet.modification.index',
-                            'fleet.modification.show',
-                        ],
-                    ],
-                    ['label' => 'Apply Modifications to a Functional Location', 'route' => 'fleet.modification.apply-on-functional-location', 'icon' => 'map-pin'],
-                    ['label' => 'Apply Modifications to an Equipment', 'route' => 'fleet.modification.apply-on-equipment', 'icon' => 'wrench-screwdriver'],
-                    ['label' => 'Equipment Reference Evolution', 'route' => 'fleet.modification.equipment-reference-evolution', 'icon' => 'arrow-path'],
+                    ['label' => 'Technical Publications Administration', 'route' => 'fleet.technical-publications.administration', 'icon' => 'clipboard-document-list'],
+                    ['label' => 'Technical Publications Application', 'route' => 'fleet.technical-publications.application', 'icon' => 'clipboard-document-check'],
                 ],
             ],
             [
-                'label' => 'Maintenance Program',
-                'icon' => 'wrench-screwdriver',
+                'label' => 'Maintenance Plan',
+                'icon' => 'calendar-days',
                 'children' => [
-                    [
-                        'label' => 'Maintenance Program',
-                        'route' => 'fleet.maintenance.maintenance-program',
-                        'icon' => 'book-solid',
-                    ],
-                    [
-                        'label' => 'Maintenance Plan',
-                        'icon' => 'calendar-days',
-                        'children' => [
-                            [
-                                'label' => 'Maintenance Plan Administration',
-                                'route' => 'maintenance.maintenance-plan.administration',
-                                'icon' => 'clipboard-document-list',
-                            ],
-                            [
-                                'label' => 'WorkPackage',
-                                'route' => 'maintenance.maintenance-plan.work-package',
-                                'icon' => 'briefcase',
-                            ],
-                            [
-                                'label' => 'Apply Visit and Task List',
-                                'route' => 'maintenance.maintenance-plan.apply-visit',
-                                'icon' => 'clipboard-document-check',
-                                'active_routes' => [
-                                    'maintenance.maintenance-plan.apply-visit',
-                                    'maintenance.maintenance-plan.apply-task-list',
-                                ],
-                            ],
-                        ],
-                    ],
+                    ['label' => 'Maintenance Plan Administration', 'route' => 'maintenance.maintenance-plan.administration', 'icon' => 'clipboard-document-list'],
+                    ['label' => 'Utilisation Model', 'route' => 'fleet.maintenance-plan.utilisation-model', 'icon' => 'chart-bar'],
+                    ['label' => 'Maintenance Planning', 'route' => 'fleet.maintenance-plan.maintenance-planning', 'icon' => 'clipboard-document-check'],
+                    ['label' => 'Work Package', 'route' => 'maintenance.maintenance-plan.work-package', 'icon' => 'briefcase'],
                 ],
             ],
             [
@@ -234,7 +204,7 @@ return [
                 'children' => [
                     ['label' => 'Daily Updates', 'route' => 'operations.daily-updates', 'icon' => 'calendar-days'],
                     ['label' => 'Fleet Management Cockpit', 'route' => 'operations.fleet-management-cockpit', 'icon' => 'chart-bar'],
-                    ['label' => 'List of Technical Logs', 'route' => 'operations.technical-logs', 'icon' => 'clipboard-document-list'],
+                    ['label' => 'Defects', 'route' => 'fleet.operational-inputs.defects', 'icon' => 'exclamation-triangle'],
                 ],
             ],
             [
@@ -248,61 +218,64 @@ return [
         ],
     ],
     [
-        'label' => 'Flight Operations',
+        'label' => 'Flight Recording',
         'icon' => 'megaphone-solid',
         'children' => [
-            [
-                'label' => 'Flight Records',
-                'icon' => 'clipboard-document-list',
-                'children' => [
-                    ['label' => 'Flight Details', 'route' => 'flight.flight-details', 'icon' => 'document-text'],
-                    ['label' => 'Daily Flight Log', 'route' => 'flight.daily-flight-log', 'icon' => 'clipboard-document-list'],
-                ],
-            ],
+            ['label' => 'Flight Details', 'route' => 'flight.flight-details', 'icon' => 'document-text'],
+            ['label' => 'Technical Log', 'route' => 'flight.technical-log', 'icon' => 'clipboard-document-list'],
+            ['label' => 'Defects', 'route' => 'flight.defects', 'icon' => 'exclamation-triangle'],
         ],
     ],
     [
         'label' => 'MRO Management',
         'icon' => 'mro-receipt',
         'children' => [
-            [
-                'label' => 'Repair Information Cockpit',
-                'icon' => 'information-circle',
-                'children' => [
-                    ['label' => 'Search Repair Information Cockpit', 'route' => 'mro.repair-information.search', 'icon' => 'magnifying-glass'],
-                    ['label' => 'Repair Information Cockpit', 'route' => 'mro.repair-information.index', 'icon' => 'clipboard-document-list'],
-                    ['label' => 'List of Open Repairs', 'route' => 'mro.repair-information.open-repairs', 'icon' => 'clock'],
-                    ['label' => 'Calendar View', 'route' => 'mro.repair-information.calendar-view', 'icon' => 'chart-bar'],
-                ],
-            ],
-            ['label' => 'Task', 'route' => 'mro.task-list.index', 'icon' => 'clipboard-document-list'],
-            [
-                'label' => 'Work Order',
-                'icon' => 'briefcase',
-                'children' => [
-                    ['label' => 'List of Technical Logs', 'route' => 'mro.work-order.technical-logs', 'icon' => 'document-text'],
-                    ['label' => 'List of Open Work Order', 'route' => 'mro.work-order.index', 'icon' => 'clipboard-document-list'],
-                    ['label' => 'Work Order', 'route' => 'mro.work-order.detail', 'icon' => 'briefcase'],
-                ],
-            ],
+            ['label' => 'Work Package', 'route' => 'mro.work-package', 'icon' => 'briefcase'],
+            ['label' => 'Work Order', 'route' => 'mro.work-order.index', 'icon' => 'briefcase'],
             [
                 'label' => 'Time Tracking',
                 'icon' => 'clock',
                 'children' => [
                     ['label' => 'Time Sheet', 'route' => 'mro.time-sheet', 'icon' => 'clipboard-document-list'],
-                    ['label' => 'Start Operation', 'route' => 'mro.start-operation', 'icon' => 'plus'],
-                    ['label' => 'End Operation', 'route' => 'mro.end-operation', 'icon' => 'check-circle'],
                 ],
             ],
+            ['label' => 'Defects', 'route' => 'mro.defects', 'icon' => 'exclamation-triangle'],
         ],
     ],
     [
         'label' => 'Reports',
         'icon' => 'chart-bar',
         'children' => [
-            ['label' => 'Fleet Synthesis', 'route' => 'reports.fleet-synthesis', 'icon' => 'chart-bar'],
-            ['label' => 'Fleet Report', 'route' => 'reports.fleet-report', 'icon' => 'document-text'],
-            ['label' => 'Time Tracking', 'route' => 'reports.time-tracking', 'icon' => 'clock'],
+            [
+                'label' => 'Fleet Commercial Report',
+                'icon' => 'chart-bar',
+                'children' => [
+                    ['label' => 'Equipment Reliability (Aero One)', 'route' => 'reports.fleet-commercial.equipment-reliability', 'icon' => 'document-text'],
+                    ['label' => 'Equipment Utilization (Aero One)', 'route' => 'reports.fleet-commercial.equipment-utilization', 'icon' => 'document-text'],
+                    ['label' => 'Monthly Aircraft Report (Aero One)', 'route' => 'reports.fleet-commercial.monthly-aircraft-report', 'icon' => 'document-text'],
+                    ['label' => 'Monthly Engine Report (Aero One)', 'route' => 'reports.fleet-commercial.monthly-engine-report', 'icon' => 'document-text'],
+                ],
+            ],
+            [
+                'label' => 'Fleet Management Report',
+                'icon' => 'clipboard-document-list',
+                'children' => [
+                    ['label' => 'Due List Report (CAMP)', 'route' => 'reports.fleet-management.due-list-report', 'icon' => 'document-text'],
+                    ['label' => 'Life Limit / Overhaul Report (CAMP)', 'route' => 'reports.fleet-management.life-limit-overhaul-report', 'icon' => 'document-text'],
+                    ['label' => 'Time Controlled Items Report (CAMP)', 'route' => 'reports.fleet-management.time-controlled-items-report', 'icon' => 'document-text'],
+                    ['label' => 'Status Report (CAMP)', 'route' => 'reports.fleet-management.status-report', 'icon' => 'document-text'],
+                    ['label' => 'Status Check (Aero One)', 'route' => 'reports.fleet-management.status-check', 'icon' => 'document-text'],
+                    ['label' => 'ADSB Status (Aero One)', 'route' => 'reports.fleet-management.adsb-status', 'icon' => 'document-text'],
+                    ['label' => 'Monthly Flight Hour (Aero One)', 'route' => 'reports.fleet-management.monthly-flight-hour', 'icon' => 'document-text'],
+                ],
+            ],
+            [
+                'label' => 'Time Tracking',
+                'icon' => 'clock',
+                'children' => [
+                    ['label' => 'Personal experience', 'route' => 'reports.time-tracking.personal-experience', 'icon' => 'user-circle'],
+                ],
+            ],
         ],
     ],
     [

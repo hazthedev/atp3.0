@@ -20,6 +20,26 @@ Route::middleware('guest')->group(function () use ($registerRoutes): void {
 
 Route::get('/', static fn () => view('pages.dashboard'))->name('dashboard');
 
+Route::prefix('dashboard')->name('dashboard.')->group(function () use ($registerRoutes): void {
+    $registerRoutes([
+        ['/user', 'pages.stub', 'user'],
+        ['/fleet', 'pages.stub', 'fleet'],
+    ]);
+});
+
+Route::prefix('technical-data')->name('technical-data.')->group(function () use ($registerRoutes): void {
+    $registerRoutes([
+        ['/configuration-management/family', 'pages.stub', 'configuration-management.family'],
+        ['/configuration-management/type', 'pages.stub', 'configuration-management.type'],
+        ['/configuration-management/variant', 'pages.stub', 'configuration-management.variant'],
+        ['/configuration-management/applicable-configuration', 'pages.stub', 'configuration-management.applicable-configuration'],
+        ['/technical-publications', 'pages.stub', 'technical-publications'],
+        ['/maintenance-program/visit', 'pages.stub', 'maintenance-program.visit'],
+        ['/maintenance-program/task', 'pages.stub', 'maintenance-program.task'],
+        ['/maintenance-program/administration', 'pages.stub', 'maintenance-program.administration'],
+    ]);
+});
+
 Route::prefix('crm')->name('crm.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
         ['/business-partner', 'pages.crm.business-partner.index', 'business-partner.index'],
@@ -41,8 +61,15 @@ Route::prefix('fleet')->name('fleet.')->group(function () use ($registerRoutes):
         ['/functional-location/change-customer-information', 'pages.fleet.functional-location.change-customer-information', 'functional-location.change-customer-information'],
         ['/functional-location/pending-installed-base-updates-from-work-orders', 'pages.fleet.functional-location.pending-installed-base-updates-from-work-orders', 'functional-location.pending-installed-base-updates-from-work-orders'],
         ['/functional-location/repair-information-cockpit', 'pages.fleet.functional-location.repair-information-cockpit', 'functional-location.repair-information-cockpit'],
+        ['/functional-location/configuration-control', 'pages.stub', 'functional-location.configuration-control'],
+        ['/functional-location/airworthiness-review', 'pages.stub', 'functional-location.airworthiness-review'],
         ['/functional-location/{id}', 'pages.fleet.functional-location.show', 'functional-location.show'],
         ['/functional-location/{id}/edit', 'pages.fleet.functional-location.edit', 'functional-location.edit'],
+        ['/technical-publications/administration', 'pages.stub', 'technical-publications.administration'],
+        ['/technical-publications/application', 'pages.stub', 'technical-publications.application'],
+        ['/maintenance-plan/utilisation-model', 'pages.stub', 'maintenance-plan.utilisation-model'],
+        ['/maintenance-plan/maintenance-planning', 'pages.stub', 'maintenance-plan.maintenance-planning'],
+        ['/operational-inputs/defects', 'pages.stub', 'operational-inputs.defects'],
         ['/aircraft-type', 'pages.fleet.aircraft-type.index', 'aircraft-type.index'],
         ['/fleet-management-cockpit', 'pages.fleet.fleet-management-cockpit', 'fleet-management-cockpit'],
         ['/technical-logs', 'pages.fleet.technical-logs.index', 'technical-logs.index'],
@@ -121,6 +148,8 @@ Route::prefix('mro')->name('mro.')->group(function () use ($registerRoutes): voi
         ['/time-sheet', 'pages.mro.time-sheet', 'time-sheet'],
         ['/start-operation', 'pages.mro.start-operation', 'start-operation'],
         ['/end-operation', 'pages.mro.end-operation', 'end-operation'],
+        ['/work-package', 'pages.stub', 'work-package'],
+        ['/defects', 'pages.stub', 'defects'],
     ]);
 
     Route::get('/work-order/technical-logs/{log}', static function (string $log) {
@@ -163,6 +192,8 @@ Route::prefix('flight')->name('flight.')->group(function () use ($registerRoutes
         ['/schedule-flight', 'pages.flight.schedule-flight', 'schedule-flight'],
         ['/flight-details', 'pages.flight.flight-record.create', 'flight-details'],
         ['/daily-flight-log', 'pages.flight.daily-flight-log', 'daily-flight-log'],
+        ['/technical-log', 'pages.flight.daily-flight-log', 'technical-log'],
+        ['/defects', 'pages.stub', 'defects'],
         ['/search-flight-details', 'pages.flight.search-flight-details', 'search-flight-details'],
         ['/flight-schedule', 'pages.flight.aircraft-schedule', 'flight-schedule'],
         ['/flight-record', 'pages.flight.flight-record.create', 'flight-record.index'],
@@ -177,6 +208,18 @@ Route::prefix('reports')->name('reports.')->group(function () use ($registerRout
         ['/time-tracking', 'pages.reports.time-tracking', 'time-tracking'],
         ['/historical-equipment-hierarchy', 'pages.reports.historical-equipment-hierarchy', 'historical-equipment-hierarchy'],
         ['/view-modification-on-equipment', 'pages.reports.view-modification-on-equipment', 'view-modification-on-equipment'],
+        ['/fleet-commercial/equipment-reliability', 'pages.stub', 'fleet-commercial.equipment-reliability'],
+        ['/fleet-commercial/equipment-utilization', 'pages.stub', 'fleet-commercial.equipment-utilization'],
+        ['/fleet-commercial/monthly-aircraft-report', 'pages.stub', 'fleet-commercial.monthly-aircraft-report'],
+        ['/fleet-commercial/monthly-engine-report', 'pages.stub', 'fleet-commercial.monthly-engine-report'],
+        ['/fleet-management/due-list-report', 'pages.stub', 'fleet-management.due-list-report'],
+        ['/fleet-management/life-limit-overhaul-report', 'pages.stub', 'fleet-management.life-limit-overhaul-report'],
+        ['/fleet-management/time-controlled-items-report', 'pages.stub', 'fleet-management.time-controlled-items-report'],
+        ['/fleet-management/status-report', 'pages.stub', 'fleet-management.status-report'],
+        ['/fleet-management/status-check', 'pages.stub', 'fleet-management.status-check'],
+        ['/fleet-management/adsb-status', 'pages.stub', 'fleet-management.adsb-status'],
+        ['/fleet-management/monthly-flight-hour', 'pages.stub', 'fleet-management.monthly-flight-hour'],
+        ['/time-tracking/personal-experience', 'pages.stub', 'time-tracking.personal-experience'],
     ]);
 });
 
@@ -200,6 +243,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes):
         ['/user-management/user-groups', 'pages.stub', 'user-management.user-groups'],
         ['/user-management/user-authorizations', 'pages.stub', 'user-management.user-authorizations'],
         ['/stock-management/item-groups', 'pages.stub', 'stock-management.item-groups'],
+        ['/stock-management/category-part', 'pages.stub', 'stock-management.category-part'],
         ['/stock-management/warehouses', 'pages.stub', 'stock-management.warehouses'],
         ['/fleet/ipc', 'pages.stub', 'fleet.ipc'],
         ['/fleet/equipment/variant', 'pages.stub', 'fleet.equipment.variant'],
@@ -207,12 +251,19 @@ Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes):
         ['/fleet/maintenance-program/visit', 'pages.stub', 'fleet.maintenance-program.visit'],
         ['/fleet/maintenance-program/utilization-model', 'pages.stub', 'fleet.maintenance-program.utilization-model'],
         ['/fleet/penalties', 'pages.stub', 'fleet.penalties'],
+        ['/fleet/technical-publication-type', 'pages.stub', 'fleet.technical-publication-type'],
+        ['/fleet/status-management-workflow', 'pages.stub', 'fleet.status-management-workflow'],
+        ['/fleet/task-type', 'pages.stub', 'fleet.task-type'],
         ['/flight-operations/departure-arrival-locations', 'pages.stub', 'flight-operations.departure-arrival-locations'],
         ['/mro/work-order-type', 'pages.stub', 'mro.work-order-type'],
+        ['/mro/defect-type', 'pages.stub', 'mro.defect-type'],
+        ['/mro/status-management-workflow', 'pages.stub', 'mro.status-management-workflow'],
         ['/utilities/counter-synchronization', 'pages.stub', 'utilities.counter-synchronization'],
         ['/utilities/max-value-bulk-update', 'pages.stub', 'utilities.max-value-bulk-update'],
         ['/utilities/fl-counters-bulk-update', 'pages.stub', 'utilities.fl-counters-bulk-update'],
         ['/utilities/cec-status-bulk-update', 'pages.stub', 'utilities.cec-status-bulk-update'],
+        ['/utilities/change-customer-information', 'pages.stub', 'utilities.change-customer-information'],
+        ['/utilities/equipment-reference-evolution', 'pages.stub', 'utilities.equipment-reference-evolution'],
     ]);
 });
 
