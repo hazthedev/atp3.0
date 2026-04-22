@@ -11,10 +11,47 @@
             ->all();
     }
 
-    // Reuse the current URL's route parameters (e.g. {id}) when resolving
-    // parameterised parent routes so e.g. "Details" on the edit page links back
-    // to the correct show URL.
     $routeParams = request()->route()?->parameters() ?? [];
+
+    // Dynamic last-segment label for known detail routes:
+    // <type>/<serial>/<registration> for FL, <variant>/<serial>/<equipment_no> for equipment.
+    $detailLabel = null;
+    if (in_array($routeName, ['fleet.functional-location.show', 'fleet.functional-location.edit'], true)) {
+        $id = $routeParams['id'] ?? null;
+        if ($id !== null) {
+            $fl = \App\Models\FunctionalLocation::find($id);
+            if ($fl !== null) {
+                $detailLabel = implode('/', array_filter([
+                    $fl->type,
+                    $fl->serial_no,
+                    $fl->registration,
+                ])) ?: null;
+            }
+        }
+    } elseif (in_array($routeName, ['fleet.equipment.show'], true)) {
+        $id = $routeParams['id'] ?? null;
+        if ($id !== null) {
+            $eq = \App\Models\Equipment::find($id);
+            if ($eq !== null) {
+                $detailLabel = implode('/', array_filter([
+                    $eq->variant,
+                    $eq->serial_number,
+                    $eq->equipment_no,
+                ])) ?: null;
+            }
+        }
+    }
+
+    if ($detailLabel !== null && $trail !== []) {
+        $last = array_key_last($trail);
+        $lastEntry = $trail[$last];
+        if (is_array($lastEntry)) {
+            $lastEntry[0] = $detailLabel;
+            $trail[$last] = $lastEntry;
+        } else {
+            $trail[$last] = $detailLabel;
+        }
+    }
 
     $items = array_map(static function (mixed $segment) use ($routeParams, $parentRoutes): array {
         if (is_array($segment)) {
@@ -38,16 +75,16 @@
 @endphp
 
 @if ($items !== [])
-    <nav aria-label="Breadcrumb" class="rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
-        <ol class="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+    <nav aria-label="Breadcrumb" class="mt-0.5">
+        <ol class="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
             @foreach ($items as $item)
-                <li class="flex items-center gap-2">
+                <li class="flex items-center gap-1.5">
                     @if (! $loop->first)
                         <span class="text-gray-300">/</span>
                     @endif
 
                     @if ($loop->last)
-                        <span class="font-medium text-gray-900">{{ $item['label'] }}</span>
+                        <span class="font-medium text-gray-700">{{ $item['label'] }}</span>
                     @elseif ($item['url'])
                         <a href="{{ $item['url'] }}" class="transition hover:text-gray-900 hover:underline">{{ $item['label'] }}</a>
                     @else
