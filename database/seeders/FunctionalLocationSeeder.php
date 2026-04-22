@@ -12,6 +12,8 @@ use App\Models\FunctionalLocationCounter;
 use App\Models\Item;
 use App\Models\ItemCalendarCounter;
 use App\Models\ItemCounter;
+use App\Models\Penalty;
+use App\Models\PenaltyRule;
 use Illuminate\Database\Seeder;
 
 class FunctionalLocationSeeder extends Seeder
@@ -141,6 +143,37 @@ class FunctionalLocationSeeder extends Seeder
                 'remaining' => '0.0000',
                 'is_used' => false,
                 'reset_to_null' => false,
+            ],
+        );
+
+        $this->seedExamplePenaltyRule($fl);
+    }
+
+    private function seedExamplePenaltyRule(FunctionalLocation $fl): void
+    {
+        $penalty = Penalty::where('code', 'PENALTY_1')->first();
+        $engineItem = Item::where('code', 'PT6C-67C')->first();
+        $monitoringRef = CounterRef::where('name', 'TSN')->first();
+        $rateRef = CounterRef::where('name', 'E#1CC')->first();
+
+        if ($penalty === null || $engineItem === null || $monitoringRef === null || $rateRef === null) {
+            return;
+        }
+
+        PenaltyRule::updateOrCreate(
+            [
+                'penalty_id' => $penalty->id,
+                'subject_type' => 'functional_location',
+                'subject_id' => $fl->id,
+                'monitoring_counter_ref_id' => $monitoringRef->id,
+                'target_item_id' => $engineItem->id,
+            ],
+            [
+                'rate_value' => 1.0,
+                'rate_counter_ref_id' => $rateRef->id,
+                'static_value' => 0,
+                'static_counter_ref_id' => null,
+                'is_active' => true,
             ],
         );
     }
