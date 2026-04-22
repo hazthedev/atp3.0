@@ -232,7 +232,7 @@
                     <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
                 </template>
                 <template x-if="editing">
-                    <button type="button" class="btn-primary" @click="saveItem(); toggle()">Save</button>
+                    <button type="button" class="btn-primary" @click="save()">Save</button>
                 </template>
             @else
                 <button type="button" class="btn-primary" @click="saveItem()">
@@ -247,6 +247,12 @@
         <template x-if="statusMessage">
             <div class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700" x-text="statusMessage"></div>
         </template>
+
+        @if ($isEdit && $dbItemId)
+            <x-card title="Identity" description="Persisted item master fields. Edit Record to change." padding="p-6">
+                @livewire('system.item-master-data-form', ['itemId' => $dbItemId], key('item-md-form-'.$dbItemId))
+            </x-card>
+        @endif
 
         <x-enterprise.panel muted class="space-y-5">
             <div class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_280px]">

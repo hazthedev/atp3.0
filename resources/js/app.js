@@ -64,6 +64,10 @@ Alpine.data('editMode', (initialEditing = false) => ({
 
     init() {
         this.$nextTick(() => this._applyState());
+        window.addEventListener('record-saved', () => {
+            this.editing = false;
+            this._applyState();
+        });
     },
 
     _formElements() {
@@ -93,9 +97,22 @@ Alpine.data('editMode', (initialEditing = false) => ({
         this._applyState();
     },
 
+    save() {
+        if (window.Livewire) {
+            window.Livewire.dispatch('save-edit-form');
+        } else {
+            this.editing = false;
+            this._applyState();
+        }
+    },
+
     cancel() {
-        this.editing = false;
-        this._applyState();
+        if (window.Livewire) {
+            window.Livewire.dispatch('cancel-edit-form');
+        } else {
+            this.editing = false;
+            this._applyState();
+        }
     },
 }));
 

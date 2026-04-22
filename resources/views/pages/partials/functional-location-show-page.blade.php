@@ -271,7 +271,7 @@
                     <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
                 </template>
                 <template x-if="editing">
-                    <button type="button" class="btn-primary" @click="toggle()">Save</button>
+                    <button type="button" class="btn-primary" @click="save()">Save</button>
                 </template>
             @else
                 <a href="{{ route('fleet.functional-location.customer') }}" class="btn-primary">Customer Functional Location</a>
@@ -290,30 +290,34 @@
     @endunless
 
     <x-card title="Customer Functional Location" description="Key aircraft identity, ownership, and maintenance reference fields." padding="p-6">
-        <div class="grid gap-4 md:grid-cols-2">
-            @foreach ($summaryFields as $field)
-                <div class="space-y-1.5">
-                    <x-form.label :for="$field['name']">{{ $field['label'] }}</x-form.label>
-                    @if (($field['type'] ?? 'input') === 'select')
-                        <x-form.select
-                            :id="$field['name']"
-                            :name="$field['name']"
-                            :value="$field['value']"
-                            :options="$field['options']"
-                            :disabled="$readonly"
-                        />
-                    @else
-                        <x-enterprise.input
-                            :id="$field['name']"
-                            :name="$field['name']"
-                            :value="$field['value']"
-                            :variant="$readonly ? 'disabled' : ($field['variant'] ?? null)"
-                            :tone="$field['tone'] ?? null"
-                        />
-                    @endif
-                </div>
-            @endforeach
-        </div>
+        @if ($flModel)
+            @livewire('fleet.functional-location-show-form', ['flId' => $flModel->id], key('fl-show-form-'.$flModel->id))
+        @else
+            <div class="grid gap-4 md:grid-cols-2">
+                @foreach ($summaryFields as $field)
+                    <div class="space-y-1.5">
+                        <x-form.label :for="$field['name']">{{ $field['label'] }}</x-form.label>
+                        @if (($field['type'] ?? 'input') === 'select')
+                            <x-form.select
+                                :id="$field['name']"
+                                :name="$field['name']"
+                                :value="$field['value']"
+                                :options="$field['options']"
+                                :disabled="$readonly"
+                            />
+                        @else
+                            <x-enterprise.input
+                                :id="$field['name']"
+                                :name="$field['name']"
+                                :value="$field['value']"
+                                :variant="$readonly ? 'disabled' : ($field['variant'] ?? null)"
+                                :tone="$field['tone'] ?? null"
+                            />
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </x-card>
 
     <x-enterprise.subtab :tabs="$tabs" class="bg-white px-5 pt-4 shadow-sm" />
@@ -881,7 +885,7 @@
             <x-record-meta :items="$metadata" />
         </div>
         <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
-        <button type="button" class="btn-primary" @click="toggle()">OK</button>
+        <button type="button" class="btn-primary" @click="save()">OK</button>
     </div>
 </div>
 </div>

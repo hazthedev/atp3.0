@@ -274,7 +274,7 @@
                     <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
                 </template>
                 <template x-if="editing">
-                    <button type="button" class="btn-primary" @click="toggle()">Save</button>
+                    <button type="button" class="btn-primary" @click="save()">Save</button>
                 </template>
             </x-slot>
         @endif
@@ -291,31 +291,35 @@
     @endunless
 
     <x-card title="Customer Equipment Card" description="Key equipment identity, ownership, and maintenance reference fields." padding="p-6">
-        <div class="grid gap-6 xl:grid-cols-2">
-            <div class="grid gap-4 md:grid-cols-2">
-                @foreach ($summaryLeftFields as $field)
-                    <x-form.input
-                        :label="$field['label']"
-                        :name="$field['name']"
-                        :value="$field['value']"
-                        readonly
-                        class="input-field-filled"
-                    />
-                @endforeach
-            </div>
+        @if ($equipmentModel ?? null)
+            @livewire('fleet.equipment-show-form', ['equipmentId' => $equipmentModel->id], key('equipment-show-form-'.$equipmentModel->id))
+        @else
+            <div class="grid gap-6 xl:grid-cols-2">
+                <div class="grid gap-4 md:grid-cols-2">
+                    @foreach ($summaryLeftFields as $field)
+                        <x-form.input
+                            :label="$field['label']"
+                            :name="$field['name']"
+                            :value="$field['value']"
+                            readonly
+                            class="input-field-filled"
+                        />
+                    @endforeach
+                </div>
 
-            <div class="grid gap-4 md:grid-cols-2">
-                @foreach ($summaryRightFields as $field)
-                    <x-form.input
-                        :label="$field['label']"
-                        :name="$field['name']"
-                        :value="$field['value']"
-                        readonly
-                        class="input-field-filled"
-                    />
-                @endforeach
+                <div class="grid gap-4 md:grid-cols-2">
+                    @foreach ($summaryRightFields as $field)
+                        <x-form.input
+                            :label="$field['label']"
+                            :name="$field['name']"
+                            :value="$field['value']"
+                            readonly
+                            class="input-field-filled"
+                        />
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="mt-5 flex flex-wrap gap-3">
             @if ($recordLoaded)
@@ -1213,7 +1217,7 @@
                 <x-record-meta :items="$metadata" />
             </div>
             <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
-            <button type="button" class="btn-primary" @click="toggle()">OK</button>
+            <button type="button" class="btn-primary" @click="save()">OK</button>
         @endif
     </div>
 </div>
