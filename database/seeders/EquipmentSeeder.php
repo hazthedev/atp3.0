@@ -44,8 +44,8 @@ class EquipmentSeeder extends Seeder
         );
 
         $readings = [
-            'TSN' => ['value_dec' => 754402.0000, 'value_hhmm' => '12573:22', 'reading_date' => '2025-12-15', 'remaining' => '412:32', 'linked_equi_id' => '51791', 'is_used' => true],
-            'TSO' => ['value_dec' => 170977.0000, 'value_hhmm' => '2849:37', 'max_dec' => 300000.0000, 'max_hhmm' => '5000:00', 'reading_date' => '2025-12-15', 'remaining' => '2150:23', 'residual' => '600:00', 'linked_equi_id' => '16775', 'is_used' => true],
+            'TSN' => ['value_dec' => 754402.0000, 'value_hhmm' => '12573:22', 'reading_date' => '2025-12-15', 'remaining' => '412:32', 'is_used' => true],
+            'TSO' => ['value_dec' => 170977.0000, 'value_hhmm' => '2849:37', 'max_dec' => 300000.0000, 'max_hhmm' => '5000:00', 'reading_date' => '2025-12-15', 'remaining' => '2150:23', 'residual' => '600:00', 'is_used' => true],
             'CSN' => ['value_dec' => 20624.0000, 'reading_date' => '2025-12-15', 'is_used' => true],
             'CSO' => ['value_dec' => 12596.0000, 'reading_date' => '2025-12-15', 'is_used' => true],
             'START' => ['value_dec' => 7757.0000, 'reading_date' => '2025-12-15', 'is_used' => true],

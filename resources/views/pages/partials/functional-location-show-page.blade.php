@@ -111,7 +111,7 @@
                 'max' => $max,
                 'remaining' => $c->remaining ?? '',
                 'residual' => $c->residual ?? '',
-                'equipment_id' => $c->linked_equi_id ?? '',
+                'equipment_id' => $c->linked_equipment_id ?? '',
                 'info_source' => $c->info_source ?? '',
             ];
         })->all();

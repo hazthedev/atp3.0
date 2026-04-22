@@ -581,7 +581,7 @@
                                         <td class="table-td">{{ $max }}</td>
                                         <td class="table-td">{{ $c->remaining }}</td>
                                         <td class="table-td">{{ $c->residual }}</td>
-                                        <td class="table-td">{{ $c->linked_equi_id }}</td>
+                                        <td class="table-td">{{ $c->linked_equipment_id }}</td>
                                         <td class="table-td">{{ $c->info_source }}</td>
                                     </tr>
                                 @endforeach

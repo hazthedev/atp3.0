@@ -20,7 +20,7 @@ class FunctionalLocationCounter extends Model
         'max_hhmm',
         'remaining',
         'residual',
-        'linked_equi_id',
+        'linked_equipment_id',
         'info_source',
         'tone',
         'propagate',
