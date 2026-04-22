@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\CounterHistory;
 use App\Models\CounterRef;
 use App\Models\Equipment;
 use App\Models\EquipmentCalendarCounter;
@@ -62,13 +63,33 @@ class EquipmentSeeder extends Seeder
                 continue;
             }
 
-            EquipmentCounter::updateOrCreate(
+            $counter = EquipmentCounter::updateOrCreate(
                 ['equipment_id' => $equipment->id, 'counter_ref_id' => $ref->id],
                 array_merge([
                     'propagate' => true,
                     'reading_hour' => '00:00',
                 ], $attrs),
             );
+
+            $newValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
+
+            if ($newValueDec !== null || $counter->value_hhmm !== null) {
+                CounterHistory::create([
+                    'counter_ref_id' => $ref->id,
+                    'subject_type' => 'equipment',
+                    'subject_id' => $equipment->id,
+                    'previous_value_dec' => null,
+                    'previous_value_hhmm' => null,
+                    'new_value_dec' => $newValueDec,
+                    'new_value_hhmm' => $counter->value_hhmm,
+                    'delta_dec' => $newValueDec,
+                    'reading_date' => $counter->reading_date,
+                    'reading_hour' => $counter->reading_hour ?? '00:00',
+                    'info_source' => $counter->info_source,
+                    'source_type' => 'seed',
+                    'source_ref' => 'EquipmentSeeder',
+                ]);
+            }
         }
 
         EquipmentCalendarCounter::updateOrCreate(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\CounterHistory;
 use App\Models\CounterRef;
 use App\Models\FunctionalLocation;
 use App\Models\FunctionalLocationCalendarCounter;
@@ -83,7 +84,7 @@ class FunctionalLocationSeeder extends Seeder
                 continue;
             }
 
-            FunctionalLocationCounter::updateOrCreate(
+            $counter = FunctionalLocationCounter::updateOrCreate(
                 ['functional_location_id' => $fl->id, 'counter_ref_id' => $ref->id],
                 array_merge([
                     'propagate' => true,
@@ -91,6 +92,26 @@ class FunctionalLocationSeeder extends Seeder
                     'is_used' => true,
                 ], $attrs),
             );
+
+            $newValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
+
+            if ($newValueDec !== null || $counter->value_hhmm !== null) {
+                CounterHistory::create([
+                    'counter_ref_id' => $ref->id,
+                    'subject_type' => 'functional_location',
+                    'subject_id' => $fl->id,
+                    'previous_value_dec' => null,
+                    'previous_value_hhmm' => null,
+                    'new_value_dec' => $newValueDec,
+                    'new_value_hhmm' => $counter->value_hhmm,
+                    'delta_dec' => $newValueDec,
+                    'reading_date' => $counter->reading_date,
+                    'reading_hour' => $counter->reading_hour ?? '00:00',
+                    'info_source' => $counter->info_source,
+                    'source_type' => 'seed',
+                    'source_ref' => 'FunctionalLocationSeeder',
+                ]);
+            }
         }
 
         // Seed remaining template counters as available-but-not-used

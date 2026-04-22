@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Fleet;
 
+use App\Models\CounterHistory;
 use App\Models\CounterRef;
 use App\Models\Item;
 use App\Models\ItemCalendarCounter;
 use App\Models\ItemCounter;
 use App\Models\MroStatusObject;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -132,54 +134,84 @@ class ItemCountersManager extends Component
             return;
         }
 
-        $keptIds = array_filter(array_column($this->rows, 'id'));
-        $originalIds = array_filter(array_column($this->originalRows, 'id'));
-        $deletedIds = array_diff($originalIds, $keptIds);
+        DB::transaction(function (): void {
+            $userId = auth()->id();
 
-        if ($deletedIds !== []) {
-            ItemCounter::whereIn('id', $deletedIds)->delete();
-        }
+            $keptIds = array_filter(array_column($this->rows, 'id'));
+            $originalIds = array_filter(array_column($this->originalRows, 'id'));
+            $deletedIds = array_diff($originalIds, $keptIds);
 
-        foreach ($this->rows as $row) {
-            $counterRefId = $row['counter_ref_id'] ?? null;
-
-            if (! $counterRefId) {
-                continue;
+            if ($deletedIds !== []) {
+                ItemCounter::whereIn('id', $deletedIds)->delete();
             }
 
-            $payload = [
-                'max_value_dec' => $this->nullIfBlank($row['max_value_dec'] ?? null),
-                'max_value_hhmm' => $this->nullIfBlank($row['max_value_hhmm'] ?? null),
-                'tolerance_dec' => $this->nullIfBlank($row['tolerance_dec'] ?? null),
-                'tolerance_hhmm' => $this->nullIfBlank($row['tolerance_hhmm'] ?? null),
-                'orange_light_percent' => (int) ($row['orange_light_percent'] ?? 90),
-                'status' => trim((string) ($row['status'] ?? 'Validate')) ?: 'Validate',
-                'modif_ref' => $this->nullIfBlank($row['modif_ref'] ?? null),
-            ];
+            foreach ($this->rows as $row) {
+                $counterRefId = $row['counter_ref_id'] ?? null;
 
-            if (! empty($row['id'])) {
-                $model = ItemCounter::find($row['id']);
-
-                if ($model !== null) {
-                    $model->update(array_merge(['counter_ref_id' => (int) $counterRefId], $payload));
+                if (! $counterRefId) {
+                    continue;
                 }
-            } else {
-                ItemCounter::updateOrCreate(
-                    ['item_id' => $this->itemId, 'counter_ref_id' => (int) $counterRefId],
-                    $payload,
-                );
-            }
-        }
 
-        ItemCalendarCounter::updateOrCreate(
-            ['item_id' => $this->itemId],
-            [
-                'label' => trim((string) ($this->calendar['label'] ?? 'Calendar Limit')) ?: 'Calendar Limit',
-                'limit_days' => $this->toInt($this->calendar['limit_days'] ?? null),
-                'orange_light_days' => (int) ($this->calendar['orange_light_days'] ?? 90),
-                'status' => trim((string) ($this->calendar['status'] ?? 'Validate')) ?: 'Validate',
-            ],
-        );
+                $payload = [
+                    'max_value_dec' => $this->nullIfBlank($row['max_value_dec'] ?? null),
+                    'max_value_hhmm' => $this->nullIfBlank($row['max_value_hhmm'] ?? null),
+                    'tolerance_dec' => $this->nullIfBlank($row['tolerance_dec'] ?? null),
+                    'tolerance_hhmm' => $this->nullIfBlank($row['tolerance_hhmm'] ?? null),
+                    'orange_light_percent' => (int) ($row['orange_light_percent'] ?? 90),
+                    'status' => trim((string) ($row['status'] ?? 'Validate')) ?: 'Validate',
+                    'modif_ref' => $this->nullIfBlank($row['modif_ref'] ?? null),
+                ];
+
+                $prevModel = ! empty($row['id']) ? ItemCounter::find($row['id']) : null;
+                $prevMaxDec = $prevModel?->max_value_dec !== null ? (float) $prevModel->max_value_dec : null;
+                $prevMaxHhmm = $prevModel?->max_value_hhmm;
+
+                if ($prevModel !== null) {
+                    $prevModel->update(array_merge(['counter_ref_id' => (int) $counterRefId], $payload));
+                    $model = $prevModel->fresh();
+                } else {
+                    $model = ItemCounter::updateOrCreate(
+                        ['item_id' => $this->itemId, 'counter_ref_id' => (int) $counterRefId],
+                        $payload,
+                    );
+                }
+
+                $newMaxDec = $payload['max_value_dec'] !== null ? (float) $payload['max_value_dec'] : null;
+                $newMaxHhmm = $payload['max_value_hhmm'];
+
+                $maxChanged = $prevMaxDec !== $newMaxDec || ($prevMaxHhmm ?? '') !== ($newMaxHhmm ?? '');
+                $isNewRow = $prevModel === null;
+
+                if ($maxChanged || $isNewRow) {
+                    CounterHistory::create([
+                        'counter_ref_id' => (int) $counterRefId,
+                        'subject_type' => 'item',
+                        'subject_id' => $this->itemId,
+                        'previous_value_dec' => $prevMaxDec,
+                        'previous_value_hhmm' => $prevMaxHhmm,
+                        'new_value_dec' => $newMaxDec,
+                        'new_value_hhmm' => $newMaxHhmm,
+                        'delta_dec' => $prevMaxDec !== null && $newMaxDec !== null
+                            ? round($newMaxDec - $prevMaxDec, 4)
+                            : null,
+                        'source_type' => 'manual',
+                        'source_ref' => 'item_counters_manager',
+                        'user_id' => $userId,
+                        'note' => $isNewRow ? 'Template counter added' : 'Template max changed',
+                    ]);
+                }
+            }
+
+            ItemCalendarCounter::updateOrCreate(
+                ['item_id' => $this->itemId],
+                [
+                    'label' => trim((string) ($this->calendar['label'] ?? 'Calendar Limit')) ?: 'Calendar Limit',
+                    'limit_days' => $this->toInt($this->calendar['limit_days'] ?? null),
+                    'orange_light_days' => (int) ($this->calendar['orange_light_days'] ?? 90),
+                    'status' => trim((string) ($this->calendar['status'] ?? 'Validate')) ?: 'Validate',
+                ],
+            );
+        });
 
         $this->loadRows();
         $this->editingIndex = null;
