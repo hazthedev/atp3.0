@@ -8,6 +8,8 @@ use App\Models\CounterHistory;
 use App\Models\FunctionalLocation;
 use App\Models\FunctionalLocationCalendarCounter;
 use App\Models\FunctionalLocationCounter;
+use App\Services\PenaltyCascadeResult;
+use App\Services\PenaltyEngine;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -70,13 +72,15 @@ class FunctionalLocationCountersManager extends Component
         $this->open = false;
     }
 
-    public function save(): void
+    public function save(PenaltyEngine $engine): void
     {
         if ($this->flId === null) {
             return;
         }
 
-        DB::transaction(function (): void {
+        $cascadeSummary = new PenaltyCascadeResult();
+
+        DB::transaction(function () use ($engine, $cascadeSummary): void {
             $userId = auth()->id();
 
             foreach ($this->rows as $row) {
@@ -92,6 +96,7 @@ class FunctionalLocationCountersManager extends Component
 
                 $prevValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
                 $prevValueHhmm = $counter->value_hhmm;
+                $prevReadingDate = optional($counter->reading_date)->format('Y-m-d');
 
                 $newValueDec = $this->toDecimal($row['value_dec'] ?? null);
                 $newValueHhmm = $this->nullIfBlank($row['value_hhmm'] ?? null);
@@ -109,7 +114,9 @@ class FunctionalLocationCountersManager extends Component
                     'is_used' => ! empty($row['value_dec']) || ! empty($row['value_hhmm']),
                 ]);
 
-                $changed = $prevValueDec !== $newValueDec || ($prevValueHhmm ?? '') !== ($newValueHhmm ?? '');
+                $valueChanged = $prevValueDec !== $newValueDec || ($prevValueHhmm ?? '') !== ($newValueHhmm ?? '');
+                $dateChanged = ($prevReadingDate ?? '') !== ($newReadingDate ?? '');
+                $changed = $valueChanged || $dateChanged;
 
                 if ($changed && $counter->counter_ref_id !== null) {
                     CounterHistory::create([
@@ -131,6 +138,26 @@ class FunctionalLocationCountersManager extends Component
                         'user_id' => $userId,
                     ]);
                 }
+
+                // Trigger penalty cascade on positive value delta only.
+                if ($valueChanged
+                    && $prevValueDec !== null
+                    && $newValueDec !== null
+                    && $counter->counter_ref_id !== null
+                ) {
+                    $delta = $newValueDec - $prevValueDec;
+                    if ($delta > 0) {
+                        $partial = $engine->cascade(
+                            PenaltyEngine::SUBJECT_FL,
+                            $counter->functional_location_id,
+                            $counter->counter_ref_id,
+                            $delta,
+                            [],
+                            'fl_counters_manager:' . $counter->id,
+                        );
+                        $this->mergeCascadeResult($cascadeSummary, $partial);
+                    }
+                }
             }
 
             if (! empty($this->calendar['id'])) {
@@ -147,10 +174,25 @@ class FunctionalLocationCountersManager extends Component
         });
 
         $this->loadRows();
-        $this->statusMessage = 'Functional location counters updated.';
+
+        $message = 'Functional location counters updated.';
+        if ($cascadeSummary->rulesFired !== []) {
+            $message .= ' Penalty cascade: ' . $cascadeSummary->summary() . '.';
+        }
+        $this->statusMessage = $message;
         $this->statusTone = 'green';
 
         $this->dispatch('fl-counters-updated');
+    }
+
+    private function mergeCascadeResult(PenaltyCascadeResult $into, PenaltyCascadeResult $partial): void
+    {
+        $into->rulesFired = array_merge($into->rulesFired, $partial->rulesFired);
+        $into->affectedTargets = array_merge($into->affectedTargets, $partial->affectedTargets);
+        $into->historyRowsWritten += $partial->historyRowsWritten;
+        $into->maxDepthReached = max($into->maxDepthReached, $partial->maxDepthReached);
+        $into->depthLimitHit = $into->depthLimitHit || $partial->depthLimitHit;
+        $into->warnings = array_merge($into->warnings, $partial->warnings);
     }
 
     public function isDirty(): bool
