@@ -179,6 +179,9 @@
     $cancelMessage = $isEdit ? 'Business partner changes cancelled for this preview session.' : 'Business partner draft discarded for this preview session.';
 @endphp
 
+@if ($isEdit)
+<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
+@endif
 <div
     class="space-y-6"
     x-data="{
@@ -213,10 +216,22 @@
                 <x-icon name="chevron-right" class="h-4 w-4 rotate-180" />
                 Back to List
             </a>
-            <button type="button" class="btn-primary" @click="savePartner()">
-                <x-icon name="document-text" class="h-4 w-4" />
-                Save Preview
-            </button>
+            @if ($isEdit)
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="savePartner(); toggle()">Save</button>
+                </template>
+            @else
+                <button type="button" class="btn-primary" @click="savePartner()">
+                    <x-icon name="document-text" class="h-4 w-4" />
+                    Save Preview
+                </button>
+            @endif
         </x-slot>
     </x-page-header>
 
@@ -665,3 +680,6 @@
         </x-enterprise.action-bar>
     </section>
 </div>
+@if ($isEdit)
+</div>
+@endif

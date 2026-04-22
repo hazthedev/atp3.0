@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\CounterHistory;
 use App\Models\CounterRef;
 use App\Models\FunctionalLocation;
 use App\Models\FunctionalLocationCalendarCounter;
@@ -68,12 +69,12 @@ class FunctionalLocationSeeder extends Seeder
         );
 
         $readings = [
-            'TSN'   => ['value_hhmm' => '13193:44', 'reading_date' => '2025-12-15', 'residual' => '142:01', 'linked_equi_id' => '47899', 'tone' => 'amber', 'info_source' => 'Planning sheet'],
-            'CSN'   => ['value_dec' => 20608, 'reading_date' => '2025-12-15', 'residual' => '11392', 'linked_equi_id' => '290', 'tone' => 'amber', 'info_source' => 'Planning sheet'],
-            'START' => ['value_dec' => 3722, 'reading_date' => '2025-12-15', 'tone' => 'green', 'info_source' => 'Planning sheet'],
-            'E#1CC'  => ['value_dec' => 12751.25, 'reading_date' => '2025-12-15', 'residual' => '7248.75', 'linked_equi_id' => '6108', 'tone' => 'amber', 'info_source' => 'Engine import'],
-            'E#1CTC' => ['value_dec' => 8607.21, 'reading_date' => '2025-12-15', 'residual' => '3392.79', 'linked_equi_id' => '6112', 'tone' => 'amber', 'info_source' => 'Engine import'],
-            'E#1PTC' => ['value_dec' => 10083.17, 'reading_date' => '2025-12-15', 'residual' => '1916.83', 'linked_equi_id' => '6116', 'tone' => 'amber', 'info_source' => 'Engine import'],
+            'TSN'   => ['value_hhmm' => '13193:44', 'reading_date' => '2025-12-15', 'residual' => '142:01', 'info_source' => 'Planning sheet'],
+            'CSN'   => ['value_dec' => 20608, 'reading_date' => '2025-12-15', 'residual' => '11392', 'info_source' => 'Planning sheet'],
+            'START' => ['value_dec' => 3722, 'reading_date' => '2025-12-15', 'info_source' => 'Planning sheet'],
+            'E#1CC'  => ['value_dec' => 12751.25, 'reading_date' => '2025-12-15', 'residual' => '7248.75', 'info_source' => 'Engine import'],
+            'E#1CTC' => ['value_dec' => 8607.21, 'reading_date' => '2025-12-15', 'residual' => '3392.79', 'info_source' => 'Engine import'],
+            'E#1PTC' => ['value_dec' => 10083.17, 'reading_date' => '2025-12-15', 'residual' => '1916.83', 'info_source' => 'Engine import'],
         ];
 
         foreach ($readings as $name => $attrs) {
@@ -83,7 +84,7 @@ class FunctionalLocationSeeder extends Seeder
                 continue;
             }
 
-            FunctionalLocationCounter::updateOrCreate(
+            $counter = FunctionalLocationCounter::updateOrCreate(
                 ['functional_location_id' => $fl->id, 'counter_ref_id' => $ref->id],
                 array_merge([
                     'propagate' => true,
@@ -91,6 +92,26 @@ class FunctionalLocationSeeder extends Seeder
                     'is_used' => true,
                 ], $attrs),
             );
+
+            $newValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
+
+            if ($newValueDec !== null || $counter->value_hhmm !== null) {
+                CounterHistory::create([
+                    'counter_ref_id' => $ref->id,
+                    'subject_type' => 'functional_location',
+                    'subject_id' => $fl->id,
+                    'previous_value_dec' => null,
+                    'previous_value_hhmm' => null,
+                    'new_value_dec' => $newValueDec,
+                    'new_value_hhmm' => $counter->value_hhmm,
+                    'delta_dec' => $newValueDec,
+                    'reading_date' => $counter->reading_date,
+                    'reading_hour' => $counter->reading_hour ?? '00:00',
+                    'info_source' => $counter->info_source,
+                    'source_type' => 'seed',
+                    'source_ref' => 'FunctionalLocationSeeder',
+                ]);
+            }
         }
 
         // Seed remaining template counters as available-but-not-used
@@ -108,7 +129,6 @@ class FunctionalLocationSeeder extends Seeder
                     'propagate' => true,
                     'reading_hour' => '00:00',
                     'is_used' => false,
-                    'tone' => 'grey',
                 ],
             );
         }

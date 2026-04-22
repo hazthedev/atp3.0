@@ -20,8 +20,9 @@ class EquipmentCounter extends Model
         'max_hhmm',
         'remaining',
         'residual',
-        'linked_equi_id',
+        'linked_equipment_id',
         'info_source',
+        'counter_info_source_id',
         'propagate',
         'is_used',
     ];
@@ -40,5 +41,28 @@ class EquipmentCounter extends Model
     public function counterRef(): BelongsTo
     {
         return $this->belongsTo(CounterRef::class);
+    }
+
+    public function getToneAttribute(): string
+    {
+        if (! $this->is_used) {
+            return 'grey';
+        }
+
+        $value = $this->value_dec !== null ? (float) $this->value_dec : null;
+        $max = $this->max_dec !== null ? (float) $this->max_dec : null;
+
+        if ($value === null || $max === null || $max <= 0) {
+            return 'green';
+        }
+
+        if ($value > $max) {
+            return 'red';
+        }
+
+        $orangePercent = (int) ($this->counterRef?->orange_light_limit ?? 90);
+        $orangeThreshold = $max * $orangePercent / 100;
+
+        return $value > $orangeThreshold ? 'amber' : 'green';
     }
 }

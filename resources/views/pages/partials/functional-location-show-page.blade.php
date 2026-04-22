@@ -111,7 +111,7 @@
                 'max' => $max,
                 'remaining' => $c->remaining ?? '',
                 'residual' => $c->residual ?? '',
-                'equipment_id' => $c->linked_equi_id ?? '',
+                'equipment_id' => $c->linked_equipment_id ?? '',
                 'info_source' => $c->info_source ?? '',
             ];
         })->all();
@@ -250,6 +250,7 @@
     }
 @endphp
 
+<div x-data="editMode({{ $readonly ? 'false' : 'true' }})" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
 <div class="space-y-6" x-data="tabs('general')">
     <x-page-header
         :title="$title"
@@ -259,16 +260,19 @@
     >
         <x-slot name="actions">
             @if ($recordSelected)
-                @if ($readonly)
-                    <a href="{{ route('fleet.technical-logs.index') }}" class="btn-secondary">
-                        <x-icon name="document" class="h-4 w-4" />
-                        Technical Log
-                    </a>
-                    <a href="{{ route('fleet.functional-location.edit', ['id' => $selectedRecord['id']]) }}" class="btn-primary">Edit Record</a>
-                @else
-                    <a href="{{ route('fleet.functional-location.show', ['id' => $selectedRecord['id']]) }}" class="btn-secondary">Cancel</a>
-                    <button type="button" class="btn-primary">Save</button>
-                @endif
+                <a href="{{ route('fleet.technical-logs.index') }}" class="btn-secondary">
+                    <x-icon name="document" class="h-4 w-4" />
+                    Technical Log
+                </a>
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="save()">Save</button>
+                </template>
             @else
                 <a href="{{ route('fleet.functional-location.customer') }}" class="btn-primary">Customer Functional Location</a>
             @endif
@@ -286,30 +290,34 @@
     @endunless
 
     <x-card title="Customer Functional Location" description="Key aircraft identity, ownership, and maintenance reference fields." padding="p-6">
-        <div class="grid gap-4 md:grid-cols-2">
-            @foreach ($summaryFields as $field)
-                <div class="space-y-1.5">
-                    <x-form.label :for="$field['name']">{{ $field['label'] }}</x-form.label>
-                    @if (($field['type'] ?? 'input') === 'select')
-                        <x-form.select
-                            :id="$field['name']"
-                            :name="$field['name']"
-                            :value="$field['value']"
-                            :options="$field['options']"
-                            :disabled="$readonly"
-                        />
-                    @else
-                        <x-enterprise.input
-                            :id="$field['name']"
-                            :name="$field['name']"
-                            :value="$field['value']"
-                            :variant="$readonly ? 'disabled' : ($field['variant'] ?? null)"
-                            :tone="$field['tone'] ?? null"
-                        />
-                    @endif
-                </div>
-            @endforeach
-        </div>
+        @if ($flModel)
+            @livewire('fleet.functional-location-show-form', ['flId' => $flModel->id], key('fl-show-form-'.$flModel->id))
+        @else
+            <div class="grid gap-4 md:grid-cols-2">
+                @foreach ($summaryFields as $field)
+                    <div class="space-y-1.5">
+                        <x-form.label :for="$field['name']">{{ $field['label'] }}</x-form.label>
+                        @if (($field['type'] ?? 'input') === 'select')
+                            <x-form.select
+                                :id="$field['name']"
+                                :name="$field['name']"
+                                :value="$field['value']"
+                                :options="$field['options']"
+                                :disabled="$readonly"
+                            />
+                        @else
+                            <x-enterprise.input
+                                :id="$field['name']"
+                                :name="$field['name']"
+                                :value="$field['value']"
+                                :variant="$readonly ? 'disabled' : ($field['variant'] ?? null)"
+                                :tone="$field['tone'] ?? null"
+                            />
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </x-card>
 
     <x-enterprise.subtab :tabs="$tabs" class="bg-white px-5 pt-4 shadow-sm" />
@@ -872,11 +880,12 @@
         </x-card>
     </div>
 
-    <div class="sticky-form-actions">
+    <div class="sticky-form-actions" x-show="editing" x-cloak>
         <div class="mr-auto">
             <x-record-meta :items="$metadata" />
         </div>
-        <button type="button" class="btn-secondary">Cancel</button>
-        <button type="button" class="btn-primary">OK</button>
+        <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+        <button type="button" class="btn-primary" @click="save()">OK</button>
     </div>
+</div>
 </div>

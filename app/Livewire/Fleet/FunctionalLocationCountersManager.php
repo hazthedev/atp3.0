@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Fleet;
 
+use App\Models\CounterHistory;
 use App\Models\FunctionalLocation;
 use App\Models\FunctionalLocationCalendarCounter;
 use App\Models\FunctionalLocationCounter;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -74,34 +76,75 @@ class FunctionalLocationCountersManager extends Component
             return;
         }
 
-        foreach ($this->rows as $row) {
-            if (empty($row['id'])) {
-                continue;
+        DB::transaction(function (): void {
+            $userId = auth()->id();
+
+            foreach ($this->rows as $row) {
+                if (empty($row['id'])) {
+                    continue;
+                }
+
+                $counter = FunctionalLocationCounter::with('counterRef')->find($row['id']);
+
+                if ($counter === null) {
+                    continue;
+                }
+
+                $prevValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
+                $prevValueHhmm = $counter->value_hhmm;
+
+                $newValueDec = $this->toDecimal($row['value_dec'] ?? null);
+                $newValueHhmm = $this->nullIfBlank($row['value_hhmm'] ?? null);
+                $newReadingDate = $this->nullIfBlank($row['reading_date'] ?? null);
+                $newReadingHour = trim((string) ($row['reading_hour'] ?? '00:00')) ?: '00:00';
+
+                $counter->update([
+                    'propagate' => $this->deactivatePropagation ? false : (bool) ($row['propagate'] ?? true),
+                    'reading_date' => $newReadingDate,
+                    'reading_hour' => $newReadingHour,
+                    'value_dec' => $newValueDec,
+                    'value_hhmm' => $newValueHhmm,
+                    'max_dec' => $this->toDecimal($row['max_dec'] ?? null),
+                    'max_hhmm' => $this->nullIfBlank($row['max_hhmm'] ?? null),
+                    'is_used' => ! empty($row['value_dec']) || ! empty($row['value_hhmm']),
+                ]);
+
+                $changed = $prevValueDec !== $newValueDec || ($prevValueHhmm ?? '') !== ($newValueHhmm ?? '');
+
+                if ($changed && $counter->counter_ref_id !== null) {
+                    CounterHistory::create([
+                        'counter_ref_id' => $counter->counter_ref_id,
+                        'subject_type' => 'functional_location',
+                        'subject_id' => $counter->functional_location_id,
+                        'previous_value_dec' => $prevValueDec,
+                        'previous_value_hhmm' => $prevValueHhmm,
+                        'new_value_dec' => $newValueDec,
+                        'new_value_hhmm' => $newValueHhmm,
+                        'delta_dec' => $prevValueDec !== null && $newValueDec !== null
+                            ? round($newValueDec - $prevValueDec, 4)
+                            : null,
+                        'reading_date' => $newReadingDate,
+                        'reading_hour' => $newReadingHour,
+                        'info_source' => $counter->info_source,
+                        'source_type' => 'manual',
+                        'source_ref' => 'fl_counters_manager',
+                        'user_id' => $userId,
+                    ]);
+                }
             }
 
-            FunctionalLocationCounter::where('id', $row['id'])->update([
-                'propagate' => $this->deactivatePropagation ? false : (bool) ($row['propagate'] ?? true),
-                'reading_date' => $this->nullIfBlank($row['reading_date'] ?? null),
-                'reading_hour' => trim((string) ($row['reading_hour'] ?? '00:00')) ?: '00:00',
-                'value_dec' => $this->toDecimal($row['value_dec'] ?? null),
-                'value_hhmm' => $this->nullIfBlank($row['value_hhmm'] ?? null),
-                'max_dec' => $this->toDecimal($row['max_dec'] ?? null),
-                'max_hhmm' => $this->nullIfBlank($row['max_hhmm'] ?? null),
-                'is_used' => ! empty($row['value_dec']) || ! empty($row['value_hhmm']),
-            ]);
-        }
-
-        if (! empty($this->calendar['id'])) {
-            FunctionalLocationCalendarCounter::where('id', $this->calendar['id'])->update([
-                'value_date' => $this->nullIfBlank($this->calendar['value_date'] ?? null),
-                'limit' => $this->nullIfBlank($this->calendar['limit'] ?? null),
-                'remaining' => $this->nullIfBlank($this->calendar['remaining'] ?? null),
-                'residual' => $this->nullIfBlank($this->calendar['residual'] ?? null),
-                'info_source' => $this->nullIfBlank($this->calendar['info_source'] ?? null),
-                'reset_to_null' => (bool) ($this->calendar['reset_to_null'] ?? false),
-                'is_used' => ! empty($this->calendar['limit']) || ! empty($this->calendar['value_date']),
-            ]);
-        }
+            if (! empty($this->calendar['id'])) {
+                FunctionalLocationCalendarCounter::where('id', $this->calendar['id'])->update([
+                    'value_date' => $this->nullIfBlank($this->calendar['value_date'] ?? null),
+                    'limit' => $this->nullIfBlank($this->calendar['limit'] ?? null),
+                    'remaining' => $this->nullIfBlank($this->calendar['remaining'] ?? null),
+                    'residual' => $this->nullIfBlank($this->calendar['residual'] ?? null),
+                    'info_source' => $this->nullIfBlank($this->calendar['info_source'] ?? null),
+                    'reset_to_null' => (bool) ($this->calendar['reset_to_null'] ?? false),
+                    'is_used' => ! empty($this->calendar['limit']) || ! empty($this->calendar['value_date']),
+                ]);
+            }
+        });
 
         $this->loadRows();
         $this->statusMessage = 'Functional location counters updated.';

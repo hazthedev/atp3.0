@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\CounterHistory;
 use App\Models\CounterRef;
 use App\Models\Equipment;
 use App\Models\EquipmentCalendarCounter;
@@ -43,8 +44,8 @@ class EquipmentSeeder extends Seeder
         );
 
         $readings = [
-            'TSN' => ['value_dec' => 754402.0000, 'value_hhmm' => '12573:22', 'reading_date' => '2025-12-15', 'remaining' => '412:32', 'linked_equi_id' => '51791', 'is_used' => true],
-            'TSO' => ['value_dec' => 170977.0000, 'value_hhmm' => '2849:37', 'max_dec' => 300000.0000, 'max_hhmm' => '5000:00', 'reading_date' => '2025-12-15', 'remaining' => '2150:23', 'residual' => '600:00', 'linked_equi_id' => '16775', 'is_used' => true],
+            'TSN' => ['value_dec' => 754402.0000, 'value_hhmm' => '12573:22', 'reading_date' => '2025-12-15', 'remaining' => '412:32', 'is_used' => true],
+            'TSO' => ['value_dec' => 170977.0000, 'value_hhmm' => '2849:37', 'max_dec' => 300000.0000, 'max_hhmm' => '5000:00', 'reading_date' => '2025-12-15', 'remaining' => '2150:23', 'residual' => '600:00', 'is_used' => true],
             'CSN' => ['value_dec' => 20624.0000, 'reading_date' => '2025-12-15', 'is_used' => true],
             'CSO' => ['value_dec' => 12596.0000, 'reading_date' => '2025-12-15', 'is_used' => true],
             'START' => ['value_dec' => 7757.0000, 'reading_date' => '2025-12-15', 'is_used' => true],
@@ -62,13 +63,33 @@ class EquipmentSeeder extends Seeder
                 continue;
             }
 
-            EquipmentCounter::updateOrCreate(
+            $counter = EquipmentCounter::updateOrCreate(
                 ['equipment_id' => $equipment->id, 'counter_ref_id' => $ref->id],
                 array_merge([
                     'propagate' => true,
                     'reading_hour' => '00:00',
                 ], $attrs),
             );
+
+            $newValueDec = $counter->value_dec !== null ? (float) $counter->value_dec : null;
+
+            if ($newValueDec !== null || $counter->value_hhmm !== null) {
+                CounterHistory::create([
+                    'counter_ref_id' => $ref->id,
+                    'subject_type' => 'equipment',
+                    'subject_id' => $equipment->id,
+                    'previous_value_dec' => null,
+                    'previous_value_hhmm' => null,
+                    'new_value_dec' => $newValueDec,
+                    'new_value_hhmm' => $counter->value_hhmm,
+                    'delta_dec' => $newValueDec,
+                    'reading_date' => $counter->reading_date,
+                    'reading_hour' => $counter->reading_hour ?? '00:00',
+                    'info_source' => $counter->info_source,
+                    'source_type' => 'seed',
+                    'source_ref' => 'EquipmentSeeder',
+                ]);
+            }
         }
 
         EquipmentCalendarCounter::updateOrCreate(

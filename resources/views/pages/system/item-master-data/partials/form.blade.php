@@ -190,6 +190,9 @@
     $cancelMessage = $isEdit ? 'Item master-data preview cancelled.' : 'Item master-data draft cancelled.';
 @endphp
 
+@if ($isEdit)
+<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
+@endif
 <div
     class="space-y-6"
     x-data="{
@@ -221,10 +224,22 @@
                 <x-icon name="chevron-right" class="h-4 w-4 rotate-180" />
                 Back to List
             </a>
-            <button type="button" class="btn-primary" @click="saveItem()">
-                <x-icon name="document-text" class="h-4 w-4" />
-                Save Preview
-            </button>
+            @if ($isEdit)
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="save()">Save</button>
+                </template>
+            @else
+                <button type="button" class="btn-primary" @click="saveItem()">
+                    <x-icon name="document-text" class="h-4 w-4" />
+                    Save Preview
+                </button>
+            @endif
         </x-slot>
     </x-page-header>
 
@@ -232,6 +247,12 @@
         <template x-if="statusMessage">
             <div class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700" x-text="statusMessage"></div>
         </template>
+
+        @if ($isEdit && $dbItemId)
+            <x-card title="Identity" description="Persisted item master fields. Edit Record to change." padding="p-6">
+                @livewire('system.item-master-data-form', ['itemId' => $dbItemId], key('item-md-form-'.$dbItemId))
+            </x-card>
+        @endif
 
         <x-enterprise.panel muted class="space-y-5">
             <div class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_280px]">
@@ -739,3 +760,6 @@
 
     @livewire('fleet.item-counters-manager')
 </div>
+@if ($isEdit)
+</div>
+@endif

@@ -123,6 +123,9 @@
     $lookupButtonClass = 'inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-500 shadow-sm transition hover:border-[#9fb2ff] hover:text-[#2f5bff] focus:outline-none focus:ring-4 focus:ring-[#2f5bff]/10';
 @endphp
 
+@if ($isEdit)
+<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
+@endif
 <div
     class="space-y-6"
     x-data="{
@@ -144,6 +147,17 @@
                 <x-icon name="chevron-right" class="h-4 w-4 rotate-180" />
                 Back to List
             </a>
+            @if ($isEdit)
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="savePartner(); toggle()">Save</button>
+                </template>
+            @endif
         </x-slot>
     </x-page-header>
 
@@ -431,3 +445,6 @@
         </x-enterprise.action-bar>
     </section>
 </div>
+@if ($isEdit)
+</div>
+@endif

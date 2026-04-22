@@ -257,13 +257,28 @@
     }
 @endphp
 
+<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
 <div class="space-y-6" x-data="tabs('general')">
     <x-page-header
         :title="$title"
         :description="$recordLoaded
             ? 'Equipment customer-card workspace using populated form controls and the approved ATP tab style.'
             : 'Blank customer equipment card shell ready for record lookup from Search Equipments.'"
-    />
+    >
+        @if ($recordLoaded)
+            <x-slot name="actions">
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="save()">Save</button>
+                </template>
+            </x-slot>
+        @endif
+    </x-page-header>
 
     @unless ($recordLoaded)
         <x-empty-state
@@ -276,31 +291,35 @@
     @endunless
 
     <x-card title="Customer Equipment Card" description="Key equipment identity, ownership, and maintenance reference fields." padding="p-6">
-        <div class="grid gap-6 xl:grid-cols-2">
-            <div class="grid gap-4 md:grid-cols-2">
-                @foreach ($summaryLeftFields as $field)
-                    <x-form.input
-                        :label="$field['label']"
-                        :name="$field['name']"
-                        :value="$field['value']"
-                        readonly
-                        class="input-field-filled"
-                    />
-                @endforeach
-            </div>
+        @if ($equipmentModel ?? null)
+            @livewire('fleet.equipment-show-form', ['equipmentId' => $equipmentModel->id], key('equipment-show-form-'.$equipmentModel->id))
+        @else
+            <div class="grid gap-6 xl:grid-cols-2">
+                <div class="grid gap-4 md:grid-cols-2">
+                    @foreach ($summaryLeftFields as $field)
+                        <x-form.input
+                            :label="$field['label']"
+                            :name="$field['name']"
+                            :value="$field['value']"
+                            readonly
+                            class="input-field-filled"
+                        />
+                    @endforeach
+                </div>
 
-            <div class="grid gap-4 md:grid-cols-2">
-                @foreach ($summaryRightFields as $field)
-                    <x-form.input
-                        :label="$field['label']"
-                        :name="$field['name']"
-                        :value="$field['value']"
-                        readonly
-                        class="input-field-filled"
-                    />
-                @endforeach
+                <div class="grid gap-4 md:grid-cols-2">
+                    @foreach ($summaryRightFields as $field)
+                        <x-form.input
+                            :label="$field['label']"
+                            :name="$field['name']"
+                            :value="$field['value']"
+                            readonly
+                            class="input-field-filled"
+                        />
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="mt-5 flex flex-wrap gap-3">
             @if ($recordLoaded)
@@ -562,7 +581,7 @@
                                         <td class="table-td">{{ $max }}</td>
                                         <td class="table-td">{{ $c->remaining }}</td>
                                         <td class="table-td">{{ $c->residual }}</td>
-                                        <td class="table-td">{{ $c->linked_equi_id }}</td>
+                                        <td class="table-td">{{ $c->linked_equipment_id }}</td>
                                         <td class="table-td">{{ $c->info_source }}</td>
                                     </tr>
                                 @endforeach
@@ -1197,8 +1216,9 @@
             <div class="mr-auto">
                 <x-record-meta :items="$metadata" />
             </div>
-            <button type="button" class="btn-secondary">Cancel</button>
-            <button type="button" class="btn-primary">OK</button>
+            <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+            <button type="button" class="btn-primary" @click="save()">OK</button>
         @endif
     </div>
+</div>
 </div>

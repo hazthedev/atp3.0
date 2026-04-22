@@ -28,6 +28,7 @@
 @endphp
 
 @section('content')
+    <div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
     <div
         class="space-y-6"
         x-data="{
@@ -44,7 +45,19 @@
         <x-page-header
             title="Work Order"
             description="MRO work order cockpit for execution data, linked objects, actions, and commercial summary tracking."
-        />
+        >
+            <x-slot name="actions">
+                <template x-if="!editing">
+                    <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+                </template>
+                <template x-if="editing">
+                    <button type="button" class="btn-primary" @click="toggle()">Save</button>
+                </template>
+            </x-slot>
+        </x-page-header>
 
         <section class="w-full space-y-5">
             <template x-if="statusMessage">
@@ -383,5 +396,6 @@
                 </div>
             </div>
         </section>
+    </div>
     </div>
 @endsection

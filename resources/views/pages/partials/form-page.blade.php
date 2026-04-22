@@ -1,6 +1,7 @@
 @php
     use Illuminate\Support\Str;
 
+    $isEdit = $isEdit ?? false;
     $sections = $sections ?? [
         [
             'title' => 'Identity',
@@ -30,8 +31,25 @@
     ];
 @endphp
 
+@if ($isEdit)
+<div class="space-y-6" x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
+    <x-page-header :title="$title" :description="$description">
+        <x-slot name="actions">
+            <template x-if="!editing">
+                <button type="button" class="btn-primary" @click="enter()">Edit Record</button>
+            </template>
+            <template x-if="editing">
+                <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+            </template>
+            <template x-if="editing">
+                <button type="button" class="btn-primary" @click="toggle()">Save</button>
+            </template>
+        </x-slot>
+    </x-page-header>
+@else
 <div class="space-y-6">
     <x-page-header :title="$title" :description="$description" />
+@endif
 
     <div class="grid gap-6 lg:grid-cols-2">
         @foreach ($sections as $section)
@@ -72,8 +90,15 @@
         @endforeach
     </div>
 
-    <div class="sticky-form-actions">
-        <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('dashboard') }}" class="btn-secondary">Cancel</a>
-        <button type="button" class="btn-primary">Save preview</button>
-    </div>
+    @if ($isEdit)
+        <div class="sticky-form-actions" x-show="editing" x-cloak>
+            <button type="button" class="btn-secondary" @click="cancel()">Cancel</button>
+            <button type="button" class="btn-primary" @click="toggle()">Save</button>
+        </div>
+    @else
+        <div class="sticky-form-actions">
+            <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('dashboard') }}" class="btn-secondary">Cancel</a>
+            <button type="button" class="btn-primary">Save preview</button>
+        </div>
+    @endif
 </div>
