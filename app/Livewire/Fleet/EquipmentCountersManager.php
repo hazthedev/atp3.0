@@ -124,7 +124,10 @@ class EquipmentCountersManager extends Component
                 $dateChanged = ($prevReadingDate ?? '') !== ($newReadingDate ?? '');
                 $changed = $valueChanged || $dateChanged;
 
-                if ($changed && $counter->counter_ref_id !== null) {
+                $allNull = $prevValueDec === null && $newValueDec === null
+                    && ($prevValueHhmm ?? '') === '' && ($newValueHhmm ?? '') === '';
+
+                if ($changed && ! $allNull && $counter->counter_ref_id !== null) {
                     CounterHistory::create([
                         'counter_ref_id' => $counter->counter_ref_id,
                         'subject_type' => 'equipment',

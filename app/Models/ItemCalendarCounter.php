@@ -17,6 +17,12 @@ class ItemCalendarCounter extends Model
         'status',
     ];
 
+    protected $casts = [
+        'item_id' => 'integer',
+        'limit_days' => 'integer',
+        'orange_light_days' => 'integer',
+    ];
+
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);

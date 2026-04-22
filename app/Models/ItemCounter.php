@@ -21,6 +21,12 @@ class ItemCounter extends Model
         'modif_ref',
     ];
 
+    protected $casts = [
+        'item_id' => 'integer',
+        'counter_ref_id' => 'integer',
+        'orange_light_percent' => 'integer',
+    ];
+
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);

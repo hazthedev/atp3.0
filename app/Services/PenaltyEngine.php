@@ -66,6 +66,9 @@ class PenaltyEngine
         int $depth,
         PenaltyCascadeResult $result,
     ): void {
+        $subjectId = (int) $subjectId;
+        $monitoringCounterRefId = (int) $monitoringCounterRefId;
+
         $result->maxDepthReached = max($result->maxDepthReached, $depth);
 
         if ($depth > self::MAX_DEPTH) {
@@ -76,6 +79,8 @@ class PenaltyEngine
         }
 
         // Rule subject_type is 'functional_location' or 'item' — translate equipment → item.
+        // The recursion after incrementTargetCounter passes the filter [] so downstream
+        // rules always run without the caller's per-flight penalty selection.
         $ruleSubjectType = $subjectType;
         $ruleSubjectId = $subjectId;
 
@@ -87,7 +92,7 @@ class PenaltyEngine
             }
 
             $ruleSubjectType = 'item';
-            $ruleSubjectId = $equipment->item_id;
+            $ruleSubjectId = (int) $equipment->item_id;
         }
 
         $query = PenaltyRule::query()
@@ -133,7 +138,7 @@ class PenaltyEngine
             if ($rateIncrement !== 0.0) {
                 $this->incrementTargetCounter(
                     $target,
-                    $rule->rate_counter_ref_id,
+                    (int) $rule->rate_counter_ref_id,
                     $rateIncrement,
                     'penalty_cascade',
                     $cascadeRef,
@@ -149,7 +154,7 @@ class PenaltyEngine
             if ($staticIncrement !== 0.0) {
                 $this->incrementTargetCounter(
                     $target,
-                    $rule->static_counter_ref_id,
+                    (int) $rule->static_counter_ref_id,
                     $staticIncrement,
                     'penalty_cascade',
                     $cascadeRef,
@@ -196,7 +201,7 @@ class PenaltyEngine
                 return null;
             }
 
-            return ['type' => self::SUBJECT_EQUIPMENT, 'id' => $equipment->id];
+            return ['type' => self::SUBJECT_EQUIPMENT, 'id' => (int) $equipment->id];
         }
 
         if ($subjectType === self::SUBJECT_EQUIPMENT) {

@@ -22,6 +22,7 @@ class EquipmentCalendarCounter extends Model
     ];
 
     protected $casts = [
+        'equipment_id' => 'integer',
         'value_date' => 'date',
         'is_used' => 'boolean',
         'reset_to_null' => 'boolean',

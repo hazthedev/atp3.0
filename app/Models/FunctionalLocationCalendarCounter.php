@@ -22,6 +22,7 @@ class FunctionalLocationCalendarCounter extends Model
     ];
 
     protected $casts = [
+        'functional_location_id' => 'integer',
         'value_date' => 'date',
         'is_used' => 'boolean',
         'reset_to_null' => 'boolean',

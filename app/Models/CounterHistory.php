@@ -32,10 +32,14 @@ class CounterHistory extends Model
     ];
 
     protected $casts = [
+        'counter_ref_id' => 'integer',
+        'subject_id' => 'integer',
+        'counter_info_source_id' => 'integer',
+        'user_id' => 'integer',
         'reading_date' => 'date',
-        'previous_value_dec' => 'decimal:4',
-        'new_value_dec' => 'decimal:4',
-        'delta_dec' => 'decimal:4',
+        'previous_value_dec' => 'float',
+        'new_value_dec' => 'float',
+        'delta_dec' => 'float',
     ];
 
     public function counterRef(): BelongsTo

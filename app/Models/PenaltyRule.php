@@ -24,8 +24,14 @@ class PenaltyRule extends Model
     ];
 
     protected $casts = [
-        'rate_value' => 'decimal:4',
-        'static_value' => 'decimal:4',
+        'penalty_id' => 'integer',
+        'subject_id' => 'integer',
+        'target_item_id' => 'integer',
+        'monitoring_counter_ref_id' => 'integer',
+        'rate_counter_ref_id' => 'integer',
+        'static_counter_ref_id' => 'integer',
+        'rate_value' => 'float',
+        'static_value' => 'float',
         'is_active' => 'boolean',
     ];
 

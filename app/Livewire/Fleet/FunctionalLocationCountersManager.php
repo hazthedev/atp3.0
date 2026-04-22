@@ -224,7 +224,12 @@ class FunctionalLocationCountersManager extends Component
                 $dateChanged = ($prevReadingDate ?? '') !== ($newReadingDate ?? '');
                 $changed = $valueChanged || $dateChanged;
 
-                if ($changed && $counter->counter_ref_id !== null) {
+                // Don't audit an all-null row: if the counter never had a value and
+                // still doesn't, a date-only change on empty isn't useful audit signal.
+                $allNull = $prevValueDec === null && $newValueDec === null
+                    && ($prevValueHhmm ?? '') === '' && ($newValueHhmm ?? '') === '';
+
+                if ($changed && ! $allNull && $counter->counter_ref_id !== null) {
                     CounterHistory::create([
                         'counter_ref_id' => $counter->counter_ref_id,
                         'subject_type' => 'functional_location',
