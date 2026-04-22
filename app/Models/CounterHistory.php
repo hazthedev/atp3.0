@@ -24,6 +24,7 @@ class CounterHistory extends Model
         'reading_date',
         'reading_hour',
         'info_source',
+        'counter_info_source_id',
         'source_type',
         'source_ref',
         'user_id',

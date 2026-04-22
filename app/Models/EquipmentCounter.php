@@ -22,6 +22,7 @@ class EquipmentCounter extends Model
         'residual',
         'linked_equipment_id',
         'info_source',
+        'counter_info_source_id',
         'propagate',
         'is_used',
     ];

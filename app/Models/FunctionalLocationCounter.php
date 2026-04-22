@@ -22,6 +22,7 @@ class FunctionalLocationCounter extends Model
         'residual',
         'linked_equipment_id',
         'info_source',
+        'counter_info_source_id',
         'tone',
         'propagate',
         'is_used',
