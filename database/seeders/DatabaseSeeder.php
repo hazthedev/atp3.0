@@ -15,12 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Dev-only test user. Idempotent so re-seeding never fails on the unique
+        // email constraint, and skipped entirely in production.
+        if (! app()->environment('production')) {
+            User::firstOrCreate(
+                ['email' => 'test@example.com'],
+                [
+                    'name' => 'Test User',
+                    'password' => bcrypt('password'),
+                ]
+            );
+        }
 
         $this->call([
             MeasureUnitSeeder::class,
