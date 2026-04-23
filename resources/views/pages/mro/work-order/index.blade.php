@@ -1,239 +1,93 @@
 @extends('layouts.app')
 
-@section('title', 'List of Open Work Order')
-
-@php
-    $openWorkOrders = [
-        [
-            'code' => '204352',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'Main',
-            'work_center' => '',
-            'object_type' => 'Customer',
-            'object_ref' => '300028',
-            'item_code' => '*WESTSTAR',
-            'serial_number' => '',
-            'category_part' => '',
-            'repair_event' => '120043',
-            'start_date' => '',
-            'title' => 'EMERGENCY POWER UNIT INVESTIGATION',
-        ],
-        [
-            'code' => '265HPO19',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KTE',
-            'work_center' => 'Avionic',
-            'object_type' => 'Customer',
-            'object_ref' => '300028',
-            'item_code' => '*WESTSTAR',
-            'serial_number' => '',
-            'category_part' => '',
-            'repair_event' => '41651',
-            'start_date' => '',
-            'title' => 'RECERTIFICATION SUPPORT PACKAGE',
-        ],
-        [
-            'code' => '300028',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KBR',
-            'work_center' => '',
-            'object_type' => 'Equipment',
-            'object_ref' => '18333',
-            'item_code' => '3G256V000334',
-            'serial_number' => '109',
-            'category_part' => 'H/T LLP',
-            'repair_event' => '109628',
-            'start_date' => '',
-            'title' => 'OPS REQ PARTS INSPECTION',
-        ],
-        [
-            'code' => '32761',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'Main',
-            'work_center' => '',
-            'object_type' => 'Customer',
-            'object_ref' => '300028',
-            'item_code' => '*WESTSTAR',
-            'serial_number' => '',
-            'category_part' => '',
-            'repair_event' => '40071',
-            'start_date' => '',
-            'title' => 'RECERTIFICATION TRACKING',
-        ],
-        [
-            'code' => 'AJL03586',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KTE',
-            'work_center' => 'Mechanical',
-            'object_type' => 'Customer',
-            'object_ref' => '300028',
-            'item_code' => '*WESTSTAR',
-            'serial_number' => '',
-            'category_part' => '',
-            'repair_event' => '41651',
-            'start_date' => '',
-            'title' => 'ROBBERY PLB BATTERY REPLACEMENT',
-        ],
-        [
-            'code' => 'CC-1188',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KTE',
-            'work_center' => 'Avionic',
-            'object_type' => 'Customer',
-            'object_ref' => '300028',
-            'item_code' => '*WESTSTAR',
-            'serial_number' => '',
-            'category_part' => '',
-            'repair_event' => '37926',
-            'start_date' => '',
-            'title' => 'DISPLAY UNIT ROTATION',
-        ],
-        [
-            'code' => 'CW1282',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KTE',
-            'work_center' => '',
-            'object_type' => 'Equipment',
-            'object_ref' => '41556',
-            'item_code' => '00031010',
-            'serial_number' => '0003101001484',
-            'category_part' => 'H/T LLP',
-            'repair_event' => '109628',
-            'start_date' => '03.05.25',
-            'title' => 'CANNIBALISATION REVIEW',
-        ],
-        [
-            'code' => 'CW1284',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'Main',
-            'work_center' => '',
-            'object_type' => 'Item Code',
-            'object_ref' => '00031010',
-            'item_code' => '1.000000',
-            'serial_number' => '',
-            'category_part' => 'HALO LIFEJACKET PAX',
-            'repair_event' => '109628',
-            'start_date' => '',
-            'title' => 'CERTIFICATION CONTROL',
-        ],
-        [
-            'code' => 'CW1285',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KTE',
-            'work_center' => 'Safety',
-            'object_type' => 'Item Code',
-            'object_ref' => '00031010',
-            'item_code' => '4.000000',
-            'serial_number' => '',
-            'category_part' => 'HALO LIFEJACKET PAX',
-            'repair_event' => '109628',
-            'start_date' => '06.05.25',
-            'title' => 'CERTIFICATION CONTROL',
-        ],
-        [
-            'code' => 'CW1289',
-            'type' => 'Repair Order',
-            'status' => 'Planned',
-            'branch' => 'KTE',
-            'work_center' => '',
-            'object_type' => 'Item Code',
-            'object_ref' => '00031010',
-            'item_code' => '3.000000',
-            'serial_number' => '',
-            'category_part' => 'HALO LIFEJACKET PAX',
-            'repair_event' => '109628',
-            'start_date' => '07.06.25',
-            'title' => 'CERTIFICATION CONTROL',
-        ],
-    ];
-@endphp
+@section('title', 'List of Open Work Orders')
 
 @section('content')
-    <div
-        class="space-y-6"
-        x-data="{
-            showAll: false,
-            statusMessage: '',
-            rows: @js($openWorkOrders),
-            visibleRows() {
-                return this.showAll ? this.rows : this.rows.filter((row) => row.status === 'Planned');
-            },
-            cancelQueue() {
-                this.statusMessage = `Open work order review closed with ${this.visibleRows().length} visible record(s).`;
-            },
-        }"
-    >
+    @php
+        // Open = Planned / Released / Postponed. Closed and Cancelled hidden here.
+        $openStatuses = ['-0000001', '-0000002', '-0000005', '-0000015', '-0000016', '-0000017', '-0000018', '-0000019', '00000001', '00000002'];
+        $orders = App\Models\WorkOrder::with(['status', 'variant'])
+            ->whereIn('status_code', $openStatuses)
+            ->orderByDesc('planned_date')
+            ->get();
+
+        $plannedCount = $orders->where('status_code', '-0000001')->count();
+        $releasedCount = $orders->where('status_code', '-0000002')->count();
+        $postponedCount = $orders->where('status_code', '-0000019')->count();
+    @endphp
+
+    <div class="space-y-6">
         <x-page-header
-            title="List of Open Work Order"
-            description="MRO work order queue for reviewing open repair orders, object references, repair events, and execution planning details."
-        />
+            title="List of Open Work Orders"
+            description="Work orders not yet closed or cancelled. Drawn from SAP @MRO_MOR2 → MORC + archived in @MRO_AMR4/AMR8 upon closure."
+        >
+            <x-slot name="actions">
+                <span class="inline-flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">{{ $plannedCount }} planned</span>
+                <span class="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">{{ $releasedCount }} released</span>
+                @if ($postponedCount > 0)
+                    <span class="inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">{{ $postponedCount }} postponed</span>
+                @endif
+                <span class="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-700">
+                    <x-icon name="document" class="h-3.5 w-3.5" />
+                    @MRO_MOR*
+                </span>
+            </x-slot>
+        </x-page-header>
 
-        <section class="w-full space-y-5">
-            <template x-if="statusMessage">
-                <div class="flex items-center rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-800" role="alert">
-                    <x-icon name="information-circle" class="mr-2.5 h-5 w-5 shrink-0" />
-                    <span x-text="statusMessage"></span>
-                </div>
-            </template>
+        <x-data-table datatable>
+            <x-slot name="search">
+                <input type="text" class="input-field w-full md:w-72" placeholder="Search code / aircraft / title…" />
+            </x-slot>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                <label class="inline-flex items-center gap-3 text-sm font-medium text-gray-700">
-                    <input type="checkbox" x-model="showAll" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                    <span>Show all work order</span>
-                </label>
-            </div>
+            <x-slot name="thead">
+                <tr>
+                    <th class="table-th">Code</th>
+                    <th class="table-th">A/C Reg.</th>
+                    <th class="table-th">Variant</th>
+                    <th class="table-th">Status</th>
+                    <th class="table-th">Work Package</th>
+                    <th class="table-th">Planned</th>
+                    <th class="table-th">Released</th>
+                    <th class="table-th">Title</th>
+                </tr>
+            </x-slot>
 
-            <x-enterprise.table-shell table-class="min-w-full border-collapse" datatable datatable-selectable>
-                <x-slot name="thead">
-                    <tr>
-                        <th>Code</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Branch</th>
-                        <th>Work Center</th>
-                        <th>Object Type</th>
-                        <th>Object Ref</th>
-                        <th>Item Code / FL Type / Qty</th>
-                        <th>Serial Number</th>
-                        <th>Categ. Part / Registration</th>
-                        <th>Repair Event</th>
-                        <th>Start Date</th>
-                        <th>Title</th>
+            <x-slot name="tbody">
+                @forelse ($orders as $wo)
+                    <tr class="table-row">
+                        <td class="table-td">
+                            <span class="font-mono text-xs text-blue-700">{{ $wo->code }}</span>
+                        </td>
+                        <td class="table-td font-medium text-gray-900">{{ $wo->aircraft_registration ?? '—' }}</td>
+                        <td class="table-td text-xs text-gray-600">{{ optional($wo->variant)->name ?? '—' }}</td>
+                        <td class="table-td">
+                            @php
+                                $name = optional($wo->status)->name ?? 'Unknown';
+                                $class = match ($wo->status_code) {
+                                    '-0000001' => 'bg-blue-100 text-blue-700',
+                                    '-0000002' => 'bg-emerald-100 text-emerald-700',
+                                    '-0000019' => 'bg-amber-100 text-amber-700',
+                                    '00000003' => 'bg-gray-100 text-gray-700',
+                                    default => 'bg-gray-100 text-gray-700',
+                                };
+                            @endphp
+                            <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold {{ $class }}">{{ $name }}</span>
+                        </td>
+                        <td class="table-td">
+                            @if ($wo->work_package_code)
+                                <span class="font-mono text-xs text-gray-600">{{ $wo->work_package_code }}</span>
+                            @else
+                                <span class="text-gray-400">—</span>
+                            @endif
+                        </td>
+                        <td class="table-td text-xs text-gray-600">{{ optional($wo->planned_date)->format('d.m.Y') ?? '—' }}</td>
+                        <td class="table-td text-xs text-gray-600">{{ optional($wo->released_date)->format('d.m.Y') ?? '—' }}</td>
+                        <td class="table-td max-w-md truncate text-sm text-gray-700" title="{{ $wo->title }}">{{ $wo->title ?? '—' }}</td>
                     </tr>
-                </x-slot>
-                <x-slot name="tbody">
-                    @foreach ($openWorkOrders as $row)
-                        <tr>
-                            <td>{{ $row['code'] }}</td>
-                            <td>{{ $row['type'] }}</td>
-                            <td><span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-700">{{ $row['status'] }}</span></td>
-                            <td>{{ $row['branch'] }}</td>
-                            <td>{{ $row['work_center'] ?: '-' }}</td>
-                            <td>{{ $row['object_type'] }}</td>
-                            <td>{{ $row['object_ref'] }}</td>
-                            <td>{{ $row['item_code'] }}</td>
-                            <td>{{ $row['serial_number'] ?: '-' }}</td>
-                            <td>{{ $row['category_part'] ?: '-' }}</td>
-                            <td>{{ $row['repair_event'] }}</td>
-                            <td>{{ $row['start_date'] ?: '-' }}</td>
-                            <td>{{ $row['title'] }}</td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-enterprise.table-shell>
-
-            <div class="flex items-center justify-start border-t border-gray-200 pt-5">
-                <button type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100" @click="cancelQueue()">Cancel</button>
-            </div>
-        </section>
+                @empty
+                    <tr><td colspan="8" class="table-td text-center text-sm text-gray-400">No open work orders. Run <code>php artisan migrate --seed</code>.</td></tr>
+                @endforelse
+            </x-slot>
+        </x-data-table>
     </div>
 @endsection

@@ -41,6 +41,10 @@ class DatabaseSeeder extends Seeder
             AircraftVariantSeeder::class,
             CategoryPartSeeder::class,
             UtilizationModelSeeder::class,
+
+            // Phase 2 — SAP MRO transactional tables
+            WorkOrderSeeder::class, // seed first so TechnicalLog FK resolves
+            TechnicalLogSeeder::class,
         ]);
     }
 }
