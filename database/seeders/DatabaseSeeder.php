@@ -30,6 +30,17 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
             EquipmentSeeder::class,
             FunctionalLocationSeeder::class,
+
+            // Phase 1 — SAP MRO reference tables
+            VisitSeeder::class,
+            TaskTypeSeeder::class,
+            TaskActivityTypeSeeder::class,
+            MelCategorySeeder::class,
+            TechnicalLogTypeSeeder::class,
+            WorkflowGroupSeeder::class,
+            AircraftVariantSeeder::class,
+            CategoryPartSeeder::class,
+            UtilizationModelSeeder::class,
         ]);
     }
 }
