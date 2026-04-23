@@ -3,13 +3,22 @@
 @section('title', 'Fleet Synthesis')
 
 @php
-    $aircraftOptions = [
-        ['type' => 'AW139', 'sn' => '31336', 'reg' => '9M-WAD'],
-        ['type' => 'AW139', 'sn' => '31344', 'reg' => '9M-WAH'],
-        ['type' => 'AW139', 'sn' => '41249', 'reg' => '9M-WBB'],
-        ['type' => 'AW189', 'sn' => '49030', 'reg' => '9M-WSU'],
-        ['type' => 'AW189', 'sn' => '49051', 'reg' => '9M-WSV'],
-    ];
+    // Real aircraft list from SAP @MRO_OUTM (Utilization Model headers — one per A/C).
+    // Variant (AW139/AW189) is inferred from the registration prefix until we
+    // join against a dedicated A/C master in a later phase.
+    $aircraftOptions = App\Models\UtilizationModel::orderBy('registration')
+        ->get(['code', 'registration'])
+        ->map(function ($m) {
+            $reg = $m->registration;
+            // Cheap registration-to-variant heuristic matching the seeded fleet.
+            // Real mapping lives in SAP FL master (not in this dump).
+            $type = match (true) {
+                str_starts_with($reg, '9M-WS') => 'AW189',
+                default => 'AW139',
+            };
+            return ['type' => $type, 'sn' => $m->code, 'reg' => $reg];
+        })
+        ->all();
 
     $predefinedFilters = [
         ['id' => 1, 'name' => 'AW139 - Applicable', 'is_default' => true],
