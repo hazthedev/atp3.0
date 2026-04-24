@@ -48,7 +48,17 @@ Check these in order — stop at the first match.
    where color is `green` / `amber` / `red` based on the dot colour.
    *Example: "Code" with a green circle → `variant="indicator" tone="green"`.*
 
-7. **None of the above**
+7. **Borderless field inside a `<td>` in an inline-edit grid** (Category Part,
+   Counter Refs, Measure Units, MRO Status, Item Groups accounting grid,
+   Warehouses accounting grid)
+   → `variant="cell"`
+   *Use when the screenshot shows a compact table with no visible field borders
+   — only the table's own row/column grid lines. The field's editability flips
+   with an `@readonly` / `@disabled` attribute driven by an `$isEditing` row
+   flag; the cell variant paints the same `read-only:` / `disabled:` tone on
+   both states.*
+
+8. **None of the above**
    → no variant prop (omit `variant=`). Renders as the plain `.input-field`.
 
 ## Tone mapping
@@ -245,6 +255,75 @@ Reference implementation: `resources/views/livewire/admin/stock/warehouse-form.b
 
 {{-- Forced-disabled look (regardless of edit state) --}}
 <x-enterprise.input wire:model="foo" variant="disabled" />
+
+{{-- Borderless <td>-sized cell input / select (inline-edit grid) --}}
+<x-enterprise.input wire:model="rows.{{ $index }}.code" variant="cell" @readonly(! $isEditing) />
+<x-enterprise.select wire:model="rows.{{ $index }}.status" variant="cell" @disabled(! $isEditing)>
+    <option value=""></option>
+    @foreach ($statusOptions as $option)
+        <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
+    @endforeach
+</x-enterprise.select>
+```
+
+## Sibling bare components
+
+These are the non-input enterprise primitives that parallel the bare
+`<x-enterprise.input>` (no built-in label column — the caller owns the label).
+Use them when the label is already rendered above the field (e.g. in a
+`space-y-1.5` stacked-label block) or not needed at all.
+
+| Component | Purpose | Variants |
+|---|---|---|
+| `<x-enterprise.select>` | Bare `<select>` styled to match `.input-field`. Use for filter selects above a list, stacked-label detail selects, and (with `variant="cell"`) inline-edit grid cells. | `null`, `cell` |
+| `<x-enterprise.textarea>` | Bare `<textarea>` styled to match `.input-field min-h-[64px] resize-none rounded-lg px-3 py-2`. Parallel to the bare `<x-enterprise.input>`. `<x-enterprise.textarea-row>` stays as the label+field composite and now delegates to this internally. | — |
+
+```blade
+{{-- Bare select above a list (label rendered separately) --}}
+<x-enterprise.select wire:model.live="filterType">
+    @foreach ($groupTypes as $type)
+        <option value="{{ $type }}">{{ $type }}</option>
+    @endforeach
+</x-enterprise.select>
+
+{{-- Bare textarea in a stacked-label detail block --}}
+<x-form.label for="ug_description">Description</x-form.label>
+<x-enterprise.textarea id="ug_description" wire:model="description" rows="2" />
+```
+
+## Checkbox — `labelClass` prop and unlabeled mode
+
+`<x-enterprise.checkbox>` accepts:
+
+| Prop | Default | Notes |
+|---|---|---|
+| `label` | `null` | Text rendered in the `<span>` next to the checkbox. When `null` or `''`, the component emits a bare `<input type="checkbox">` — no wrapping `<label>` or `<span>`. Use this for table-cell checkboxes where the `<th>` is the label. |
+| `inline` | `false` | `gap-2` (inline) vs `gap-3` (stacked). |
+| `labelClass` | `'flex items-center text-sm text-gray-600'` | Override to change tone or weight. Example: `labelClass="flex items-center text-sm font-medium text-gray-700"` for page-header flags; `labelClass="flex items-center text-sm text-gray-400"` for permanently-disabled checkboxes. The `gap-*` token is still appended automatically from `inline`. |
+
+```blade
+{{-- Default --}}
+<x-enterprise.checkbox label="Active" inline wire:model="active" />
+
+{{-- Header-tone flag --}}
+<x-enterprise.checkbox
+    label="Superuser"
+    inline
+    labelClass="flex items-center text-sm font-medium text-gray-700"
+    wire:model="is_superuser"
+/>
+
+{{-- Muted / locked --}}
+<x-enterprise.checkbox
+    label="Drop-Ship"
+    inline
+    labelClass="flex items-center text-sm text-gray-400"
+    disabled
+    data-edit-locked="true"
+/>
+
+{{-- Bare (cell checkbox — the <th> is the label) --}}
+<td><x-enterprise.checkbox wire:model="rows.{{ $i }}.enforce_default_bin" /></td>
 ```
 
 ## Interaction with the Edit Record toggle
