@@ -36,9 +36,9 @@
             @foreach ($users as $user)
                 <tr class="table-row">
                     <td class="table-td">
-                        <x-enterprise.table-cell variant="arrow" :href="route('system.user-management.edit', ['id' => $user->id])">
+                        <a href="{{ route('system.user-management.edit', ['id' => $user->id]) }}" class="font-medium text-blue-600 hover:underline">
                             {{ $user->user_code ?? '—' }}
-                        </x-enterprise.table-cell>
+                        </a>
                     </td>
                     <td class="table-td">{{ $user->name }}</td>
                     <td class="table-td">{{ $user->email }}</td>
