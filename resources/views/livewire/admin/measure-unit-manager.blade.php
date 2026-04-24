@@ -35,27 +35,27 @@
                                 <tr wire:key="measure-unit-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                     <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                     <td class="border border-gray-200 px-0 py-0">
-                                        <input
+                                        <x-enterprise.input
+                                            variant="cell"
                                             type="text"
                                             wire:model="rows.{{ $index }}.code"
                                             @readonly(! $isEditing)
-                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500"
                                         />
                                     </td>
                                     <td class="border border-gray-200 px-0 py-0">
-                                        <input
+                                        <x-enterprise.input
+                                            variant="cell"
                                             type="text"
                                             wire:model="rows.{{ $index }}.new_code"
                                             @readonly(! $isEditing)
-                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500"
                                         />
                                     </td>
                                     <td class="border border-gray-200 px-0 py-0">
-                                        <input
+                                        <x-enterprise.input
+                                            variant="cell"
                                             type="text"
                                             wire:model="rows.{{ $index }}.designation"
                                             @readonly(! $isEditing)
-                                            class="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500"
                                         />
                                     </td>
                                     <td class="border border-gray-200 px-1 py-1 align-middle">

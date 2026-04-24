@@ -34,21 +34,20 @@
                             @foreach ($rows as $index => $row)
                                 @php
                                     $isEditing = $editingIndex === $index;
-                                    $inputClass = 'w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 disabled:opacity-100';
                                 @endphp
                                 <tr wire:key="mro-status-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                     <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.code" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.code" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.name" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.name" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.description" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.description" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 px-1 py-1 text-center align-middle">
-                                        <input type="checkbox" wire:model="rows.{{ $index }}.locked" @disabled(! $isEditing) class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:opacity-60" />
+                                        <x-enterprise.checkbox wire:model="rows.{{ $index }}.locked" @disabled(! $isEditing) class="disabled:opacity-60" />
                                     </td>
                                     <td class="border border-gray-200 px-1 py-1 align-middle">
                                         <div class="flex items-center justify-center gap-1">

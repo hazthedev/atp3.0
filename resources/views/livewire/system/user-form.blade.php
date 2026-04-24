@@ -25,18 +25,24 @@
 
         <x-card padding="p-6">
             <div class="flex flex-wrap items-center gap-6 border-b border-gray-200 pb-4">
-                <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <input type="checkbox" wire:model="is_superuser" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                    Superuser
-                </label>
-                <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <input type="checkbox" wire:model="is_mobile_user" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                    Mobile User
-                </label>
-                <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <input type="checkbox" wire:model="is_group" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                    Group
-                </label>
+                <x-enterprise.checkbox
+                    label="Superuser"
+                    labelClass="text-sm font-medium text-gray-700"
+                    inline
+                    wire:model="is_superuser"
+                />
+                <x-enterprise.checkbox
+                    label="Mobile User"
+                    labelClass="text-sm font-medium text-gray-700"
+                    inline
+                    wire:model="is_mobile_user"
+                />
+                <x-enterprise.checkbox
+                    label="Group"
+                    labelClass="text-sm font-medium text-gray-700"
+                    inline
+                    wire:model="is_group"
+                />
             </div>
 
             <div class="grid gap-4 pt-4 md:grid-cols-3">

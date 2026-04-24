@@ -47,76 +47,75 @@
                             @foreach ($rows as $index => $row)
                                 @php
                                     $isEditing = $editingIndex === $index;
-                                    $inputClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 disabled:opacity-100';
                                 @endphp
                                 <tr wire:key="counter-ref-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                     <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.code" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.code" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.name" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.name" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <select wire:model="rows.{{ $index }}.status" @disabled(! $isEditing) class="{{ $inputClass }}">
+                                        <x-enterprise.select variant="cell" wire:model="rows.{{ $index }}.status" @disabled(! $isEditing)>
                                             <option value=""></option>
                                             @foreach ($statusOptions as $option)
                                                 <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                             @endforeach
-                                        </select>
+                                        </x-enterprise.select>
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <select wire:model="rows.{{ $index }}.measure_unit" @disabled(! $isEditing) class="{{ $inputClass }}">
+                                        <x-enterprise.select variant="cell" wire:model="rows.{{ $index }}.measure_unit" @disabled(! $isEditing)>
                                             <option value=""></option>
                                             @foreach ($measureUnitOptions as $designation)
                                                 <option value="{{ $designation }}">{{ $designation }}</option>
                                             @endforeach
-                                        </select>
+                                        </x-enterprise.select>
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.incr_decr" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.incr_decr" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.allow_incr_decr" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.allow_incr_decr" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.min_value" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.min_value" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.max_value" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.max_value" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="text" wire:model="rows.{{ $index }}.initial_value" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="text" wire:model="rows.{{ $index }}.initial_value" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.propagation_flag" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.propagation_flag" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.used_for_residual_calc" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.used_for_residual_calc" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.allow_auto_incrementation" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.allow_auto_incrementation" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.orange_light_limit" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.orange_light_limit" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.sort_order" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.sort_order" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.log_instance" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.log_instance" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <select wire:model="rows.{{ $index }}.linked_counter" @disabled(! $isEditing) class="{{ $inputClass }}">
+                                        <x-enterprise.select variant="cell" wire:model="rows.{{ $index }}.linked_counter" @disabled(! $isEditing)>
                                             <option value=""></option>
                                             @foreach ($linkedCounterOptions as $option)
                                                 @continue($option['code'] === ($row['code'] ?? ''))
                                                 <option value="{{ $option['code'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                             @endforeach
-                                        </select>
+                                        </x-enterprise.select>
                                     </td>
                                     <td class="border border-gray-200 p-0">
-                                        <input type="number" wire:model="rows.{{ $index }}.propagation_on_linked_counter" @readonly(! $isEditing) class="{{ $inputClass }}" />
+                                        <x-enterprise.input variant="cell" type="number" wire:model="rows.{{ $index }}.propagation_on_linked_counter" @readonly(! $isEditing) />
                                     </td>
                                     <td class="border border-gray-200 px-1 py-1 align-middle">
                                         <div class="flex items-center justify-center gap-1">
