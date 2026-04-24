@@ -6,11 +6,7 @@
 ])
 
 <div {{ $attributes->class(['grid items-end gap-4', $columns]) }}>
-    @if ($for)
-        <label for="{{ $for }}" class="{{ $labelClass }}">{{ $label }}</label>
-    @else
-        <span class="{{ $labelClass }}">{{ $label }}</span>
-    @endif
+    <x-enterprise.label :for="$for" :labelClass="$labelClass">{{ $label }}</x-enterprise.label>
 
     <div class="w-full">
         {{ $slot }}
