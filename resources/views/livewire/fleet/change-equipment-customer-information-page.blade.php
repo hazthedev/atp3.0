@@ -10,19 +10,17 @@
             <div class="space-y-4">
                 {{-- Equipment ID lookup — always visible --}}
                 <div class="space-y-2">
-                    <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                        <label for="change_equipment_id" class="attach-field-label">I.D.</label>
+                    <x-enterprise.field-row label="I.D." for="change_equipment_id" label-class="attach-field-label">
                         <div class="grid grid-cols-[minmax(0,1fr)_40px] gap-2">
-                            <input
+                            <x-enterprise.input
                                 id="change_equipment_id"
-                                type="text"
                                 wire:model.blur="equipmentId"
                                 wire:keydown.enter.prevent="loadEquipment"
-                                class="input-field attach-input attach-input-highlight"
+                                class="attach-input attach-input-highlight"
                             />
                             <button type="button" wire:click="loadEquipment" class="attach-mini-button" title="Load equipment">...</button>
                         </div>
-                    </div>
+                    </x-enterprise.field-row>
 
                     @foreach ([
                         ['label' => 'Serial no.', 'value' => $serialNo],
@@ -31,10 +29,9 @@
                         ['label' => 'Variant', 'value' => $variant],
                         ['label' => 'Category part', 'value' => $categoryPart],
                     ] as $field)
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">{{ $field['label'] }}</span>
-                            <input type="text" readonly value="{{ $field['value'] }}" class="input-field attach-input attach-input-readonly" />
-                        </div>
+                        <x-enterprise.field-row :label="$field['label']" label-class="attach-field-label">
+                            <x-enterprise.input variant="disabled" value="{{ $field['value'] }}" class="attach-input attach-input-readonly" />
+                        </x-enterprise.field-row>
                     @endforeach
                 </div>
 
@@ -47,36 +44,32 @@
                             ['label' => 'Operator code', 'model' => 'operatorCode', 'with_action' => true],
                             ['label' => 'Operator name', 'model' => 'operatorName'],
                         ] as $field)
-                            <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                                <span class="attach-field-label">{{ $field['label'] }}</span>
+                            <x-enterprise.field-row :label="$field['label']" label-class="attach-field-label">
                                 @if (! empty($field['with_action']))
                                     <div class="grid grid-cols-[minmax(0,1fr)_40px] gap-2">
-                                        <input type="text" wire:model.live="{{ $field['model'] }}" class="input-field attach-input" />
+                                        <x-enterprise.input wire:model.live="{{ $field['model'] }}" class="attach-input" />
                                         <button type="button" class="attach-mini-button attach-mini-button-ghost">...</button>
                                     </div>
                                 @else
-                                    <input type="text" wire:model.live="{{ $field['model'] }}" class="input-field attach-input" />
+                                    <x-enterprise.input wire:model.live="{{ $field['model'] }}" class="attach-input" />
                                 @endif
-                            </div>
+                            </x-enterprise.field-row>
                         @endforeach
                     </div>
 
                     {{-- Extra options block --}}
                     <div class="space-y-3 pt-1">
-                        <label class="attach-checkbox-row">
-                            <input type="checkbox" wire:model.live="forceOwnerPropagation" />
-                            <span>Force owner propagation</span>
-                        </label>
+                        <x-enterprise.checkbox
+                            label="Force owner propagation"
+                            wire:model.live="forceOwnerPropagation"
+                        />
 
                         <div class="grid items-center gap-3" style="grid-template-columns: 112px 148px">
                             <span class="attach-field-label">Date of change</span>
-                            <input type="text" wire:model.live="dateOfChange" class="input-field attach-input" />
+                            <x-enterprise.input wire:model.live="dateOfChange" class="attach-input" />
                         </div>
 
-                        <div class="grid items-start gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label pt-2">Comment</span>
-                            <textarea rows="3" wire:model.live="comment" class="input-field attach-textarea"></textarea>
-                        </div>
+                        <x-enterprise.textarea-row label="Comment" :rows="3" wire:model.live="comment" class="attach-textarea" />
                     </div>
                 @endif
             </div>

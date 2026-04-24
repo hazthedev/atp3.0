@@ -87,12 +87,12 @@
 
                                 <div class="grid grid-cols-[132px_minmax(0,1fr)] items-start gap-3">
                                     <label for="equipment_reference_evolution_comment" class="pt-2 text-sm font-medium text-gray-600">Comment</label>
-                                    <textarea
+                                    <x-enterprise.textarea
                                         id="equipment_reference_evolution_comment"
                                         wire:model.live="comment"
                                         rows="5"
-                                        class="input-field resize-none"
-                                    ></textarea>
+                                        class="resize-none"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -101,10 +101,11 @@
                             <div class="space-y-4 rounded-xl border border-gray-200 bg-gray-50/80 p-5">
                                 <div class="grid gap-4 md:grid-cols-2">
                                     <div class="space-y-3">
-                                        <label class="flex items-center gap-3 text-sm font-medium text-gray-700">
-                                            <input type="checkbox" wire:model.live="newItemNumber" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                            <span>New Item Number</span>
-                                        </label>
+                                        <x-enterprise.checkbox
+                                            label="New Item Number"
+                                            wire:model.live="newItemNumber"
+                                            labelClass="flex items-center text-sm font-medium text-gray-700"
+                                        />
 
                                         <x-form.input
                                             label="Enter New Item Number"
@@ -116,10 +117,11 @@
                                     </div>
 
                                     <div class="space-y-3">
-                                        <label class="flex items-center gap-3 text-sm font-medium text-gray-700">
-                                            <input type="checkbox" wire:model.live="newSerialNumber" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                            <span>New Serial Number</span>
-                                        </label>
+                                        <x-enterprise.checkbox
+                                            label="New Serial Number"
+                                            wire:model.live="newSerialNumber"
+                                            labelClass="flex items-center text-sm font-medium text-gray-700"
+                                        />
 
                                         <x-form.input
                                             label="Enter Serial Number"

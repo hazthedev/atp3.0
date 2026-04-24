@@ -86,11 +86,11 @@
                                 <td class="table-td">{{ $row['owner_code'] }}</td>
                                 <td class="table-td">{{ $row['owner_name'] }}</td>
                                 <td class="table-td">
-                                    <select wire:model.live="rowStatuses.{{ $row['id'] }}" class="input-field min-w-[140px] py-2 text-xs">
+                                    <x-enterprise.select wire:model.live="rowStatuses.{{ $row['id'] }}" class="min-w-[140px] py-2 text-xs">
                                         <option value="Serviceable">Serviceable</option>
                                         <option value="Unserviceable">Unserviceable</option>
                                         <option value="In Repair">In Repair</option>
-                                    </select>
+                                    </x-enterprise.select>
                                 </td>
                             </tr>
                         @empty
