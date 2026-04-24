@@ -28,6 +28,7 @@ setup, user lifecycle, and utilities that cross-cut several domains.
 - `item_group_warehouse_defaults` pivot (default bin location per warehouse per item group)
 - `gl_accounts` (placeholder chart of accounts; to be replaced when Finance module lands)
 - `gl_account_assignments` (polymorphic; `assignable_type` = `App\Models\ItemGroup` | `App\Models\Warehouse`, keyed by `account_type_key`)
+- `category_parts` (shared with MRO — extended with `new_code` column by `2026_04_26_010000_add_new_code_to_category_parts.php`)
 
 ### Livewire components owned here
 
@@ -39,6 +40,7 @@ setup, user lifecycle, and utilities that cross-cut several domains.
 - `App\Livewire\Admin\Stock\ItemGroupForm` (2-tab SAP Item Groups – Setup form)
 - `App\Livewire\Admin\Stock\WarehouseIndexPage`
 - `App\Livewire\Admin\Stock\WarehouseForm` (2-tab SAP Warehouses – Setup form)
+- `App\Livewire\Admin\Stock\CategoryPartsPage` (inline-editable grid — Code / New Code / Name)
 
 ### Models owned here
 
@@ -99,9 +101,15 @@ setup, user lifecycle, and utilities that cross-cut several domains.
   - Accounting tab: same 21-row grid as Item Groups via the shared `GlAccountAssignment` polymorphic table
   - Seeded with 6 example warehouses matching the screenshot's bin-location grid (`WarehouseSeeder`)
 
+- **Category Parts** (`/admin/stock-management/category-part`)
+  - Full-page inline-editable grid matching the SAP Category Part List window
+  - Columns: # / Code / New Code / Name with per-row pencil + remove actions
+  - Add row / OK / Cancel bottom action bar; Save button toggles to "Update" when the grid is dirty
+  - Follows the `MeasureUnitManager` row-ops pattern but rendered as a standalone page (it owns its own route, so no modal wrapper)
+  - Migration `2026_04_26_010000_add_new_code_to_category_parts.php` adds `new_code` (nullable) to the existing `category_parts` table (16 rows already seeded via `CategoryPartSeeder`)
+
 ### Stubbed (route exists, view is `pages.stub`)
 
-- Stock Management → Category Part (points at existing `pages.reference.category-parts` simple list — spec pending from Fadzly)
 - Fleet Management → Technical Publication Type, Status Management & Workflow, Task Type, Penalties (Counters points at the existing `/system/counter` reference page)
 - Flight Operations → Departure / Arrival Locations
 - MRO Management → Work Order Type, Defect Type, Status Management & Workflow
@@ -137,7 +145,7 @@ Screenshots received so far (from earlier chat turns — not committed to the re
 - **UoM Group on Item Groups** — rendered as a plain text input (no visible decoration in the SAP screenshot). When a real UoM Groups table ships, switch to `variant="lookup"` with a picker modal.
 - **Location on Warehouses** — dropdown with a 5-entry hard-coded enum (Subang / Dili / Namibia / Kuching / Miri), derived from the Weststar warehouse seed set. Promote to a real `locations` table if the operations team needs CRUD over it.
 - **Drop-Ship checkbox** — rendered disabled per the SAP screenshot (the toggle is SAP-B1 accounting-package gated). Bound to `drop_ship` but not editable through this UI.
-- **Category Part** — route already points at the existing `pages.reference.category-parts` read-only list. Waiting on Fadzly for the full spec before promoting it to a setup form.
+- **Category Part grid** — promoted from read-only to inline-editable per SAP screenshot. Uses the `MeasureUnitManager` pencil-edit row pattern but as a standalone page (owns its own L3 route, so the modal wrapper is unnecessary). `work_scope` remains on the model as an ATP-specific flag but is not exposed in the UI; the SAP screen only has Code / New Code / Name.
 
 ## Cross-L1 touchpoints
 

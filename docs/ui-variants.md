@@ -181,6 +181,22 @@ Reference implementation: `resources/views/livewire/admin/stock/item-group-form.
 - Accounting's Account Code is a plain HTML select (`<select class="input-field">`). SAP shows a code-lookup-plus-search-button combo; swap to `variant="lookup"` with a picker modal when the real Chart of Accounts lands.
 - The "#" / row-numbers and the small arrow-dropdown top-right of each grid are decorative-only in our implementation.
 
+## Catalog: Stock Management — Category Part List (from SAP B1)
+
+Simple inline-editable master list. All inputs are plain; the pencil/x-circle row actions are not input variants.
+
+| Field | Visual | Variant call |
+|---|---|---|
+| Code (grid cell) | plain inline input, yellow background when editing | *(no variant)* — rendered as a bare `<input>` inside the cell |
+| New Code (grid cell) | plain inline input | *(no variant)* |
+| Name (grid cell) | plain inline input | *(no variant)* |
+
+Reference implementation: `resources/views/livewire/admin/stock/category-parts-page.blade.php`.
+
+### Gaps vs SAP (noted, not fixed in this pass)
+- SAP shows the currently-edited row with a yellow background; we match with `bg-amber-50` on the `tr` when that row is the `editingIndex`.
+- Double-click to edit (SAP behaviour) — we use an explicit pencil button instead, matching the rest of the ATP reference-data pages.
+
 ## Catalog: Stock Management — Warehouses – Setup (from SAP B1)
 
 Two-tab form. Most address-block fields are plain. Country is the only field with a visible lookup decoration in the screenshot.

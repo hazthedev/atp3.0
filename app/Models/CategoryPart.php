@@ -10,6 +10,7 @@ class CategoryPart extends Model
 {
     protected $fillable = [
         'code',
+        'new_code',
         'name',
         'work_scope',
     ];
