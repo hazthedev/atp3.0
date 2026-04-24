@@ -242,8 +242,8 @@ Route::prefix('initialization')->name('initialization.')->group(function () use 
 
 Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
-        ['/user-management/user-groups', 'pages.stub', 'user-management.user-groups'],
-        ['/user-management/user-authorizations', 'pages.stub', 'user-management.user-authorizations'],
+        ['/user-management/user-groups', 'pages.admin.user-management.user-groups', 'user-management.user-groups'],
+        ['/user-management/user-authorizations', 'pages.admin.user-management.user-authorizations', 'user-management.user-authorizations'],
         ['/stock-management/item-groups', 'pages.stub', 'stock-management.item-groups'],
         ['/stock-management/category-part', 'pages.reference.category-parts', 'stock-management.category-part'],
         ['/stock-management/warehouses', 'pages.stub', 'stock-management.warehouses'],

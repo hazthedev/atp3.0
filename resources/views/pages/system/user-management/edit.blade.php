@@ -1,13 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Edit User Management')
+@section('title', 'User')
 
 @section('content')
-    @include('pages.partials.form-page',         array (
-          'title' => 'Edit User Management',
-          'description' => 'Frontend-only edit experience for updating an existing user management.',
-          'isEdit' => true,
-        ))
-
+    @livewire('system.user-form', ['userId' => (int) request()->route('id'), 'mode' => 'edit'])
 @endsection
-
