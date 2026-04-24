@@ -1,7 +1,7 @@
 @props([
     'type'    => 'text',
     'placeholder' => '',
-    'variant' => null,  {{-- null | 'lookup' | 'arrow-lookup' | 'indicator' | 'arrow-indicator' | 'tree' | 'disabled' --}}
+    'variant' => null,  {{-- null | 'lookup' | 'arrow-lookup' | 'indicator' | 'arrow-indicator' | 'tree' | 'disabled' | 'cell' --}}
     'tone'    => null,  {{-- for indicator: 'green' | 'amber' | 'red' --}}
 ])
 
@@ -16,6 +16,12 @@
     };
 
     $iconBtn = 'flex items-center justify-center text-gray-400 transition-colors hover:text-gray-700 focus:outline-none';
+
+    // Borderless input sized for a <td> in an inline-edit grid. Mirrors the
+    // raw pattern in counter-ref-manager / measure-unit-manager /
+    // mro-status-object-manager so those pages can migrate without visual
+    // regression.
+    $cellClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 disabled:opacity-100';
 @endphp
 
 @if ($variant === 'arrow-lookup')
@@ -128,6 +134,13 @@
         placeholder="{{ $placeholder }}"
         disabled
         {{ $attributes->class([$base]) }}
+    />
+
+@elseif ($variant === 'cell')
+    <input
+        type="{{ $type }}"
+        placeholder="{{ $placeholder }}"
+        {{ $attributes->class([$cellClass]) }}
     />
 
 @else
