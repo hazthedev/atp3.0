@@ -8,96 +8,60 @@
         </x-slot>
     </x-page-header>
 
-    <x-card padding="p-0">
-        <div class="flex flex-wrap items-center gap-3 border-b border-gray-200 px-5 py-3">
-            <div class="relative flex-1 min-w-[200px]">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <x-icon name="magnifying-glass" class="h-4 w-4 text-gray-400" />
-                </span>
-                <input
-                    type="text"
-                    wire:model.live.debounce.300ms="search"
-                    placeholder="Search user code, name, email, department…"
-                    class="input-field pl-9"
-                />
-            </div>
+    <p class="text-sm text-gray-500">
+        Browse {{ $users->count() }} users with client-side search, sorting, and pagination.
+    </p>
 
-            <select wire:model.live="statusFilter" class="input-field max-w-[160px]">
-                <option value="all">All status</option>
-                <option value="active">Active</option>
-                <option value="locked">Locked</option>
-                <option value="superuser">Superusers</option>
-            </select>
+    <x-data-table
+        :empty="$users->count() === 0"
+        empty-label="No users found"
+        empty-description="Create a new user to get started."
+        search-meta=""
+        datatable
+    >
+        <x-slot name="thead">
+            <tr>
+                <th class="table-th">User Code</th>
+                <th class="table-th">Name</th>
+                <th class="table-th">Email</th>
+                <th class="table-th">Branch</th>
+                <th class="table-th">Department</th>
+                <th class="table-th">Status</th>
+                <th class="table-th">Last Login</th>
+                <th class="table-th" data-sortable="false">Actions</th>
+            </tr>
+        </x-slot>
 
-            <select wire:model.live="branchFilter" class="input-field max-w-[160px]">
-                <option value="all">All branches</option>
-                @foreach ($branches as $branch)
-                    <option value="{{ $branch }}">{{ $branch }}</option>
-                @endforeach
-            </select>
-
-            <select wire:model.live="perPage" class="input-field max-w-[100px]">
-                @foreach ([10, 25, 50, 100] as $n)
-                    <option value="{{ $n }}">{{ $n }} / page</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="min-w-full text-sm">
-                <thead class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    <tr>
-                        <th class="px-4 py-3">User Code</th>
-                        <th class="px-4 py-3">Name</th>
-                        <th class="px-4 py-3">Email</th>
-                        <th class="px-4 py-3">Branch</th>
-                        <th class="px-4 py-3">Department</th>
-                        <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3">Last Login</th>
-                        <th class="px-4 py-3 text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @forelse ($users as $user)
-                        <tr class="hover:bg-blue-50/40">
-                            <td class="px-4 py-3 font-medium text-gray-900">
-                                <a href="{{ route('system.user-management.edit', ['id' => $user->id]) }}" class="text-blue-600 hover:underline">
-                                    {{ $user->user_code ?? '—' }}
-                                </a>
-                            </td>
-                            <td class="px-4 py-3 text-gray-900">{{ $user->name }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $user->email }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $user->branch }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $user->department }}</td>
-                            <td class="px-4 py-3">
-                                @if ($user->is_superuser)
-                                    <span class="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700">Superuser</span>
-                                @elseif ($user->is_locked)
-                                    <span class="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-700">Locked</span>
-                                @else
-                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Active</span>
-                                @endif
-                            </td>
-                            <td class="px-4 py-3 text-gray-600">
-                                {{ $user->last_login_at ? $user->last_login_at->format('d M Y H:i') : '—' }}
-                            </td>
-                            <td class="px-4 py-3 text-right">
-                                <a href="{{ route('system.user-management.edit', ['id' => $user->id]) }}" class="text-xs font-medium text-blue-600 hover:text-blue-800">Edit</a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="px-4 py-16 text-center text-sm text-gray-400">No users match the current filters.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if ($users->hasPages())
-            <div class="border-t border-gray-200 px-5 py-3">
-                {{ $users->links() }}
-            </div>
-        @endif
-    </x-card>
+        <x-slot name="tbody">
+            @foreach ($users as $user)
+                <tr class="table-row">
+                    <td class="table-td">
+                        <x-enterprise.table-cell variant="arrow" :href="route('system.user-management.edit', ['id' => $user->id])">
+                            {{ $user->user_code ?? '—' }}
+                        </x-enterprise.table-cell>
+                    </td>
+                    <td class="table-td">{{ $user->name }}</td>
+                    <td class="table-td">{{ $user->email }}</td>
+                    <td class="table-td">{{ $user->branch }}</td>
+                    <td class="table-td">{{ $user->department }}</td>
+                    <td class="table-td">
+                        @if ($user->is_superuser)
+                            <span class="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700">Superuser</span>
+                        @elseif ($user->is_locked)
+                            <span class="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-700">Locked</span>
+                        @else
+                            <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Active</span>
+                        @endif
+                    </td>
+                    <td class="table-td">{{ $user->last_login_at ? $user->last_login_at->format('d M Y H:i') : '—' }}</td>
+                    <td class="table-td">
+                        <div class="flex gap-2">
+                            <a href="{{ route('system.user-management.edit', ['id' => $user->id]) }}" class="btn-ghost px-3">View</a>
+                            <a href="{{ route('system.user-management.edit', ['id' => $user->id]) }}" class="btn-secondary px-3">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </x-slot>
+    </x-data-table>
 </div>
