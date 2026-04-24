@@ -117,6 +117,49 @@ No variants beyond `lookup` appeared; no indicators, no tree, no arrows.
 
 Reference implementation: `resources/views/livewire/system/user-form.blade.php`.
 
+## Catalog: User Management — User Groups form (from SAP B1)
+
+All inputs on the User Groups form are plain — no picker buttons, no tree chevrons, no coloured indicators. Every text field resolves to `null` variant; dropdowns resolve to `<x-form.select>`.
+
+| Field | Visual | Variant call |
+|---|---|---|
+| Name | plain | *(no variant)* |
+| Description | plain textarea | `<textarea class="input-field">` (no enterprise variant; textarea isn't supported by `<x-enterprise.input>`) |
+| Group Type (detail form) | dropdown | `<x-form.select>` |
+| Active From / Active To | plain date inputs | *(no variant)* via `<x-enterprise.input type="date">` |
+| Group Type filter (top of list) | dropdown | `<x-form.select>` |
+| Member search box | plain | *(no variant)* |
+| Members table cells (User Code, User Name, Department, From, To) | SAP shows inline-editable grid | rendered as read-only display text; inline editing is a later scope decision |
+
+Reference implementation: `resources/views/livewire/admin/user-groups-page.blade.php`.
+
+### Gaps vs SAP (noted, not fixed in this pass)
+- SAP's members table is an inline-editable grid (type User Code directly). Current ATP implementation uses a separate "search-and-add" picker below the table.
+- "Create Group" button currently sits in the header; SAP puts it next to the OK/Cancel bottom bar.
+
+## Catalog: User Management — Authorizations form (from SAP B1)
+
+All inputs on the Authorizations form are plain. The complexity is in the subject tree and the action bar, neither of which are input variants.
+
+| Field | Visual | Variant call |
+|---|---|---|
+| Filter (left rail) | plain | *(no variant)* |
+| Find (top of tree) | plain — **not yet implemented** | would be *(no variant)* |
+| Max. Discount — Sales / Purchase / General | plain numeric — **not yet implemented** | would be *(no variant)* |
+| Max. Cash Amount for Incoming Payments | checkbox — **not yet implemented** | not an input variant |
+
+Reference implementation: `resources/views/livewire/admin/authorizations-page.blade.php`.
+
+### Gaps vs SAP (noted, not fixed in this pass)
+- "Find" text input above the permission tree is missing.
+- Max. Discount Sales / Purchase / General numeric inputs are missing.
+- Max. Cash Amount for Incoming Payments checkbox is missing.
+- "Copy Authorizations" button (bottom-left) is missing.
+- Global "Expand" and "Collapse" buttons are missing; only per-node chevrons exist.
+- OK / Cancel bottom action bar is missing (actions currently apply live).
+
+These are feature-completeness gaps, not variant-choice gaps — the catalog still says `null` for each of those text inputs once they are added.
+
 ## Cheatsheet — visual → call snippet
 
 ```blade
