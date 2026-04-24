@@ -23,6 +23,11 @@ setup, user lifecycle, and utilities that cross-cut several domains.
 - `user_groups` + `user_group_user` pivot
 - `permissions` (self-referencing tree, 44 seeded nodes)
 - `authorizations` (polymorphic pivot keyed on subject_type `user` | `user_group`)
+- `item_groups`
+- `warehouses`
+- `item_group_warehouse_defaults` pivot (default bin location per warehouse per item group)
+- `gl_accounts` (placeholder chart of accounts; to be replaced when Finance module lands)
+- `gl_account_assignments` (polymorphic; `assignable_type` = `App\Models\ItemGroup` | `App\Models\Warehouse`, keyed by `account_type_key`)
 
 ### Livewire components owned here
 
@@ -30,6 +35,10 @@ setup, user lifecycle, and utilities that cross-cut several domains.
 - `App\Livewire\System\UserForm` (3-tab SAP Users – Setup form)
 - `App\Livewire\Admin\UserGroupsPage` (master-detail)
 - `App\Livewire\Admin\AuthorizationsPage` (tabs + permission tree + level actions)
+- `App\Livewire\Admin\Stock\ItemGroupIndexPage`
+- `App\Livewire\Admin\Stock\ItemGroupForm` (2-tab SAP Item Groups – Setup form)
+- `App\Livewire\Admin\Stock\WarehouseIndexPage`
+- `App\Livewire\Admin\Stock\WarehouseForm` (2-tab SAP Warehouses – Setup form)
 
 ### Models owned here
 
@@ -37,6 +46,10 @@ setup, user lifecycle, and utilities that cross-cut several domains.
 - `App\Models\UserGroup`
 - `App\Models\Permission`
 - `App\Models\Authorization`
+- `App\Models\ItemGroup`
+- `App\Models\Warehouse`
+- `App\Models\GlAccount`
+- `App\Models\GlAccountAssignment` (polymorphic; 21 fixed account slots in `ACCOUNT_TYPES`)
 
 ## Current state
 
@@ -73,11 +86,22 @@ setup, user lifecycle, and utilities that cross-cut several domains.
   - Action bar: Full Authorization / Read Only / No Authorization — cascades to descendants
   - Variants per catalog (PR #52): plain filter input
 
+- **Item Groups** (`/admin/stock-management/item-groups`)
+  - Index (list) + detail (2 tabs: General / Accounting)
+  - Edit Record toggle on the detail page
+  - General tab: Item Group Name (required), Default UoM Group (plain; UoM Group picker will wire up when UoM Groups ship), Lead Time (days), Default Valuation Method dropdown (FIFO / Moving Average / Standard), Default Bin Locations grid — one row per seeded warehouse with inline Default Bin Location input and Enforce checkbox
+  - Accounting tab: 21 fixed account-type rows from `GlAccountAssignment::ACCOUNT_TYPES`, Account Code dropdown resolved from `gl_accounts`, Account Name auto-filled from the selected row
+  - Seeded with 4 example groups (`ItemGroupSeeder`)
+
+- **Warehouses** (`/admin/stock-management/warehouses`)
+  - Index + detail (2 tabs: General / Accounting), Edit Record toggle
+  - General tab: Warehouse Code (required) + Warehouse Name (required) in header; Inactive / Drop-Ship (disabled, per SAP) / Nettable / Issue part for maintenance checkboxes; Location dropdown (Subang / Dili / Namibia / Kuching / Miri); full address block (Street/PO Box through Address Name 3) with Country as `variant="lookup"`; Enable Bin Locations checkbox; "Show Location in Web Browser" link (stub)
+  - Accounting tab: same 21-row grid as Item Groups via the shared `GlAccountAssignment` polymorphic table
+  - Seeded with 6 example warehouses matching the screenshot's bin-location grid (`WarehouseSeeder`)
+
 ### Stubbed (route exists, view is `pages.stub`)
 
-Everything else under Administration:
-
-- Stock Management → Item Groups, Category Part, Warehouses
+- Stock Management → Category Part (points at existing `pages.reference.category-parts` simple list — spec pending from Fadzly)
 - Fleet Management → Technical Publication Type, Status Management & Workflow, Task Type, Penalties (Counters points at the existing `/system/counter` reference page)
 - Flight Operations → Departure / Arrival Locations
 - MRO Management → Work Order Type, Defect Type, Status Management & Workflow
@@ -95,6 +119,11 @@ Screenshots received so far (from earlier chat turns — not committed to the re
 - **User Groups** (master-detail with Group Type filter) — fully mapped.
 - **Authorizations** (Users/Groups tabs + subject tree + level actions) — mapped; several features flagged as missing (see Gaps below).
 
+### Shipped in the current sprint (PR open)
+
+- Item Groups + Warehouses pages (see above).
+- `GlAccount` / `GlAccountAssignment` polymorphic mini–chart-of-accounts, seeded with 25 placeholder rows; intended to be swapped out when a real Finance module lands.
+
 ## Design decisions
 
 - **Groups field is single-picker** (SAP-literal) on the User form; multi-group memberships must be added via the User Groups page members table. Chose this over the earlier multi-select chip UI (user picked "A" initially, then reversed when the "layout exactly like images" rule was applied).
@@ -103,6 +132,12 @@ Screenshots received so far (from earlier chat turns — not committed to the re
 - **Password storage** — simple Hash::make on `password_input`; SAP's `...` picker button is a stub (opens nothing yet). Future work: a set-password modal.
 - **Authorization default** — when no row exists for a (subject, permission) pair, the UI shows "No Authorization". No inherit-from-group computation yet.
 - **Employee field** — free string with `variant="lookup"`; will become a real Employee picker when the Human Resources module ships.
+- **Shared Accounting tab** — both Item Groups and Warehouses use the same polymorphic `gl_account_assignments` table plus the fixed `GlAccountAssignment::ACCOUNT_TYPES` catalog of 21 account slots. Keeps the two forms in sync and avoids duplicating the row list.
+- **GL accounts are placeholder** — `gl_accounts` is seeded with 25 rows covering the account types referenced on the Accounting tabs. When a real Finance/GL module ships, the Account Code dropdown should swap to its canonical source; assignments carry only an FK, so the migration is cheap.
+- **UoM Group on Item Groups** — rendered as a plain text input (no visible decoration in the SAP screenshot). When a real UoM Groups table ships, switch to `variant="lookup"` with a picker modal.
+- **Location on Warehouses** — dropdown with a 5-entry hard-coded enum (Subang / Dili / Namibia / Kuching / Miri), derived from the Weststar warehouse seed set. Promote to a real `locations` table if the operations team needs CRUD over it.
+- **Drop-Ship checkbox** — rendered disabled per the SAP screenshot (the toggle is SAP-B1 accounting-package gated). Bound to `drop_ship` but not editable through this UI.
+- **Category Part** — route already points at the existing `pages.reference.category-parts` read-only list. Waiting on Fadzly for the full spec before promoting it to a setup form.
 
 ## Cross-L1 touchpoints
 
@@ -140,4 +175,5 @@ From the variant catalog pass on User Groups and Authorizations:
 
 ## Last updated
 
+- 2026-04-24 — branch `claude/admin-module-setup-6F0Zk` — Stock Management → Item Groups and Warehouses setup pages shipped (index + 2-tab detail with Edit Record toggle), `GlAccount` + polymorphic `GlAccountAssignment` tables added, seeders + placeholder chart of accounts. Category Part still read-only pending Fadzly's spec.
 - 2026-04-25 — session f3681b7 / PR #52 — variant catalog passed over all three User Management pages; module file created.

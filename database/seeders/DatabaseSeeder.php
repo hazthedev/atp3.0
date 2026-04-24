@@ -55,6 +55,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             UserGroupSeeder::class, // needs users for memberships
             PermissionSeeder::class, // needs user_groups for example read-only authorizations
+
+            // Phase 4 — Stock Management reference data
+            GlAccountSeeder::class,
+            WarehouseSeeder::class,
+            ItemGroupSeeder::class,
         ]);
     }
 }
