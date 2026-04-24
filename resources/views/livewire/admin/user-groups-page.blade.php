@@ -13,12 +13,12 @@
         <x-card padding="p-0">
             <div class="space-y-3 border-b border-gray-200 p-4">
                 <label class="text-xs font-semibold uppercase tracking-wider text-gray-500">Group Type</label>
-                <select wire:model.live="filterType" class="input-field">
+                <x-enterprise.select wire:model.live="filterType">
                     @foreach ($groupTypes as $type)
                         <option value="{{ $type }}">{{ $type }}</option>
                     @endforeach
                     <option value="__cross__">Cross All Types</option>
-                </select>
+                </x-enterprise.select>
             </div>
 
             <div class="max-h-[70vh] overflow-y-auto">
@@ -77,7 +77,7 @@
                         />
                         <div class="space-y-1.5 md:col-span-2">
                             <x-form.label for="ug_description">Description</x-form.label>
-                            <textarea id="ug_description" wire:model="description" rows="2" class="input-field"></textarea>
+                            <x-enterprise.textarea id="ug_description" wire:model="description" rows="2" />
                         </div>
                         <div class="space-y-1.5">
                             <x-form.label for="ug_active_from">Active From</x-form.label>

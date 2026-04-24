@@ -94,7 +94,7 @@
                                                 <x-enterprise.input wire:model="binDefaults.{{ $warehouseId }}.default_bin_location" />
                                             </td>
                                             <td class="table-td">
-                                                <input type="checkbox" wire:model="binDefaults.{{ $warehouseId }}.enforce" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                                                <x-enterprise.checkbox wire:model="binDefaults.{{ $warehouseId }}.enforce" />
                                             </td>
                                         </tr>
                                     @empty
@@ -128,12 +128,12 @@
                                         <td class="table-td text-gray-500">{{ $rowIndex }}</td>
                                         <td class="table-td font-medium text-[#2f5bff]">{{ $label }}</td>
                                         <td class="table-td">
-                                            <select wire:model.live="accountAssignments.{{ $key }}" class="input-field">
+                                            <x-enterprise.select variant="cell" wire:model.live="accountAssignments.{{ $key }}">
                                                 <option value="">—</option>
                                                 @foreach ($accounts as $account)
                                                     <option value="{{ $account->id }}">{{ $account->code }}</option>
                                                 @endforeach
-                                            </select>
+                                            </x-enterprise.select>
                                         </td>
                                         <td class="table-td text-gray-700">{{ $selectedAccount?->name ?? '—' }}</td>
                                     </tr>
