@@ -28,11 +28,11 @@
                         @foreach ($equipmentFields as $field)
                             <div class="grid items-center gap-3 sm:grid-cols-[136px_minmax(0,1fr)]">
                                 <label class="mb-1 block text-xs font-semibold uppercase tracking-wider text-gray-500 sm:mb-0">{{ $field['label'] }}</label>
-                                <input
-                                    type="text"
-                                    value="{{ $equipment[$field['key']] ?? '' }}"
+                                <x-enterprise.input
+                                    variant="disabled"
+                                    :value="$equipment[$field['key']] ?? ''"
                                     readonly
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900"
+                                    class="bg-gray-50"
                                 />
                             </div>
                         @endforeach
@@ -48,12 +48,12 @@
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
                             <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">Date</label>
-                            <input type="text" wire:model="reportDate" class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+                            <x-enterprise.input wire:model="reportDate" />
                         </div>
 
                         <div>
                             <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-500">Time</label>
-                            <input type="text" wire:model="reportTime" class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+                            <x-enterprise.input wire:model="reportTime" />
                         </div>
                     </div>
 
