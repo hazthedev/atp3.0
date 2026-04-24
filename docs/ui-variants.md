@@ -160,6 +160,50 @@ Reference implementation: `resources/views/livewire/admin/authorizations-page.bl
 
 These are feature-completeness gaps, not variant-choice gaps — the catalog still says `null` for each of those text inputs once they are added.
 
+## Catalog: Stock Management — Item Groups – Setup (from SAP B1)
+
+Two-tab setup form. Only two fields would conceptually be lookups in a mature build (UoM Group, Account Code); neither shows an icon in the screenshot so they resolve to plain.
+
+| Field | Tab | Visual | Variant call |
+|---|---|---|---|
+| Item Group Name | header | plain (yellow = required marker, not a variant) | *(no variant)*, label marked `:required="true"` |
+| Default UoM Group | General | plain | *(no variant)* — will become `variant="lookup"` when UoM Groups ship |
+| Lead Time (Days) | General | plain number | *(no variant)* |
+| Default Valuation Method | General | dropdown | `<x-form.select>` |
+| Default Bin Location (grid cell) | General | plain inline input | *(no variant)* |
+| Enforce Default Bin Loc. (grid cell) | General | checkbox | not an input variant |
+| Account Code (grid cell) | Accounting | SAP shows inline code with picker | rendered as `<select class="input-field">` dropdown (resolves to Account Name beside it) |
+
+Reference implementation: `resources/views/livewire/admin/stock/item-group-form.blade.php`.
+
+### Gaps vs SAP (noted, not fixed in this pass)
+- Default UoM Group is plain text; SAP has a lookup button. Catalog decision tree says no variant when no icon is visible in the screenshot; revisit once a UoM Groups table exists.
+- Accounting's Account Code is a plain HTML select (`<select class="input-field">`). SAP shows a code-lookup-plus-search-button combo; swap to `variant="lookup"` with a picker modal when the real Chart of Accounts lands.
+- The "#" / row-numbers and the small arrow-dropdown top-right of each grid are decorative-only in our implementation.
+
+## Catalog: Stock Management — Warehouses – Setup (from SAP B1)
+
+Two-tab form. Most address-block fields are plain. Country is the only field with a visible lookup decoration in the screenshot.
+
+| Field | Tab | Visual | Variant call |
+|---|---|---|---|
+| Warehouse Code | header | plain (yellow = required marker) | *(no variant)*, label marked `:required="true"` |
+| Warehouse Name | header | plain | *(no variant)*, label marked `:required="true"` |
+| Inactive / Nettable / Issue part for maintenance / Enable Bin Locations | General | checkboxes | not input variants |
+| Drop-Ship | General | greyed checkbox (disabled) | `disabled` + `data-edit-locked="true"` |
+| Location | General | dropdown | `<x-form.select>` |
+| Street/PO Box, Street No., Block, Building/Floor/Room, Zip Code, City, County, State, Federal Tax ID, GLN, Tax Office, Address Name 2, Address Name 3 | General | plain | *(no variant)* |
+| Country | General | right lookup | `variant="lookup"` |
+| Show Location in Web Browser | General | blue text link | plain `<a>` (not an input) |
+| Account Code (grid cell) | Accounting | same as Item Groups | `<select class="input-field">` |
+
+Reference implementation: `resources/views/livewire/admin/stock/warehouse-form.blade.php`.
+
+### Gaps vs SAP (noted, not fixed in this pass)
+- "Show Location in Web Browser" is a stubbed link; no geocoding integration.
+- Country lookup opens a stub — no country picker modal wired.
+- Drop-Ship is permanently disabled (mirroring SAP's accounting-package gating). If the gating needs to be dynamic later, wire it to a settings flag.
+
 ## Cheatsheet — visual → call snippet
 
 ```blade
