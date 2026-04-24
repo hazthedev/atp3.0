@@ -50,6 +50,11 @@ class DatabaseSeeder extends Seeder
             // Phase 2 — SAP MRO transactional tables
             WorkOrderSeeder::class, // seed first so TechnicalLog FK resolves
             TechnicalLogSeeder::class,
+
+            // Phase 3 — User Management
+            UserSeeder::class,
+            UserGroupSeeder::class, // needs users for memberships
+            PermissionSeeder::class, // needs user_groups for example read-only authorizations
         ]);
     }
 }
