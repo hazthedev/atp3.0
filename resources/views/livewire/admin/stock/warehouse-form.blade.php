@@ -59,10 +59,7 @@
                     <div class="grid gap-5 md:grid-cols-2">
                         {{-- Left column: flags + location --}}
                         <div class="space-y-4">
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="inactive" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Inactive
-                            </label>
+                            <x-enterprise.checkbox inline wire:model="inactive" label="Inactive" />
                             <x-form.select
                                 id="location"
                                 name="location"
@@ -79,14 +76,8 @@
                                 <input type="checkbox" wire:model="drop_ship" disabled data-edit-locked="true" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                                 Drop-Ship
                             </label>
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="nettable" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Nettable
-                            </label>
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="issue_part_for_maintenance" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Issue part for maintenance
-                            </label>
+                            <x-enterprise.checkbox inline wire:model="nettable" label="Nettable" />
+                            <x-enterprise.checkbox inline wire:model="issue_part_for_maintenance" label="Issue part for maintenance" />
                         </div>
                     </div>
 
@@ -141,10 +132,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="enable_bin_locations" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Enable Bin Locations
-                            </label>
+                            <x-enterprise.checkbox inline wire:model="enable_bin_locations" label="Enable Bin Locations" />
                             <div class="pt-2">
                                 <a href="#" data-edit-locked="true" class="text-sm font-medium text-blue-600 hover:underline">Show Location in Web Browser</a>
                             </div>
