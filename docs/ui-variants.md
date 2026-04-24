@@ -74,6 +74,31 @@ something specific, override via named slots on `<x-enterprise.input>`:
 
 If the slot is omitted, a default non-functional button renders.
 
+## Variant scope & usage
+
+Not every variant is common vocabulary — some map to cues that only appear on
+specific SAP screens. Keep this table current as new screens land; it tells you
+at a glance whether a variant is broadly applicable or a single-screen
+affordance.
+
+| variant | Scope | Currently used in |
+|---|---|---|
+| *(none)* | ubiquitous | every form |
+| `disabled` | ubiquitous | Warehouse "Drop-Ship" and any forced-greyed field |
+| `lookup` | ubiquitous | User form (Employee, Groups, Password), Warehouse (Country), FL (Country in address block) |
+| `indicator` (with `tone`) | **FL-specific** — SAP shows a coloured circle only on Fleet's identity fields | `functional-location-show-form.blade.php` (Code, MEL) |
+| `tree` | **FL-specific** — SAP shows the hierarchy-toggle chevron only on FL's Serial No. | `functional-location-show-form.blade.php` (Serial No.) |
+| `arrow-lookup` | **FL-specific** — left-jump arrow + right lookup combo is the Fleet card's navigation affordance | `functional-location-show-form.blade.php` (Owner Code, Type, Operator Code) |
+| `arrow-indicator` (with `tone`) | **FL-specific** — left-jump arrow + status dot only appears on FL "Maintenance Plan" | `functional-location-show-form.blade.php` (Maintenance Plan) |
+
+The four FL-specific variants are intentional design vocabulary backed by the
+Weststar FL screenshot. Do not consolidate them into a generic `lookup` +
+`chevron`/`tone` API — the decision tree teaches readers to recognise each
+visual cue as a distinct variant, and flattening them would erase that
+mapping. If a future screenshot batch surfaces the same cue outside Fleet,
+move the row out of "FL-specific" and note the new home — don't redesign the
+prop surface.
+
 ## Catalog: Weststar SAP examples already mapped
 
 From the FL Customer Functional Location top card (seeded reference implementation):
