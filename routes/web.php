@@ -247,7 +247,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes):
         ['/stock-management/item-groups', 'pages.admin.stock-management.item-groups.index', 'stock-management.item-groups'],
         ['/stock-management/item-groups/create', 'pages.admin.stock-management.item-groups.create', 'stock-management.item-groups.create'],
         ['/stock-management/item-groups/{id}/edit', 'pages.admin.stock-management.item-groups.edit', 'stock-management.item-groups.edit'],
-        ['/stock-management/category-part', 'pages.reference.category-parts', 'stock-management.category-part'],
+        ['/stock-management/category-part', 'pages.admin.stock-management.category-parts', 'stock-management.category-part'],
         ['/stock-management/warehouses', 'pages.admin.stock-management.warehouses.index', 'stock-management.warehouses'],
         ['/stock-management/warehouses/create', 'pages.admin.stock-management.warehouses.create', 'stock-management.warehouses.create'],
         ['/stock-management/warehouses/{id}/edit', 'pages.admin.stock-management.warehouses.edit', 'stock-management.warehouses.edit'],
