@@ -316,15 +316,58 @@ Use them when the label is already rendered above the field (e.g. in a
 <x-enterprise.textarea id="ug_description" wire:model="description" rows="2" />
 ```
 
-## Checkbox — `labelClass` prop and unlabeled mode
+## Radio — `<x-enterprise.radio>`
+
+Parallel of the bare `<x-enterprise.checkbox>`. Use for single-select radio groups — the caller wires the group together by sharing a `wire:model` / `x-model` across the group's radios and giving each its own `value`.
+
+| Prop | Default | Notes |
+|---|---|---|
+| `value` | (required) | The radio's `value` attribute — what the bound model becomes when this option is selected. |
+| `label` | `null` | Text rendered in the `<span>` next to the radio. When `null` or `''`, the component emits a bare `<input type="radio">` — no wrapping `<label>` or `<span>`. Use the bare mode for call sites that already own the outer `<label>` (e.g. the item-master-data status group inside an `attach-checkbox-inline` wrapper). |
+| `labelClass` | `'inline-flex items-center gap-3 text-sm text-gray-700'` | Override the outer `<label>` class. Fleet / maintenance pages use `labelClass="mel-radio-option"` to pick up the shared `mel-radio-option` styling already defined in `resources/css/app.css` (inline-flex, gap-2, gray-700). |
+
+The default inner-input class is `h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500`. `$attributes` pass through to the `<input>`, so `wire:model`, `wire:model.live`, `x-model`, `disabled`, etc. all work exactly as on a raw `<input type="radio">`.
+
+```blade
+{{-- Simple labelled radio group (default label styling) --}}
+<x-enterprise.radio value="all" label="View all hierarchy of equipments" wire:model="viewMode" />
+<x-enterprise.radio value="sons" label="View only son equipments" wire:model="viewMode" />
+
+{{-- Use the shared mel-radio-option style (Fleet / Maintenance pages) --}}
+<x-enterprise.radio value="equipment" label="Equipment" labelClass="mel-radio-option" wire:model.live="scope" />
+<x-enterprise.radio value="functional-location" label="Functional location" labelClass="mel-radio-option" wire:model.live="scope" />
+
+{{-- Bare mode: caller owns the outer <label> (e.g. attach-checkbox-inline) --}}
+<label class="attach-checkbox-inline">
+    <x-enterprise.radio value="active" x-model="item.status" />
+    <span>Active</span>
+</label>
+```
+
+## Checkbox — `labelClass` / `inputClass` props and unlabeled mode
 
 `<x-enterprise.checkbox>` accepts:
 
 | Prop | Default | Notes |
 |---|---|---|
-| `label` | `null` | Text rendered in the `<span>` next to the checkbox. When `null` or `''`, the component emits a bare `<input type="checkbox">` — no wrapping `<label>` or `<span>`. Use this for table-cell checkboxes where the `<th>` is the label. |
+| `label` | `null` | Text rendered in the `<span>` next to the checkbox. When `null` or `''`, the component emits a bare `<input type="checkbox">` — no wrapping `<label>` or `<span>`. Use this for table-cell checkboxes where the `<th>` is the label, or for call sites that already own the outer `<label>` (see below). |
 | `inline` | `false` | `gap-2` (inline) vs `gap-3` (stacked). |
 | `labelClass` | `'flex items-center text-sm text-gray-600'` | Override to change tone or weight. Example: `labelClass="flex items-center text-sm font-medium text-gray-700"` for page-header flags; `labelClass="flex items-center text-sm text-gray-400"` for permanently-disabled checkboxes. The `gap-*` token is still appended automatically from `inline`. |
+| `inputClass` | `'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500'` | Override the class on the inner `<input>`. Use when the caller needs a non-default size (e.g. `h-3.5 w-3.5` for a dense grid-cell checkbox in the FL counters modal). Passing `class=""` through `$attributes` does NOT reliably override Tailwind size utilities — the generated CSS source order wins, not the HTML class order — so a dedicated prop is the supported hook. |
+
+### Caller-owned label wrapper (Option A)
+
+The item-master-data mock preview already has five `<label class="attach-checkbox-inline">` wrappers that stack checkboxes with their text. For those sites we use the bare mode of `<x-enterprise.checkbox>` (no `label` prop) nested inside the caller's existing `<label>`. The outer `<label>` implicitly labels the wrapped `<input>`, and the `.attach-checkbox-inline input` rule in `resources/css/app.css` already styles the nested input identically to the component default — so the migration is a 1:1 drop-in with no visual change.
+
+```blade
+{{-- item-master-data: caller owns the wrapper; checkbox is bare --}}
+<label class="attach-checkbox-inline">
+    <x-enterprise.checkbox x-model="item.inventory_item" />
+    <span>Inventory Item</span>
+</label>
+```
+
+Prefer this pattern over adding a `wrapperClass` prop when the caller already has a meaningful `<label>` (e.g. a page-level utility class like `attach-checkbox-inline`). It keeps the component minimal and avoids duplicating layout conventions that already live in CSS.
 
 ```blade
 {{-- Default --}}

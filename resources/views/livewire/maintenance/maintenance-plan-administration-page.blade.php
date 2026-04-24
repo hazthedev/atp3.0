@@ -36,14 +36,18 @@
             <div class="space-y-5">
                 {{-- Scope radio --}}
                 <div class="flex flex-wrap items-center gap-6">
-                    <label class="mel-radio-option">
-                        <input type="radio" value="equipment" wire:model.live="scope" />
-                        <span>Equipment</span>
-                    </label>
-                    <label class="mel-radio-option">
-                        <input type="radio" value="functional-location" wire:model.live="scope" />
-                        <span>Functional location</span>
-                    </label>
+                    <x-enterprise.radio
+                        value="equipment"
+                        label="Equipment"
+                        labelClass="mel-radio-option"
+                        wire:model.live="scope"
+                    />
+                    <x-enterprise.radio
+                        value="functional-location"
+                        label="Functional location"
+                        labelClass="mel-radio-option"
+                        wire:model.live="scope"
+                    />
                 </div>
 
                 {{-- Top: Object panel + Action panel --}}

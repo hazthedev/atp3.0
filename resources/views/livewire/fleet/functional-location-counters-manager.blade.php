@@ -61,18 +61,17 @@
                             <tbody>
                                 @foreach ($rows as $index => $row)
                                     @php
-                                        $inputClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500';
                                         $isUsed = $row['is_used'] ?? false;
                                     @endphp
                                     <tr wire:key="fl-counter-row-{{ $index }}" @class(['text-gray-400' => ! $isUsed])>
                                         <td class="border border-gray-200 px-2 py-1 font-medium">{{ $row['counter_name'] }}</td>
                                         <td class="border border-gray-200 px-1 py-1 text-center align-middle">
-                                            <input type="checkbox" wire:model="rows.{{ $index }}.propagate" class="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                                            <x-enterprise.checkbox wire:model="rows.{{ $index }}.propagate" inputClass="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                                         </td>
-                                        <td class="border border-gray-200 p-0"><input type="date" wire:model="rows.{{ $index }}.reading_date" class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.reading_hour" class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0 text-right"><input type="text" wire:model="rows.{{ $index }}.value_dec" class="{{ $inputClass }} text-right" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.value_hhmm" class="{{ $inputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="date" variant="cell" wire:model="rows.{{ $index }}.reading_date" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="rows.{{ $index }}.reading_hour" /></td>
+                                        <td class="border border-gray-200 p-0 text-right"><x-enterprise.input type="text" variant="cell" wire:model="rows.{{ $index }}.value_dec" class="text-right" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="rows.{{ $index }}.value_hhmm" /></td>
                                         <td class="border border-gray-200 px-1 py-1 text-center align-middle">
                                             @if ($isUsed)
                                                 <span class="inline-block h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
@@ -80,8 +79,8 @@
                                                 <span class="inline-block h-2.5 w-2.5 rounded-full bg-gray-300"></span>
                                             @endif
                                         </td>
-                                        <td class="border border-gray-200 p-0 text-right"><input type="text" wire:model="rows.{{ $index }}.max_dec" class="{{ $inputClass }} text-right" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.max_hhmm" class="{{ $inputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0 text-right"><x-enterprise.input type="text" variant="cell" wire:model="rows.{{ $index }}.max_dec" class="text-right" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="rows.{{ $index }}.max_hhmm" /></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -102,10 +101,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $inputClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500'; @endphp
                                     <tr>
                                         <td class="border border-gray-200 px-2 py-1 font-medium">{{ $calendar['label'] }}</td>
-                                        <td class="border border-gray-200 p-0"><input type="date" wire:model="calendar.value_date" class="{{ $inputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="date" variant="cell" wire:model="calendar.value_date" /></td>
                                         <td class="border border-gray-200 px-1 py-1 text-center align-middle">
                                             @if (! ($calendar['is_used'] ?? false))
                                                 <span class="font-bold text-red-500">X</span>
@@ -113,12 +111,12 @@
                                                 <span class="inline-block h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
                                             @endif
                                         </td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="calendar.limit" class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="calendar.remaining" class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="calendar.residual" class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="calendar.info_source" class="{{ $inputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="calendar.limit" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="calendar.remaining" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="calendar.residual" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="text" variant="cell" wire:model="calendar.info_source" /></td>
                                         <td class="border border-gray-200 px-1 py-1 text-center align-middle">
-                                            <input type="checkbox" wire:model="calendar.reset_to_null" class="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                                            <x-enterprise.checkbox wire:model="calendar.reset_to_null" inputClass="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -131,7 +129,7 @@
                                 &nbsp;Counters marked with this cross are available but not used, enter a value to use them
                             </div>
                             <label class="flex items-center gap-2 text-gray-700">
-                                <input type="checkbox" wire:model="deactivatePropagation" class="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                                <x-enterprise.checkbox wire:model="deactivatePropagation" inputClass="h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                                 <span>Deactivate propagation</span>
                             </label>
                         </div>
