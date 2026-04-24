@@ -164,22 +164,10 @@
                         </div>
 
                         <div class="md:col-span-2 grid gap-3 md:grid-cols-2">
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="password_never_expires" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Password Never Expires
-                            </label>
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="change_password_next_logon" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Change Password at Next Logon
-                            </label>
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="is_locked" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Locked
-                            </label>
-                            <label class="flex items-center gap-2 text-sm text-gray-700">
-                                <input type="checkbox" wire:model="enable_integration_packages" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                Enable Setting Integration Packages
-                            </label>
+                            <x-enterprise.checkbox inline wire:model="password_never_expires" label="Password Never Expires" />
+                            <x-enterprise.checkbox inline wire:model="change_password_next_logon" label="Change Password at Next Logon" />
+                            <x-enterprise.checkbox inline wire:model="is_locked" label="Locked" />
+                            <x-enterprise.checkbox inline wire:model="enable_integration_packages" label="Enable Setting Integration Packages" />
                         </div>
                     </div>
                 @elseif ($tab === 'services')
@@ -198,10 +186,7 @@
                                     'open_postdated_checks' => 'Open Postdated Checks Window',
                                     'display_worklist' => 'Display Worklist When New Task Arrives',
                                 ] as $key => $label)
-                                    <label class="flex items-center gap-2 text-sm text-gray-700">
-                                        <input type="checkbox" wire:model="services.{{ $key }}" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                        {{ $label }}
-                                    </label>
+                                    <x-enterprise.checkbox inline wire:model="services.{{ $key }}" :label="$label" />
                                 @endforeach
                             </div>
                         </div>
@@ -228,18 +213,9 @@
                         <div class="border-t border-gray-200 pt-5">
                             <h4 class="text-sm font-semibold text-gray-900">Alternative Keyboard Usage</h4>
                             <div class="mt-3 space-y-2">
-                                <label class="flex items-center gap-2 text-sm text-gray-700">
-                                    <input type="checkbox" wire:model="services.kbd_numeric_enter_as_tab" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                    Use Numeric Keypad Enter Key as Tab Key
-                                </label>
-                                <label class="flex items-center gap-2 text-sm text-gray-700">
-                                    <input type="checkbox" wire:model="services.kbd_numeric_period_as_separator" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                    Use Numeric Keypad Period Key as Separator on Display Tab
-                                </label>
-                                <label class="flex items-center gap-2 text-sm text-gray-700">
-                                    <input type="checkbox" wire:model="services.kbd_enable_document_ops_mouse_only" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                    Enable Document Operations by Mouse Only (Such as Add, Update, OK)
-                                </label>
+                                <x-enterprise.checkbox inline wire:model="services.kbd_numeric_enter_as_tab" label="Use Numeric Keypad Enter Key as Tab Key" />
+                                <x-enterprise.checkbox inline wire:model="services.kbd_numeric_period_as_separator" label="Use Numeric Keypad Period Key as Separator on Display Tab" />
+                                <x-enterprise.checkbox inline wire:model="services.kbd_enable_document_ops_mouse_only" label="Enable Document Operations by Mouse Only (Such as Add, Update, OK)" />
                             </div>
                         </div>
                     </div>
