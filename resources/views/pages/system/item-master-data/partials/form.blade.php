@@ -259,53 +259,53 @@
                 <div class="space-y-3">
                     <x-enterprise.field-row label="Item No." for="item_master_no" class="grid-cols-[156px_minmax(0,1fr)]">
                         <div class="grid gap-2 md:grid-cols-[minmax(0,180px)_40px_minmax(0,1fr)]">
-                            <input id="item_master_no" type="text" x-model="item.item_no" class="input-field attach-input input-field-filled" />
+                            <x-enterprise.input id="item_master_no" x-model="item.item_no" class="attach-input input-field-filled" />
                             <button type="button" class="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-[#9fb2ff] hover:text-[#2f5bff]">
                                 <x-icon name="chevron-down" class="h-4 w-4" />
                             </button>
-                            <input type="text" x-model="item.item_code_suffix" class="input-field attach-input" />
+                            <x-enterprise.input x-model="item.item_code_suffix" class="attach-input" />
                         </div>
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Description" for="item_master_description" class="grid-cols-[156px_minmax(0,1fr)]">
-                        <input id="item_master_description" type="text" x-model="item.description" class="input-field attach-input" />
+                        <x-enterprise.input id="item_master_description" x-model="item.description" class="attach-input" />
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Foreign Name" for="item_master_foreign_name" class="grid-cols-[156px_minmax(0,1fr)]">
-                        <input id="item_master_foreign_name" type="text" x-model="item.foreign_name" class="input-field attach-input" />
+                        <x-enterprise.input id="item_master_foreign_name" x-model="item.foreign_name" class="attach-input" />
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Item Type" for="item_master_type" class="grid-cols-[156px_minmax(0,1fr)]">
-                        <input id="item_master_type" type="text" x-model="item.item_type" class="input-field attach-input input-field-filled" />
+                        <x-enterprise.input id="item_master_type" x-model="item.item_type" class="attach-input input-field-filled" />
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Item Group" for="item_master_group" class="grid-cols-[156px_minmax(0,1fr)]">
                         <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,180px)]">
-                            <select id="item_master_group" x-model="item.item_group" class="input-field attach-input">
+                            <x-enterprise.select id="item_master_group" x-model="item.item_group" class="attach-input">
                                 <option>Rotor Components</option>
                                 <option>Electrical</option>
                                 <option>Tooling</option>
                                 <option>Consumables</option>
-                            </select>
-                            <input type="text" x-model="item.category_part" class="input-field attach-input" placeholder="Category part" />
+                            </x-enterprise.select>
+                            <x-enterprise.input x-model="item.category_part" class="attach-input" placeholder="Category part" />
                         </div>
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="UoM Group" for="item_master_uom_group" class="grid-cols-[156px_minmax(0,1fr)]">
                         <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,180px)]">
-                            <select id="item_master_uom_group" x-model="item.uom_group" class="input-field attach-input">
+                            <x-enterprise.select id="item_master_uom_group" x-model="item.uom_group" class="attach-input">
                                 <option>EA</option>
                                 <option>SET</option>
                                 <option>BOX</option>
-                            </select>
-                            <input type="text" x-model="item.bar_code" class="input-field attach-input" placeholder="Bar Code" />
+                            </x-enterprise.select>
+                            <x-enterprise.input x-model="item.bar_code" class="attach-input" placeholder="Bar Code" />
                         </div>
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Price List" for="item_master_price_list" class="grid-cols-[156px_minmax(0,1fr)]">
                         <div class="grid gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,220px)]">
-                            <select id="item_master_price_list" x-model="item.price_list" class="input-field attach-input">
+                            <x-enterprise.select id="item_master_price_list" x-model="item.price_list" class="attach-input">
                                 <option>Price List 01</option>
                                 <option>Price List 02</option>
                                 <option>Price List 03</option>
-                            </select>
+                            </x-enterprise.select>
                             <div class="grid gap-2 grid-cols-[minmax(0,1fr)_96px]">
-                                <input type="text" x-model="item.unit_price" class="input-field attach-input" placeholder="Unit Price" />
-                                <input type="text" x-model="item.unit_currency" class="input-field attach-input input-field-filled" />
+                                <x-enterprise.input x-model="item.unit_price" class="attach-input" placeholder="Unit Price" />
+                                <x-enterprise.input x-model="item.unit_currency" class="attach-input input-field-filled" />
                             </div>
                         </div>
                     </x-enterprise.field-row>
@@ -357,35 +357,35 @@
                             <span>Do Not Apply Discount Groups</span>
                         </label>
                         <x-enterprise.field-row label="Manufacturer" for="item_general_manufacturer" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <select id="item_general_manufacturer" x-model="item.manufacturer" class="input-field attach-input">
+                            <x-enterprise.select id="item_general_manufacturer" x-model="item.manufacturer" class="attach-input">
                                 <option value="">Select manufacturer</option>
                                 <option>Leonardo</option>
                                 <option>Airbus Helicopters</option>
                                 <option>Safran</option>
-                            </select>
+                            </x-enterprise.select>
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Additional Identifier" for="item_general_identifier" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <input id="item_general_identifier" type="text" x-model="item.additional_identifier" class="input-field attach-input" />
+                            <x-enterprise.input id="item_general_identifier" x-model="item.additional_identifier" class="attach-input" />
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Shipping Type" for="item_general_shipping" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <select id="item_general_shipping" x-model="item.shipping_type" class="input-field attach-input">
+                            <x-enterprise.select id="item_general_shipping" x-model="item.shipping_type" class="attach-input">
                                 <option>Air Freight</option>
                                 <option>Sea Freight</option>
                                 <option>Ground Delivery</option>
-                            </select>
+                            </x-enterprise.select>
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Manage Item by" for="item_general_manage_by" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <select id="item_general_manage_by" x-model="item.manage_item_by" class="input-field attach-input">
+                            <x-enterprise.select id="item_general_manage_by" x-model="item.manage_item_by" class="attach-input">
                                 <option>None</option>
                                 <option>Serial Number</option>
                                 <option>Batch Number</option>
-                            </select>
+                            </x-enterprise.select>
                         </x-enterprise.field-row>
                     </div>
 
                     <div class="space-y-3">
                         <x-enterprise.field-row label="Item Code Aerospace Defense" for="item_general_code_ad" class="grid-cols-[220px_minmax(0,1fr)]">
-                            <input id="item_general_code_ad" type="text" x-model="item.item_code_aerospace_defense" class="input-field attach-input" />
+                            <x-enterprise.input id="item_general_code_ad" x-model="item.item_code_aerospace_defense" class="attach-input" />
                         </x-enterprise.field-row>
                     </div>
                 </div>
@@ -408,7 +408,7 @@
                     </div>
 
                     <x-enterprise.field-row label="Linked to Resource" for="item_general_linked_resource" class="grid-cols-[176px_minmax(0,1fr)]">
-                        <input id="item_general_linked_resource" type="text" x-model="item.linked_to_resource" class="input-field attach-input" />
+                        <x-enterprise.input id="item_general_linked_resource" x-model="item.linked_to_resource" class="attach-input" />
                     </x-enterprise.field-row>
                 </div>
             </x-enterprise.panel>
@@ -419,64 +419,64 @@
                     <div class="space-y-3">
                         <x-enterprise.field-row label="Preferred Vendor" for="item_purchasing_vendor" class="grid-cols-[176px_minmax(0,1fr)]">
                             <div class="grid gap-2 grid-cols-[minmax(0,1fr)_40px]">
-                                <input id="item_purchasing_vendor" type="text" x-model="item.preferred_vendor" class="input-field attach-input" />
+                                <x-enterprise.input id="item_purchasing_vendor" x-model="item.preferred_vendor" class="attach-input" />
                                 <button type="button" class="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-[#9fb2ff] hover:text-[#2f5bff]">...</button>
                             </div>
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Mfr Catalog No." for="item_purchasing_catalog" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <input id="item_purchasing_catalog" type="text" x-model="item.mfr_catalog_no" class="input-field attach-input" />
+                            <x-enterprise.input id="item_purchasing_catalog" x-model="item.mfr_catalog_no" class="attach-input" />
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Purchasing UoM Name" for="item_purchasing_uom" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <input id="item_purchasing_uom" type="text" x-model="item.purchasing_uom_name" class="input-field attach-input" />
+                            <x-enterprise.input id="item_purchasing_uom" x-model="item.purchasing_uom_name" class="attach-input" />
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Items per Purchase Unit" for="item_purchasing_per_unit" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <input id="item_purchasing_per_unit" type="text" x-model="item.items_per_purchase_unit" class="input-field attach-input" />
+                            <x-enterprise.input id="item_purchasing_per_unit" x-model="item.items_per_purchase_unit" class="attach-input" />
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Packaging UoM Name" for="item_purchasing_packaging_uom" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <input id="item_purchasing_packaging_uom" type="text" x-model="item.packaging_uom_name" class="input-field attach-input" />
+                            <x-enterprise.input id="item_purchasing_packaging_uom" x-model="item.packaging_uom_name" class="attach-input" />
                         </x-enterprise.field-row>
                         <x-enterprise.field-row label="Quantity per Package" for="item_purchasing_package_qty" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <input id="item_purchasing_package_qty" type="text" x-model="item.quantity_per_package" class="input-field attach-input" />
+                            <x-enterprise.input id="item_purchasing_package_qty" x-model="item.quantity_per_package" class="attach-input" />
                         </x-enterprise.field-row>
                     </div>
 
                     <div class="space-y-3">
-                        <x-enterprise.field-row label="Length" for="item_purchasing_length" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_length" type="text" x-model="item.length" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Width" for="item_purchasing_width" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_width" type="text" x-model="item.width" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Height" for="item_purchasing_height" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_height" type="text" x-model="item.height" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Length" for="item_purchasing_length" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_length" x-model="item.length" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Width" for="item_purchasing_width" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_width" x-model="item.width" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Height" for="item_purchasing_height" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_height" x-model="item.height" class="attach-input input-field-filled" /></x-enterprise.field-row>
                         <x-enterprise.field-row label="Volume" for="item_purchasing_volume" class="grid-cols-[132px_minmax(0,1fr)]">
                             <div class="grid gap-2 grid-cols-[minmax(0,1fr)_72px]">
-                                <input id="item_purchasing_volume" type="text" x-model="item.volume" class="input-field attach-input input-field-filled" />
-                                <input type="text" x-model="item.volume_uom" class="input-field attach-input input-field-filled" />
+                                <x-enterprise.input id="item_purchasing_volume" x-model="item.volume" class="attach-input input-field-filled" />
+                                <x-enterprise.input x-model="item.volume_uom" class="attach-input input-field-filled" />
                             </div>
                         </x-enterprise.field-row>
-                        <x-enterprise.field-row label="Weight" for="item_purchasing_weight" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_weight" type="text" x-model="item.weight" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 1" for="item_purchasing_factor1" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_factor1" type="text" x-model="item.factor_1" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 2" for="item_purchasing_factor2" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_factor2" type="text" x-model="item.factor_2" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 3" for="item_purchasing_factor3" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_factor3" type="text" x-model="item.factor_3" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 4" for="item_purchasing_factor4" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_purchasing_factor4" type="text" x-model="item.factor_4" class="input-field attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Weight" for="item_purchasing_weight" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_weight" x-model="item.weight" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 1" for="item_purchasing_factor1" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_factor1" x-model="item.factor_1" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 2" for="item_purchasing_factor2" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_factor2" x-model="item.factor_2" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 3" for="item_purchasing_factor3" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_factor3" x-model="item.factor_3" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 4" for="item_purchasing_factor4" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_purchasing_factor4" x-model="item.factor_4" class="attach-input" /></x-enterprise.field-row>
                     </div>
                 </div>
 
                 <div class="grid gap-6 xl:grid-cols-2">
                     <x-enterprise.field-row label="Customs Group" for="item_purchasing_customs_group" class="grid-cols-[176px_minmax(0,1fr)]">
                         <div class="grid gap-2 grid-cols-[minmax(0,1fr)_72px]">
-                            <select id="item_purchasing_customs_group" x-model="item.customs_group" class="input-field attach-input">
+                            <x-enterprise.select id="item_purchasing_customs_group" x-model="item.customs_group" class="attach-input">
                                 <option value="">Select group</option>
                                 <option>Aviation Parts</option>
                                 <option>General Import</option>
-                            </select>
-                            <input type="text" x-model="item.customs_percent" class="input-field attach-input" placeholder="%" />
+                            </x-enterprise.select>
+                            <x-enterprise.input x-model="item.customs_percent" class="attach-input" placeholder="%" />
                         </div>
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Tax Group" for="item_purchasing_tax_group" class="grid-cols-[176px_minmax(0,1fr)]">
                         <div class="grid gap-2 grid-cols-[minmax(0,1fr)_72px]">
-                            <select id="item_purchasing_tax_group" x-model="item.tax_group" class="input-field attach-input">
+                            <x-enterprise.select id="item_purchasing_tax_group" x-model="item.tax_group" class="attach-input">
                                 <option value="">Select tax group</option>
                                 <option>SR</option>
                                 <option>ZR</option>
-                            </select>
-                            <input type="text" x-model="item.tax_percent" class="input-field attach-input" placeholder="%" />
+                            </x-enterprise.select>
+                            <x-enterprise.input x-model="item.tax_percent" class="attach-input" placeholder="%" />
                         </div>
                     </x-enterprise.field-row>
                 </div>
@@ -564,35 +564,35 @@
                     <div class="space-y-3">
                         <x-enterprise.field-row label="Tax Group" for="item_sales_tax_group" class="grid-cols-[176px_minmax(0,1fr)]">
                             <div class="grid gap-2 grid-cols-[minmax(0,1fr)_72px]">
-                                <select id="item_sales_tax_group" x-model="item.tax_group" class="input-field attach-input">
+                                <x-enterprise.select id="item_sales_tax_group" x-model="item.tax_group" class="attach-input">
                                     <option value="">Select tax group</option>
                                     <option>SR</option>
                                     <option>ZR</option>
-                                </select>
-                                <input type="text" x-model="item.tax_percent" class="input-field attach-input" placeholder="%" />
+                                </x-enterprise.select>
+                                <x-enterprise.input x-model="item.tax_percent" class="attach-input" placeholder="%" />
                             </div>
                         </x-enterprise.field-row>
-                        <x-enterprise.field-row label="Sales UoM Name" for="item_sales_uom_name" class="grid-cols-[176px_minmax(0,1fr)]"><input id="item_sales_uom_name" type="text" x-model="item.sales_uom_name" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Items per Sales Unit" for="item_sales_per_unit" class="grid-cols-[176px_minmax(0,1fr)]"><input id="item_sales_per_unit" type="text" x-model="item.items_per_sales_unit" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Packaging UoM Name" for="item_sales_packaging_uom" class="grid-cols-[176px_minmax(0,1fr)]"><input id="item_sales_packaging_uom" type="text" x-model="item.sales_packaging_uom_name" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Quantity per Package" for="item_sales_package_qty" class="grid-cols-[176px_minmax(0,1fr)]"><input id="item_sales_package_qty" type="text" x-model="item.sales_quantity_per_package" class="input-field attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Sales UoM Name" for="item_sales_uom_name" class="grid-cols-[176px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_uom_name" x-model="item.sales_uom_name" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Items per Sales Unit" for="item_sales_per_unit" class="grid-cols-[176px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_per_unit" x-model="item.items_per_sales_unit" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Packaging UoM Name" for="item_sales_packaging_uom" class="grid-cols-[176px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_packaging_uom" x-model="item.sales_packaging_uom_name" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Quantity per Package" for="item_sales_package_qty" class="grid-cols-[176px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_package_qty" x-model="item.sales_quantity_per_package" class="attach-input" /></x-enterprise.field-row>
                     </div>
 
                     <div class="space-y-3">
-                        <x-enterprise.field-row label="Length" for="item_sales_length" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_length" type="text" x-model="item.length" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Width" for="item_sales_width" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_width" type="text" x-model="item.width" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Height" for="item_sales_height" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_height" type="text" x-model="item.height" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Length" for="item_sales_length" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_length" x-model="item.length" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Width" for="item_sales_width" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_width" x-model="item.width" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Height" for="item_sales_height" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_height" x-model="item.height" class="attach-input input-field-filled" /></x-enterprise.field-row>
                         <x-enterprise.field-row label="Volume" for="item_sales_volume" class="grid-cols-[132px_minmax(0,1fr)]">
                             <div class="grid gap-2 grid-cols-[minmax(0,1fr)_72px]">
-                                <input id="item_sales_volume" type="text" x-model="item.volume" class="input-field attach-input input-field-filled" />
-                                <input type="text" x-model="item.volume_uom" class="input-field attach-input input-field-filled" />
+                                <x-enterprise.input id="item_sales_volume" x-model="item.volume" class="attach-input input-field-filled" />
+                                <x-enterprise.input x-model="item.volume_uom" class="attach-input input-field-filled" />
                             </div>
                         </x-enterprise.field-row>
-                        <x-enterprise.field-row label="Weight" for="item_sales_weight" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_weight" type="text" x-model="item.weight" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 1" for="item_sales_factor1" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_factor1" type="text" x-model="item.factor_1" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 2" for="item_sales_factor2" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_factor2" type="text" x-model="item.factor_2" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 3" for="item_sales_factor3" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_factor3" type="text" x-model="item.factor_3" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Factor 4" for="item_sales_factor4" class="grid-cols-[132px_minmax(0,1fr)]"><input id="item_sales_factor4" type="text" x-model="item.factor_4" class="input-field attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Weight" for="item_sales_weight" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_weight" x-model="item.weight" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 1" for="item_sales_factor1" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_factor1" x-model="item.factor_1" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 2" for="item_sales_factor2" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_factor2" x-model="item.factor_2" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 3" for="item_sales_factor3" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_factor3" x-model="item.factor_3" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Factor 4" for="item_sales_factor4" class="grid-cols-[132px_minmax(0,1fr)]"><x-enterprise.input id="item_sales_factor4" x-model="item.factor_4" class="attach-input" /></x-enterprise.field-row>
                     </div>
                 </div>
             </x-enterprise.panel>
@@ -602,13 +602,13 @@
                 <div class="grid gap-6 xl:grid-cols-2">
                     <div class="space-y-3">
                         <x-enterprise.field-row label="Set G/L Accounts By" for="item_inventory_gl_by" class="grid-cols-[176px_minmax(0,1fr)]">
-                            <select id="item_inventory_gl_by" x-model="item.set_gl_accounts_by" class="input-field attach-input">
+                            <x-enterprise.select id="item_inventory_gl_by" x-model="item.set_gl_accounts_by" class="attach-input">
                                 <option>Item Group</option>
                                 <option>Warehouse</option>
-                            </select>
+                            </x-enterprise.select>
                         </x-enterprise.field-row>
-                        <x-enterprise.field-row label="UoM Name" for="item_inventory_uom_name" class="grid-cols-[176px_minmax(0,1fr)]"><input id="item_inventory_uom_name" type="text" x-model="item.inventory_uom_name" class="input-field attach-input" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Weight" for="item_inventory_weight" class="grid-cols-[176px_minmax(0,1fr)]"><input id="item_inventory_weight" type="text" x-model="item.inventory_weight" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="UoM Name" for="item_inventory_uom_name" class="grid-cols-[176px_minmax(0,1fr)]"><x-enterprise.input id="item_inventory_uom_name" x-model="item.inventory_uom_name" class="attach-input" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Weight" for="item_inventory_weight" class="grid-cols-[176px_minmax(0,1fr)]"><x-enterprise.input id="item_inventory_weight" x-model="item.inventory_weight" class="attach-input input-field-filled" /></x-enterprise.field-row>
                     </div>
 
                     <div class="space-y-3">
@@ -616,21 +616,21 @@
                             <input type="checkbox" x-model="item.manage_inventory_by_warehouse" />
                             <span>Manage Inventory by Warehouse</span>
                         </label>
-                        <x-enterprise.field-row label="Required (Purchasing UoM)" for="item_inventory_required" class="grid-cols-[200px_minmax(0,1fr)]"><input id="item_inventory_required" type="text" x-model="item.inventory_level_required" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Minimum" for="item_inventory_minimum" class="grid-cols-[200px_minmax(0,1fr)]"><input id="item_inventory_minimum" type="text" x-model="item.inventory_level_minimum" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
-                        <x-enterprise.field-row label="Maximum" for="item_inventory_maximum" class="grid-cols-[200px_minmax(0,1fr)]"><input id="item_inventory_maximum" type="text" x-model="item.inventory_level_maximum" class="input-field attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Required (Purchasing UoM)" for="item_inventory_required" class="grid-cols-[200px_minmax(0,1fr)]"><x-enterprise.input id="item_inventory_required" x-model="item.inventory_level_required" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Minimum" for="item_inventory_minimum" class="grid-cols-[200px_minmax(0,1fr)]"><x-enterprise.input id="item_inventory_minimum" x-model="item.inventory_level_minimum" class="attach-input input-field-filled" /></x-enterprise.field-row>
+                        <x-enterprise.field-row label="Maximum" for="item_inventory_maximum" class="grid-cols-[200px_minmax(0,1fr)]"><x-enterprise.input id="item_inventory_maximum" x-model="item.inventory_level_maximum" class="attach-input input-field-filled" /></x-enterprise.field-row>
                     </div>
                 </div>
 
                 <div class="grid gap-6 xl:grid-cols-2">
                     <x-enterprise.field-row label="Valuation Method" for="item_inventory_valuation_method" class="grid-cols-[176px_minmax(0,1fr)]">
-                        <select id="item_inventory_valuation_method" x-model="item.valuation_method" class="input-field attach-input">
+                        <x-enterprise.select id="item_inventory_valuation_method" x-model="item.valuation_method" class="attach-input">
                             <option>Moving Average</option>
                             <option>Standard</option>
-                        </select>
+                        </x-enterprise.select>
                     </x-enterprise.field-row>
                     <x-enterprise.field-row label="Item Cost" for="item_inventory_item_cost" class="grid-cols-[176px_minmax(0,1fr)]">
-                        <input id="item_inventory_item_cost" type="text" x-model="item.item_cost" class="input-field attach-input" />
+                        <x-enterprise.input id="item_inventory_item_cost" x-model="item.item_cost" class="attach-input" />
                     </x-enterprise.field-row>
                 </div>
 
@@ -677,8 +677,8 @@
             <x-enterprise.panel>
                 <x-enterprise.field-row label="Lead Time" for="item_planning_lead_time" class="grid-cols-[176px_minmax(0,1fr)]">
                     <div class="grid gap-2 grid-cols-[minmax(0,1fr)_80px]">
-                        <input id="item_planning_lead_time" type="text" x-model="item.lead_time_days" class="input-field attach-input" />
-                        <input type="text" value="Days" class="input-field attach-input input-field-filled" />
+                        <x-enterprise.input id="item_planning_lead_time" x-model="item.lead_time_days" class="attach-input" />
+                        <x-enterprise.input value="Days" class="attach-input input-field-filled" />
                     </div>
                 </x-enterprise.field-row>
             </x-enterprise.panel>
@@ -716,7 +716,7 @@
         </div>
         <div x-cloak x-show="activeTab === 'remarks'">
             <x-enterprise.panel class="space-y-4">
-                <textarea x-model="item.remarks" rows="12" class="input-field attach-textarea min-h-[320px]"></textarea>
+                <x-enterprise.textarea x-model="item.remarks" rows="12" class="attach-textarea min-h-[320px]" />
             </x-enterprise.panel>
         </div>
         <div x-cloak x-show="activeTab === 'attachments'">

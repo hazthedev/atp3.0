@@ -63,31 +63,30 @@
                                 @foreach ($rows as $index => $row)
                                     @php
                                         $isEditing = $editingIndex === $index;
-                                        $inputClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 disabled:opacity-100';
                                     @endphp
                                     <tr wire:key="item-counter-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                         <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                         <td class="border border-gray-200 p-0">
-                                            <select wire:model="rows.{{ $index }}.counter_ref_id" @disabled(! $isEditing) class="{{ $inputClass }}">
+                                            <x-enterprise.select wire:model="rows.{{ $index }}.counter_ref_id" variant="cell" @disabled(! $isEditing)>
                                                 <option value=""></option>
                                                 @foreach ($counterRefOptions as $opt)
                                                     <option value="{{ $opt['id'] }}">{{ $opt['name'] }}</option>
                                                 @endforeach
-                                            </select>
+                                            </x-enterprise.select>
                                         </td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.max_value_dec" @readonly(! $isEditing) class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.max_value_hhmm" @readonly(! $isEditing) class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.tolerance_dec" @readonly(! $isEditing) class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.tolerance_hhmm" @readonly(! $isEditing) class="{{ $inputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="number" wire:model="rows.{{ $index }}.orange_light_percent" @readonly(! $isEditing) class="{{ $inputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.max_value_dec" variant="cell" @readonly(! $isEditing) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.max_value_hhmm" variant="cell" @readonly(! $isEditing) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.tolerance_dec" variant="cell" @readonly(! $isEditing) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.tolerance_hhmm" variant="cell" @readonly(! $isEditing) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="rows.{{ $index }}.orange_light_percent" variant="cell" @readonly(! $isEditing) /></td>
                                         <td class="border border-gray-200 p-0">
-                                            <select wire:model="rows.{{ $index }}.status" @disabled(! $isEditing) class="{{ $inputClass }}">
+                                            <x-enterprise.select wire:model="rows.{{ $index }}.status" variant="cell" @disabled(! $isEditing)>
                                                 @foreach ($statusOptions as $option)
                                                     <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                                 @endforeach
-                                            </select>
+                                            </x-enterprise.select>
                                         </td>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="rows.{{ $index }}.modif_ref" @readonly(! $isEditing) class="{{ $inputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.modif_ref" variant="cell" @readonly(! $isEditing) /></td>
                                         <td class="border border-gray-200 px-1 py-1 align-middle">
                                             <div class="flex items-center justify-center gap-1">
                                                 <button type="button"
@@ -120,9 +119,6 @@
                         {{-- Calendar Counter --}}
                         <div class="mt-5">
                             <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Calendar Counter</div>
-                            @php
-                                $calInputClass = 'w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 read-only:cursor-not-allowed read-only:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 disabled:opacity-100';
-                            @endphp
                             <table class="w-full border-collapse text-xs">
                                 <thead>
                                     <tr class="bg-gray-50 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-600">
@@ -135,15 +131,15 @@
                                 </thead>
                                 <tbody>
                                     <tr @class(['bg-amber-50' => $editingCalendar])>
-                                        <td class="border border-gray-200 p-0"><input type="text" wire:model="calendar.label" @readonly(! $editingCalendar) class="{{ $calInputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="number" wire:model="calendar.limit_days" @readonly(! $editingCalendar) class="{{ $calInputClass }}" /></td>
-                                        <td class="border border-gray-200 p-0"><input type="number" wire:model="calendar.orange_light_days" @readonly(! $editingCalendar) class="{{ $calInputClass }}" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="calendar.label" variant="cell" @readonly(! $editingCalendar) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="calendar.limit_days" variant="cell" @readonly(! $editingCalendar) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="calendar.orange_light_days" variant="cell" @readonly(! $editingCalendar) /></td>
                                         <td class="border border-gray-200 p-0">
-                                            <select wire:model="calendar.status" @disabled(! $editingCalendar) class="{{ $calInputClass }}">
+                                            <x-enterprise.select wire:model="calendar.status" variant="cell" @disabled(! $editingCalendar)>
                                                 @foreach ($statusOptions as $option)
                                                     <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                                 @endforeach
-                                            </select>
+                                            </x-enterprise.select>
                                         </td>
                                         <td class="border border-gray-200 px-1 py-1 text-center align-middle">
                                             <button type="button"
