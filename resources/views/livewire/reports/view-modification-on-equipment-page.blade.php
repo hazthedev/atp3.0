@@ -15,19 +15,20 @@
             <div class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
                 <div class="flex flex-wrap items-center gap-3">
                     <label class="text-xs font-semibold uppercase tracking-wider text-gray-500">Equipment No.</label>
-                    <input
-                        type="text"
-                        value="{{ $equipment['equipment_no'] ?? '' }}"
+                    <x-enterprise.input
+                        variant="disabled"
+                        :value="$equipment['equipment_no'] ?? ''"
                         readonly
-                        class="block w-full max-w-[220px] rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900"
+                        class="max-w-[220px] bg-gray-50"
                     />
                     <button type="button" class="btn-secondary" wire:click="openSearchModal">Search Equipment</button>
                 </div>
 
-                <label class="inline-flex items-center gap-3 text-sm text-gray-700">
-                    <input type="checkbox" wire:model.live="includeSubLevels" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                    <span>Include modification from sub levels</span>
-                </label>
+                <x-enterprise.checkbox
+                    label="Include modification from sub levels"
+                    labelClass="inline-flex items-center gap-3 text-sm text-gray-700"
+                    wire:model.live="includeSubLevels"
+                />
             </div>
         </div>
 
