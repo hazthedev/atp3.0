@@ -54,11 +54,10 @@
                                 @foreach ($objectFields as $field)
                                     <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                         <span class="attach-field-label">{{ $field['label'] }}</span>
-                                        <input
-                                            type="text"
-                                            readonly
+                                        <x-enterprise.input
+                                            variant="disabled"
                                             value="{{ $field['value'] }}"
-                                            class="input-field attach-input {{ filled($field['value']) ? 'input-field-filled' : '' }}"
+                                            class="attach-input {{ filled($field['value']) ? 'input-field-filled' : '' }}"
                                         />
                                     </div>
                                 @endforeach
@@ -75,11 +74,10 @@
                     <div class="space-y-3 rounded-xl border border-gray-200 bg-white p-4">
                         <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                             <span class="attach-field-label">Maintenance Program</span>
-                            <input
-                                type="text"
-                                readonly
+                            <x-enterprise.input
+                                variant="disabled"
                                 value="{{ $maintenanceProgram }}"
-                                class="input-field attach-input {{ filled($maintenanceProgram) ? 'input-field-filled' : '' }}"
+                                class="attach-input {{ filled($maintenanceProgram) ? 'input-field-filled' : '' }}"
                             />
                         </div>
 
@@ -120,30 +118,30 @@
                         <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] xl:items-end">
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Active</span>
-                                <select wire:model.live="visitActive" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="visitActive" class="attach-input">
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Status</span>
-                                <select wire:model.live="visitStatus" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="visitStatus" class="attach-input">
                                     <option value=""></option>
                                     <option value="Draft">Draft</option>
                                     <option value="Released">Released</option>
                                     <option value="Approved">Approved</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Initialized</span>
-                                <select wire:model.live="visitInitialized" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="visitInitialized" class="attach-input">
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="flex justify-end">
@@ -180,30 +178,30 @@
                         <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] xl:items-end">
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Active</span>
-                                <select wire:model.live="taskActive" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="taskActive" class="attach-input">
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Status</span>
-                                <select wire:model.live="taskStatus" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="taskStatus" class="attach-input">
                                     <option value=""></option>
                                     <option value="Draft">Draft</option>
                                     <option value="Released">Released</option>
                                     <option value="Approved">Approved</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Initialized</span>
-                                <select wire:model.live="taskInitialized" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="taskInitialized" class="attach-input">
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="flex flex-wrap items-center justify-end gap-3">
@@ -213,38 +211,38 @@
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)] xl:col-span-2">
                                 <span class="attach-field-label">Task List Ref</span>
-                                <input type="text" wire:model.live="taskListRef" class="input-field attach-input" />
+                                <x-enterprise.input wire:model.live="taskListRef" class="attach-input" />
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)] xl:col-span-2">
                                 <span class="attach-field-label">Key Word</span>
-                                <input type="text" wire:model.live="taskKeyword" class="input-field attach-input" />
+                                <x-enterprise.input wire:model.live="taskKeyword" class="attach-input" />
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Sub Equipment</span>
-                                <select wire:model.live="taskSubEquipment" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="taskSubEquipment" class="attach-input">
                                     <option value=""></option>
                                     <option value="Equipment">Equipment</option>
                                     <option value="Functional Location">Functional Location</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                 <span class="attach-field-label">Effectivity</span>
-                                <select wire:model.live="taskEffectivity" class="input-field attach-input">
+                                <x-enterprise.select wire:model.live="taskEffectivity" class="attach-input">
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
-                                </select>
+                                </x-enterprise.select>
                             </div>
 
                             <div class="grid items-center gap-3 xl:col-span-2 xl:grid-cols-[112px_minmax(0,1fr)] xl:items-center">
                                 <span class="attach-field-label">Chapter - Section</span>
                                 <div class="grid grid-cols-[minmax(0,1fr)_20px_minmax(0,1fr)] items-center gap-3">
-                                    <input type="text" wire:model.live="taskChapter" class="input-field attach-input" />
+                                    <x-enterprise.input wire:model.live="taskChapter" class="attach-input" />
                                     <span class="text-center text-sm text-gray-500">-</span>
-                                    <input type="text" wire:model.live="taskSection" class="input-field attach-input" />
+                                    <x-enterprise.input wire:model.live="taskSection" class="attach-input" />
                                 </div>
                             </div>
                         </div>

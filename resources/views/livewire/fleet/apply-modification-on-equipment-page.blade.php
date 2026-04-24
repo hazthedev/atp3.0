@@ -26,15 +26,13 @@
                         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
                             <div class="space-y-2">
                                 @foreach ($equipmentFields as $field)
-                                    <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                                        <span class="attach-field-label">{{ $field['label'] }}</span>
-                                        <input
-                                            type="text"
+                                    <x-enterprise.field-row :label="$field['label']" label-class="attach-field-label">
+                                        <x-enterprise.input
+                                            variant="disabled"
                                             value="{{ $equipment[$field['key']] ?? '' }}"
-                                            readonly
-                                            class="input-field attach-input {{ filled($equipment[$field['key']] ?? '') ? 'input-field-filled' : '' }}"
+                                            class="attach-input {{ filled($equipment[$field['key']] ?? '') ? 'input-field-filled' : '' }}"
                                         />
-                                    </div>
+                                    </x-enterprise.field-row>
                                 @endforeach
                             </div>
 
@@ -48,34 +46,30 @@
                     <div class="space-y-3 rounded-xl border border-gray-200 p-4 shadow-sm">
                         <p class="text-sm font-medium text-gray-700">Action</p>
 
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">Status</span>
-                            <select wire:model.live="status" class="input-field attach-input">
+                        <x-enterprise.field-row label="Status" label-class="attach-field-label">
+                            <x-enterprise.select wire:model.live="status" class="attach-input">
                                 <option value="Applicable">Applicable</option>
                                 <option value="Draft">Draft</option>
                                 <option value="Released">Released</option>
                                 <option value="Approved">Approved</option>
-                            </select>
-                        </div>
+                            </x-enterprise.select>
+                        </x-enterprise.field-row>
 
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">Action</span>
-                            <select wire:model.live="action" class="input-field attach-input">
+                        <x-enterprise.field-row label="Action" label-class="attach-field-label">
+                            <x-enterprise.select wire:model.live="action" class="attach-input">
                                 <option value="Apply">Apply</option>
                                 <option value="Release">Release</option>
                                 <option value="Close">Close</option>
-                            </select>
-                        </div>
+                            </x-enterprise.select>
+                        </x-enterprise.field-row>
 
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">Date for action</span>
-                            <input type="text" wire:model.live="dateForAction" class="input-field attach-input attach-input-highlight" />
-                        </div>
+                        <x-enterprise.field-row label="Date for action" label-class="attach-field-label">
+                            <x-enterprise.input wire:model.live="dateForAction" class="attach-input attach-input-highlight" />
+                        </x-enterprise.field-row>
 
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">Comment</span>
-                            <input type="text" wire:model.live="comment" class="input-field attach-input" />
-                        </div>
+                        <x-enterprise.field-row label="Comment" label-class="attach-field-label">
+                            <x-enterprise.input wire:model.live="comment" class="attach-input" />
+                        </x-enterprise.field-row>
 
                         <div class="flex justify-end pt-1">
                             <button type="button" class="btn-primary" wire:click="initializePreview">Initialize</button>

@@ -24,16 +24,16 @@
 
                     <div class="w-full max-w-[320px]">
                         <label for="mel_status" class="attach-field-label">Status</label>
-                        <select
+                        <x-enterprise.select
                             id="mel_status"
                             name="mel_status"
                             wire:model.live="status"
-                            class="input-field attach-input attach-input-highlight mt-1.5"
+                            class="attach-input attach-input-highlight mt-1.5"
                         >
                             @foreach ($statusOptions as $optionValue => $optionLabel)
                                 <option value="{{ $optionValue }}">{{ $optionLabel }}</option>
                             @endforeach
-                        </select>
+                        </x-enterprise.select>
                     </div>
                 </div>
 
@@ -41,51 +41,44 @@
                 <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
                     <div class="space-y-2">
                         @foreach ($leftFields as $field)
-                            <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                                <span class="attach-field-label">{{ $field['label'] }}</span>
+                            <x-enterprise.field-row :label="$field['label']" label-class="attach-field-label">
                                 @if (! empty($field['lookup']))
                                     <div class="grid grid-cols-[minmax(0,1fr)_40px] gap-2">
-                                        <input
-                                            type="text"
+                                        <x-enterprise.input
                                             wire:model.live="form.{{ $field['key'] }}"
-                                            class="input-field attach-input {{ ! empty($field['highlight']) ? 'attach-input-highlight' : '' }}"
+                                            class="attach-input {{ ! empty($field['highlight']) ? 'attach-input-highlight' : '' }}"
                                         />
                                         <button type="button" class="attach-mini-button" wire:click="openLookupModal">...</button>
                                     </div>
                                 @else
-                                    <input
-                                        type="text"
+                                    <x-enterprise.input
                                         wire:model.live="form.{{ $field['key'] }}"
-                                        class="input-field attach-input"
+                                        class="attach-input"
                                     />
                                 @endif
-                            </div>
+                            </x-enterprise.field-row>
                         @endforeach
 
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">MMEL</span>
+                        <x-enterprise.field-row label="MMEL" label-class="attach-field-label">
                             <div class="grid grid-cols-[minmax(0,1fr)_40px] gap-2">
-                                <input type="text" wire:model.live="form.mmel" class="input-field attach-input" />
+                                <x-enterprise.input wire:model.live="form.mmel" class="attach-input" />
                                 <button type="button" class="attach-mini-button attach-mini-button-ghost">...</button>
                             </div>
-                        </div>
+                        </x-enterprise.field-row>
 
-                        <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                            <span class="attach-field-label">Title</span>
-                            <input type="text" wire:model.live="form.title" class="input-field attach-input attach-input-highlight" />
-                        </div>
+                        <x-enterprise.field-row label="Title" label-class="attach-field-label">
+                            <x-enterprise.input wire:model.live="form.title" class="attach-input attach-input-highlight" />
+                        </x-enterprise.field-row>
                     </div>
 
                     <div class="space-y-2">
                         @foreach ($metaFields as $field)
-                            <div class="grid items-center gap-3" style="grid-template-columns: 112px minmax(0,1fr)">
-                                <span class="attach-field-label">{{ $field['label'] }}</span>
-                                <input
-                                    type="text"
+                            <x-enterprise.field-row :label="$field['label']" label-class="attach-field-label">
+                                <x-enterprise.input
                                     wire:model.live="form.{{ $field['key'] }}"
-                                    class="input-field attach-input {{ ! empty($field['highlight']) ? 'attach-input-highlight' : '' }}"
+                                    class="attach-input {{ ! empty($field['highlight']) ? 'attach-input-highlight' : '' }}"
                                 />
-                            </div>
+                            </x-enterprise.field-row>
                         @endforeach
                     </div>
                 </div>

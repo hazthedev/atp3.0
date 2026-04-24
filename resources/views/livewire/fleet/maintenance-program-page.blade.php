@@ -28,23 +28,23 @@
                     <div class="space-y-2">
                         <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                             <span class="attach-field-label">Code</span>
-                            <input type="text" value="{{ $program['code'] ?? '' }}" readonly class="input-field attach-input {{ filled($program['code'] ?? '') ? 'input-field-filled' : '' }}" />
+                            <x-enterprise.input variant="disabled" value="{{ $program['code'] ?? '' }}" class="attach-input {{ filled($program['code'] ?? '') ? 'input-field-filled' : '' }}" />
                         </div>
                         <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                             <span class="attach-field-label">Name</span>
-                            <input type="text" value="{{ $program['name'] ?? '' }}" readonly class="input-field attach-input {{ filled($program['name'] ?? '') ? 'input-field-filled' : '' }}" />
+                            <x-enterprise.input variant="disabled" value="{{ $program['name'] ?? '' }}" class="attach-input {{ filled($program['name'] ?? '') ? 'input-field-filled' : '' }}" />
                         </div>
                     </div>
 
                     <div>
                         <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                             <span class="attach-field-label">Status</span>
-                            <select class="input-field attach-input {{ filled($program['status'] ?? '') ? 'input-field-filled' : '' }}">
+                            <x-enterprise.select class="attach-input {{ filled($program['status'] ?? '') ? 'input-field-filled' : '' }}">
                                 <option value=""></option>
                                 <option value="Draft" @selected(($program['status'] ?? '') === 'Draft')>Draft</option>
                                 <option value="Released" @selected(($program['status'] ?? '') === 'Released')>Released</option>
                                 <option value="Approved" @selected(($program['status'] ?? '') === 'Approved')>Approved</option>
-                            </select>
+                            </x-enterprise.select>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                             @foreach ($generalLeftFields as $field)
                                 <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                     <span class="attach-field-label">{{ $field['label'] }}</span>
-                                    <input type="text" value="{{ $program[$field['key']] ?? '' }}" readonly class="input-field attach-input {{ filled($program[$field['key']] ?? '') ? 'input-field-filled' : '' }}" />
+                                    <x-enterprise.input variant="disabled" value="{{ $program[$field['key']] ?? '' }}" class="attach-input {{ filled($program[$field['key']] ?? '') ? 'input-field-filled' : '' }}" />
                                 </div>
                             @endforeach
                         </div>
@@ -88,7 +88,7 @@
                             @foreach ($generalRightFields as $field)
                                 <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                     <span class="attach-field-label">{{ $field['label'] }}</span>
-                                    <input type="text" value="{{ $program[$field['key']] ?? '' }}" readonly class="input-field attach-input {{ filled($program[$field['key']] ?? '') ? 'input-field-filled' : '' }}" />
+                                    <x-enterprise.input variant="disabled" value="{{ $program[$field['key']] ?? '' }}" class="attach-input {{ filled($program[$field['key']] ?? '') ? 'input-field-filled' : '' }}" />
                                 </div>
                             @endforeach
                         </div>
@@ -154,28 +154,28 @@
                             <div class="space-y-2">
                                 <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                     <span class="attach-field-label">Active</span>
-                                    <select class="input-field attach-input">
+                                    <x-enterprise.select class="attach-input">
                                         <option value=""></option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
-                                    </select>
+                                    </x-enterprise.select>
                                 </div>
                                 <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                     <span class="attach-field-label">Task List Ref.</span>
-                                    <input type="text" class="input-field attach-input" />
+                                    <x-enterprise.input class="attach-input" />
                                 </div>
                                 <div class="grid items-center gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
                                     <span class="attach-field-label">Key Word</span>
-                                    <input type="text" class="input-field attach-input" />
+                                    <x-enterprise.input class="attach-input" />
                                 </div>
                             </div>
 
                             <div class="space-y-3">
                                 <div class="grid grid-cols-[88px_1fr_24px_1fr] items-center gap-3">
                                     <span class="attach-field-label">Chapter</span>
-                                    <input type="text" class="input-field attach-input" />
+                                    <x-enterprise.input class="attach-input" />
                                     <span class="text-center text-sm text-gray-500">-</span>
-                                    <input type="text" class="input-field attach-input" />
+                                    <x-enterprise.input class="attach-input" />
                                 </div>
 
                                 <div class="flex flex-wrap items-center justify-end gap-3">
@@ -225,7 +225,7 @@
                         <div class="flex flex-wrap items-center justify-between gap-3">
                             <div class="grid grid-cols-[160px_120px] items-center gap-3">
                                 <span class="text-sm text-gray-600">Number of records found</span>
-                                <input type="text" readonly value="{{ count($program['task_lists'] ?? []) }}" class="input-field attach-input {{ $programId ? 'input-field-filled' : '' }}" />
+                                <x-enterprise.input variant="disabled" value="{{ count($program['task_lists'] ?? []) }}" class="attach-input {{ $programId ? 'input-field-filled' : '' }}" />
                             </div>
 
                             <div class="flex flex-wrap items-center gap-3">

@@ -10,17 +10,17 @@
             <div class="grid max-w-[520px] items-end gap-4 sm:grid-cols-[160px_minmax(0,320px)]">
                 <label for="maintenance_item_manage_by" class="attach-field-label">Manage Item By</label>
                 <div class="w-full">
-                    <select
+                    <x-enterprise.select
                         id="maintenance_item_manage_by"
                         name="maintenance_item_manage_by"
                         wire:model.live="manageItemBy"
-                        class="input-field w-full"
+                        class="w-full"
                     >
                         <option value="">2  -  Serial number</option>
                         @foreach ($manageByOptions as $optionValue => $optionLabel)
                             <option value="{{ $optionValue }}" @selected((string) $optionValue === (string) $manageItemBy)>{{ $optionLabel }}</option>
                         @endforeach
-                    </select>
+                    </x-enterprise.select>
                 </div>
             </div>
 
@@ -53,16 +53,16 @@
                                 <td>{{ $row['item_group'] }}</td>
                                 <td>{{ $row['category_part'] }}</td>
                                 <td class="text-center">
-                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" @checked($row['is_tool']) disabled />
+                                    <x-enterprise.checkbox @checked($row['is_tool']) disabled />
                                 </td>
                                 <td class="text-center">
-                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" @checked($row['serialized']) disabled />
+                                    <x-enterprise.checkbox @checked($row['serialized']) disabled />
                                 </td>
                                 <td class="text-center">
-                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" @checked($row['counters']) disabled />
+                                    <x-enterprise.checkbox @checked($row['counters']) disabled />
                                 </td>
                                 <td class="text-center">
-                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" @checked($row['task_lists']) disabled />
+                                    <x-enterprise.checkbox @checked($row['task_lists']) disabled />
                                 </td>
                             </tr>
                         @endforeach
