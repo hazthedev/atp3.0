@@ -14,10 +14,12 @@
         <x-form.label :for="$id ?? $name" :required="$required">{{ $label }}</x-form.label>
     @endif
 
+    @php($selected = filled($name) ? old($name, $value) : $value)
+
     <select id="{{ $id ?? $name }}" name="{{ $name }}" {{ $attributes->class(['input-field', 'input-error' => filled($error)]) }}>
         <option value="">{{ $placeholder }}</option>
         @foreach ($options as $optionValue => $optionLabel)
-            <option value="{{ $optionValue }}" @selected((string) $optionValue === (string) old($name, $value))>{{ $optionLabel }}</option>
+            <option value="{{ $optionValue }}" @selected((string) $optionValue === (string) $selected)>{{ $optionLabel }}</option>
         @endforeach
     </select>
 
