@@ -11,7 +11,9 @@
     <x-card padding="p-0">
         <div class="flex flex-wrap items-center gap-3 border-b border-gray-200 px-5 py-3">
             <div class="relative flex-1 min-w-[200px]">
-                <x-icon name="magnifying-glass" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <x-icon name="magnifying-glass" class="h-4 w-4 text-gray-400" />
+                </span>
                 <input
                     type="text"
                     wire:model.live.debounce.300ms="search"
