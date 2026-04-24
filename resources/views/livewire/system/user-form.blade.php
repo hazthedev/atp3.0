@@ -41,18 +41,18 @@
 
             <div class="grid gap-4 pt-4 md:grid-cols-3">
                 <div class="space-y-1.5">
-                    <label class="text-sm font-medium text-gray-700">User Code</label>
-                    <input type="text" wire:model="user_code" class="input-field" />
+                    <x-form.label for="user_code" :required="true">User Code</x-form.label>
+                    <x-enterprise.input id="user_code" wire:model="user_code" />
                     @error('user_code') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
                 <div class="space-y-1.5">
-                    <label class="text-sm font-medium text-gray-700">User Name</label>
-                    <input type="text" wire:model="name" class="input-field" />
+                    <x-form.label for="user_name">User Name</x-form.label>
+                    <x-enterprise.input id="user_name" wire:model="name" />
                     @error('name') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
                 <div class="space-y-1.5">
-                    <label class="text-sm font-medium text-gray-700">Defaults</label>
-                    <input type="text" wire:model="defaults" class="input-field" />
+                    <x-form.label for="defaults">Defaults</x-form.label>
+                    <x-enterprise.input id="defaults" wire:model="defaults" />
                 </div>
             </div>
         </x-card>
@@ -76,66 +76,91 @@
                 @if ($tab === 'general')
                     <div class="grid gap-5 md:grid-cols-2">
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Bind with Microsoft Windows Account</label>
-                            <input type="text" wire:model="ms_windows_account" class="input-field" />
+                            <x-form.label for="ms_windows_account">Bind with Microsoft Windows Account</x-form.label>
+                            <x-enterprise.input id="ms_windows_account" wire:model="ms_windows_account" />
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">E-Mail</label>
-                            <input type="email" wire:model="email" class="input-field" />
+                            <x-form.label for="email">E-Mail</x-form.label>
+                            <x-enterprise.input id="email" type="email" wire:model="email" />
                             @error('email') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
                         </div>
+
+                        {{-- Employee: SAP shows right-side picker → lookup variant --}}
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Employee</label>
-                            <input type="text" wire:model="employee" class="input-field" placeholder="(free text — will become picker later)" />
+                            <x-form.label for="employee">Employee</x-form.label>
+                            <x-enterprise.input id="employee" wire:model="employee" variant="lookup" />
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Mobile Phone</label>
-                            <input type="text" wire:model="mobile_phone" class="input-field" />
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Mobile Device ID</label>
-                            <input type="text" wire:model="mobile_device_id" class="input-field" />
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Fax</label>
-                            <input type="text" wire:model="fax" class="input-field" />
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Branch</label>
-                            <input type="text" wire:model="branch" class="input-field" />
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Department</label>
-                            <input type="text" wire:model="department" class="input-field" />
+                            <x-form.label for="mobile_phone">Mobile Phone</x-form.label>
+                            <x-enterprise.input id="mobile_phone" wire:model="mobile_phone" />
                         </div>
 
+                        <div class="space-y-1.5">
+                            <x-form.label for="mobile_device_id">Mobile Device ID</x-form.label>
+                            <x-enterprise.input id="mobile_device_id" wire:model="mobile_device_id" />
+                        </div>
+                        <div class="space-y-1.5">
+                            <x-form.label for="fax">Fax</x-form.label>
+                            <x-enterprise.input id="fax" wire:model="fax" />
+                        </div>
+
+                        {{-- Branch and Department: SAP shows dropdowns --}}
+                        <x-form.select
+                            id="branch"
+                            name="branch"
+                            label="Branch"
+                            placeholder="Select branch"
+                            wire:model="branch"
+                            :options="array_combine($branchOptions, $branchOptions)"
+                        />
+                        <x-form.select
+                            id="department"
+                            name="department"
+                            label="Department"
+                            placeholder="Select department"
+                            wire:model="department"
+                            :options="array_combine($departmentOptions, $departmentOptions)"
+                        />
+
+                        {{-- Groups: SAP-literal single-picker with lookup variant --}}
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-sm font-medium text-gray-700">Groups</label>
-                            <div class="flex flex-wrap gap-2 rounded-lg border border-gray-200 bg-gray-50 p-3">
-                                @forelse ($groupOptions as $opt)
-                                    @php $isSelected = in_array($opt['id'], $selectedGroupIds, true); @endphp
+                            <x-form.label for="groups_display">Groups</x-form.label>
+                            <x-enterprise.input
+                                id="groups_display"
+                                :value="$this->selectedGroupName()"
+                                readonly
+                                placeholder="Click the lookup icon to pick a group…"
+                                variant="lookup"
+                            >
+                                <x-slot name="lookupAction">
                                     <button
                                         type="button"
-                                        wire:click="toggleGroup({{ $opt['id'] }})"
+                                        wire:click="openGroupPicker"
                                         data-edit-locked="true"
                                         x-bind:disabled="!editing"
-                                        class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium transition {{ $isSelected ? 'border-blue-300 bg-blue-50 text-blue-700' : 'border-gray-200 bg-white text-gray-600 hover:border-blue-200 hover:text-blue-700' }}"
+                                        class="flex items-center justify-center text-gray-400 transition-colors hover:text-gray-700 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
                                     >
-                                        @if ($isSelected)
-                                            <x-icon name="check" class="h-3 w-3" />
-                                        @endif
-                                        {{ $opt['name'] }}
+                                        <x-icon name="magnifying-glass" class="h-4 w-4" />
                                     </button>
-                                @empty
-                                    <span class="text-xs text-gray-400">No groups defined.</span>
-                                @endforelse
-                            </div>
-                            <p class="text-xs text-gray-500">Click chips to toggle membership (available only in edit mode).</p>
+                                </x-slot>
+                            </x-enterprise.input>
+                            @if ($selectedGroupId !== null)
+                                <p class="text-xs text-gray-500">
+                                    Additional memberships can be managed from the User Groups page.
+                                </p>
+                            @endif
                         </div>
 
+                        {{-- Password: SAP shows ... picker → lookup variant (stub, clicking does nothing for now) --}}
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" wire:model="password_input" class="input-field max-w-md" placeholder="{{ $mode === 'create' ? 'Leave blank for default "password"' : 'Leave blank to keep current' }}" />
+                            <x-form.label for="password_input">Password</x-form.label>
+                            <x-enterprise.input
+                                id="password_input"
+                                type="password"
+                                wire:model="password_input"
+                                variant="lookup"
+                                placeholder="{{ $mode === 'create' ? 'Leave blank for default password' : 'Leave blank to keep current' }}"
+                            />
                         </div>
 
                         <div class="md:col-span-2 grid gap-3 md:grid-cols-2">
@@ -183,20 +208,21 @@
 
                         <div class="grid gap-4 md:grid-cols-3 border-t border-gray-200 pt-5">
                             <div class="space-y-1.5">
-                                <label class="text-sm font-medium text-gray-700">Update Messages (Min.)</label>
-                                <input type="number" wire:model="services.update_messages_min" class="input-field" />
+                                <x-form.label for="update_messages_min">Update Messages (Min.)</x-form.label>
+                                <x-enterprise.input id="update_messages_min" type="number" wire:model="services.update_messages_min" />
                             </div>
                             <div class="space-y-1.5">
-                                <label class="text-sm font-medium text-gray-700">Screen Locking Time (Min.)</label>
-                                <input type="number" wire:model="services.screen_locking_time_min" class="input-field" />
+                                <x-form.label for="screen_locking_time_min">Screen Locking Time (Min.)</x-form.label>
+                                <x-enterprise.input id="screen_locking_time_min" type="number" wire:model="services.screen_locking_time_min" />
                             </div>
-                            <div class="space-y-1.5">
-                                <label class="text-sm font-medium text-gray-700">Open Postdated Credit Vouchers Window</label>
-                                <select wire:model="services.open_postdated_credit_vouchers" class="input-field">
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
-                                </select>
-                            </div>
+                            <x-form.select
+                                id="open_postdated_credit_vouchers"
+                                name="open_postdated_credit_vouchers"
+                                label="Open Postdated Credit Vouchers Window"
+                                placeholder="—"
+                                wire:model="services.open_postdated_credit_vouchers"
+                                :options="['No' => 'No', 'Yes' => 'Yes']"
+                            />
                         </div>
 
                         <div class="border-t border-gray-200 pt-5">
@@ -229,15 +255,14 @@
                             'image_display' => ['label' => 'Image Display', 'options' => ['Center', 'Stretch', 'Tile']],
                             'ext_image_processing' => ['label' => 'Ext. Image Processing', 'options' => ['Enabled', 'Disabled']],
                         ] as $key => $meta)
-                            <div class="space-y-1.5">
-                                <label class="text-sm font-medium text-gray-700">{{ $meta['label'] }}</label>
-                                <select wire:model="display.{{ $key }}" class="input-field">
-                                    <option value="">—</option>
-                                    @foreach ($meta['options'] as $opt)
-                                        <option value="{{ $opt }}">{{ $opt }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form.select
+                                :id="$key"
+                                :name="$key"
+                                :label="$meta['label']"
+                                placeholder="—"
+                                wire:model="display.{{ $key }}"
+                                :options="array_combine($meta['options'], $meta['options'])"
+                            />
                         @endforeach
                     </div>
 
@@ -249,4 +274,38 @@
             </div>
         </x-card>
     </div>
+
+    {{-- Group picker modal --}}
+    @if ($groupPickerOpen)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4" wire:click.self="closeGroupPicker">
+            <div class="w-full max-w-md rounded-xl bg-white shadow-xl">
+                <div class="flex items-center justify-between border-b border-gray-200 px-5 py-3">
+                    <h3 class="text-sm font-semibold text-gray-900">Pick a Group</h3>
+                    <button type="button" wire:click="closeGroupPicker" class="text-gray-400 hover:text-gray-700">
+                        <x-icon name="chevron-right" class="h-4 w-4 rotate-45" />
+                    </button>
+                </div>
+                <div class="max-h-[60vh] overflow-y-auto">
+                    <button type="button" wire:click="chooseGroup(null)" class="flex w-full items-center justify-between border-b border-gray-100 px-5 py-2.5 text-left text-sm text-gray-600 hover:bg-blue-50">
+                        <span class="italic">— Clear selection —</span>
+                    </button>
+                    @foreach ($groupOptions as $opt)
+                        <button
+                            type="button"
+                            wire:click="chooseGroup({{ $opt['id'] }})"
+                            class="flex w-full items-center justify-between border-b border-gray-100 px-5 py-2.5 text-left text-sm transition hover:bg-blue-50 {{ $selectedGroupId === (int) $opt['id'] ? 'bg-blue-50 font-semibold text-blue-700' : 'text-gray-700' }}"
+                        >
+                            <span>{{ $opt['name'] }}</span>
+                            @if ($selectedGroupId === (int) $opt['id'])
+                                <x-icon name="check" class="h-4 w-4 text-blue-600" />
+                            @endif
+                        </button>
+                    @endforeach
+                </div>
+                <div class="flex justify-end border-t border-gray-200 px-5 py-3">
+                    <button type="button" wire:click="closeGroupPicker" class="btn-secondary">Close</button>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

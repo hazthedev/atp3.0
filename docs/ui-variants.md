@@ -95,6 +95,28 @@ From the FL Customer Functional Location top card (seeded reference implementati
 
 Reference implementation: `resources/views/livewire/fleet/functional-location-show-form.blade.php`.
 
+## Catalog: User Management — Users – Setup form (from SAP B1)
+
+All fields on the Users – Setup form were walked through the decision tree.
+No variants beyond `lookup` appeared; no indicators, no tree, no arrows.
+
+| Field | Tab | Visual | Variant call |
+|---|---|---|---|
+| User Code | header | plain (yellow highlight = required) | *(no variant)*, label marked `:required="true"` |
+| User Name | header | plain | *(no variant)* |
+| Defaults | header | plain | *(no variant)* |
+| Bind with Microsoft Windows Account | General | plain | *(no variant)* |
+| Employee | General | right picker icon | `variant="lookup"` |
+| E-Mail / Mobile Phone / Mobile Device ID / Fax | General | plain | *(no variant)* |
+| Branch / Department | General | SAP shows dropdown | `<x-form.select>` (not an input) |
+| Groups | General | SAP shows text fields + `...` picker | `variant="lookup"` with custom `lookupAction` slot that opens a group-picker modal |
+| Password | General | masked + `...` picker | `variant="lookup"` + `type="password"` |
+| Update Messages / Screen Locking Time | Services | plain number | *(no variant)* |
+| Open Postdated Credit Vouchers Window | Services | dropdown | `<x-form.select>` |
+| Skin Style / Color / Language / Font / Font Size / Background / Image Display / Ext. Image Processing | Display | dropdowns | `<x-form.select>` |
+
+Reference implementation: `resources/views/livewire/system/user-form.blade.php`.
+
 ## Cheatsheet — visual → call snippet
 
 ```blade

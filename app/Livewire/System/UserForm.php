@@ -12,37 +12,68 @@ use Livewire\Component;
 
 class UserForm extends Component
 {
+    public const BRANCH_OPTIONS = ['Main', 'KUL', 'SUBANG'];
+
+    public const DEPARTMENT_OPTIONS = [
+        'General',
+        'IT',
+        'Engineering',
+        'Planning',
+        'Tech Service',
+        'Fleet Comm',
+        'Finance',
+        'Logistic',
+        'Technical Record',
+        'Eng. Supervisor',
+    ];
+
     public ?int $userId = null;
 
-    public string $mode = 'edit'; // 'edit' or 'create'
+    public string $mode = 'edit';
 
     public string $tab = 'general';
 
     // Header
     public string $user_code = '';
+
     public string $name = '';
+
     public string $defaults = '';
+
     public bool $is_superuser = false;
+
     public bool $is_mobile_user = false;
+
     public bool $is_group = false;
 
     // General
     public string $ms_windows_account = '';
+
     public string $email = '';
+
     public string $employee = '';
+
     public string $mobile_phone = '';
+
     public string $mobile_device_id = '';
+
     public string $fax = '';
+
     public string $branch = 'Main';
+
     public string $department = 'General';
+
     public string $password_input = '';
+
     public bool $password_never_expires = false;
+
     public bool $change_password_next_logon = true;
+
     public bool $is_locked = false;
+
     public bool $enable_integration_packages = false;
 
-    /** @var array<int, int> */
-    public array $selectedGroupIds = [];
+    public ?int $selectedGroupId = null;
 
     // Services
     public array $services = [];
@@ -52,6 +83,8 @@ class UserForm extends Component
 
     /** @var array<int, array{id: int, name: string}> */
     public array $groupOptions = [];
+
+    public bool $groupPickerOpen = false;
 
     public function mount(?int $userId = null, string $mode = 'edit'): void
     {
@@ -72,7 +105,7 @@ class UserForm extends Component
 
     private function loadFromDb(): void
     {
-        $user = User::with('groups:id')->find($this->userId);
+        $user = User::with('groups:id,name')->find($this->userId);
         if ($user === null) {
             return;
         }
@@ -100,7 +133,11 @@ class UserForm extends Component
         $this->services = array_merge($this->defaultServices(), $user->services ?? []);
         $this->display = array_merge($this->defaultDisplay(), $user->display ?? []);
 
-        $this->selectedGroupIds = $user->groups->pluck('id')->map(fn ($id) => (int) $id)->all();
+        // SAP-literal UI: single "primary" group. Uses the first membership if
+        // multiple exist (multi-group membership still settable via User Groups page).
+        $this->selectedGroupId = $user->groups->first()?->id !== null
+            ? (int) $user->groups->first()->id
+            : null;
     }
 
     #[On('save-edit-form')]
@@ -152,7 +189,8 @@ class UserForm extends Component
             $user->update($payload);
         }
 
-        $user->groups()->sync($this->selectedGroupIds);
+        // Sync the single primary group; null clears membership from this form's perspective.
+        $user->groups()->sync($this->selectedGroupId !== null ? [$this->selectedGroupId] : []);
 
         $this->password_input = '';
         $this->dispatch('record-saved');
@@ -173,16 +211,34 @@ class UserForm extends Component
         $this->tab = $tab;
     }
 
-    public function toggleGroup(int $groupId): void
+    public function openGroupPicker(): void
     {
-        if (in_array($groupId, $this->selectedGroupIds, true)) {
-            $this->selectedGroupIds = array_values(array_filter(
-                $this->selectedGroupIds,
-                fn ($id) => $id !== $groupId,
-            ));
-        } else {
-            $this->selectedGroupIds[] = $groupId;
+        $this->groupPickerOpen = true;
+    }
+
+    public function closeGroupPicker(): void
+    {
+        $this->groupPickerOpen = false;
+    }
+
+    public function chooseGroup(?int $groupId): void
+    {
+        $this->selectedGroupId = $groupId;
+        $this->groupPickerOpen = false;
+    }
+
+    public function selectedGroupName(): string
+    {
+        if ($this->selectedGroupId === null) {
+            return '';
         }
+        foreach ($this->groupOptions as $opt) {
+            if ((int) $opt['id'] === $this->selectedGroupId) {
+                return $opt['name'];
+            }
+        }
+
+        return '';
     }
 
     /** @return array<string, mixed> */
@@ -224,6 +280,9 @@ class UserForm extends Component
 
     public function render()
     {
-        return view('livewire.system.user-form');
+        return view('livewire.system.user-form', [
+            'branchOptions' => self::BRANCH_OPTIONS,
+            'departmentOptions' => self::DEPARTMENT_OPTIONS,
+        ]);
     }
 }
