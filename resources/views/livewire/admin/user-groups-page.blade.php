@@ -63,29 +63,29 @@
 
                     <div class="mt-4 grid gap-4 md:grid-cols-2">
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Name</label>
-                            <input type="text" wire:model="name" class="input-field" />
+                            <x-form.label for="ug_name">Name</x-form.label>
+                            <x-enterprise.input id="ug_name" wire:model="name" />
                             @error('name') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
                         </div>
-                        <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Group Type</label>
-                            <select wire:model="group_type" class="input-field">
-                                @foreach ($groupTypes as $type)
-                                    <option value="{{ $type }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <x-form.select
+                            id="ug_group_type"
+                            name="group_type"
+                            label="Group Type"
+                            placeholder="Select group type"
+                            wire:model="group_type"
+                            :options="array_combine($groupTypes, $groupTypes)"
+                        />
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-sm font-medium text-gray-700">Description</label>
-                            <textarea wire:model="description" rows="2" class="input-field"></textarea>
+                            <x-form.label for="ug_description">Description</x-form.label>
+                            <textarea id="ug_description" wire:model="description" rows="2" class="input-field"></textarea>
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Active From</label>
-                            <input type="date" wire:model="active_from" class="input-field" />
+                            <x-form.label for="ug_active_from">Active From</x-form.label>
+                            <x-enterprise.input id="ug_active_from" type="date" wire:model="active_from" />
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-sm font-medium text-gray-700">Active To</label>
-                            <input type="date" wire:model="active_to" class="input-field" />
+                            <x-form.label for="ug_active_to">Active To</x-form.label>
+                            <x-enterprise.input id="ug_active_to" type="date" wire:model="active_to" />
                         </div>
                     </div>
                 </x-card>
@@ -131,12 +131,12 @@
 
                     <div class="mt-4 rounded-lg border border-dashed border-gray-300 p-4">
                         <p class="text-sm font-medium text-gray-700">Add a member</p>
-                        <input
-                            type="text"
-                            wire:model.live.debounce.250ms="memberSearch"
-                            placeholder="Search user code or name…"
-                            class="input-field mt-2"
-                        />
+                        <div class="mt-2">
+                            <x-enterprise.input
+                                wire:model.live.debounce.250ms="memberSearch"
+                                placeholder="Search user code or name…"
+                            />
+                        </div>
                         <div class="mt-3 space-y-1">
                             @forelse ($candidateUsers as $c)
                                 <button type="button" wire:click="addMember({{ $c->id }})" class="flex w-full items-center justify-between rounded-md px-3 py-1.5 text-left text-sm hover:bg-blue-50">

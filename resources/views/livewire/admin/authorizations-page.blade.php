@@ -18,10 +18,9 @@
             </div>
 
             <div class="border-b border-gray-200 p-3">
-                <input type="text"
+                <x-enterprise.input
                     wire:model.live.debounce.250ms="find"
                     placeholder="Filter…"
-                    class="input-field"
                 />
             </div>
 
