@@ -314,19 +314,19 @@
                 <div class="space-y-3 rounded-xl border border-gray-200 bg-white p-4">
                     <div class="text-sm font-semibold text-gray-900">Item Classification</div>
                     <label class="attach-checkbox-inline">
-                        <input type="checkbox" x-model="item.inventory_item" />
+                        <x-enterprise.checkbox x-model="item.inventory_item" />
                         <span>Inventory Item</span>
                     </label>
                     <label class="attach-checkbox-inline">
-                        <input type="checkbox" x-model="item.sales_item" />
+                        <x-enterprise.checkbox x-model="item.sales_item" />
                         <span>Sales Item</span>
                     </label>
                     <label class="attach-checkbox-inline">
-                        <input type="checkbox" x-model="item.purchase_item" />
+                        <x-enterprise.checkbox x-model="item.purchase_item" />
                         <span>Purchase Item</span>
                     </label>
                     <label class="attach-checkbox-inline">
-                        <input type="checkbox" x-model="item.tool_item" />
+                        <x-enterprise.checkbox x-model="item.tool_item" />
                         <span>Tool Item</span>
                     </label>
                 </div>
@@ -353,7 +353,7 @@
                 <div class="grid gap-6 xl:grid-cols-2">
                     <div class="space-y-3">
                         <label class="attach-checkbox-inline">
-                            <input type="checkbox" x-model="item.do_not_apply_discount_groups" />
+                            <x-enterprise.checkbox x-model="item.do_not_apply_discount_groups" />
                             <span>Do Not Apply Discount Groups</span>
                         </label>
                         <x-enterprise.field-row label="Manufacturer" for="item_general_manufacturer" class="grid-cols-[176px_minmax(0,1fr)]">
@@ -394,15 +394,15 @@
                     <div class="space-y-3 rounded-xl border border-gray-200 bg-gray-50/70 p-4">
                         <div class="attach-field-label">Status</div>
                         <label class="attach-checkbox-inline">
-                            <input type="radio" value="active" x-model="item.status" />
+                            <x-enterprise.radio value="active" x-model="item.status" />
                             <span>Active</span>
                         </label>
                         <label class="attach-checkbox-inline">
-                            <input type="radio" value="inactive" x-model="item.status" />
+                            <x-enterprise.radio value="inactive" x-model="item.status" />
                             <span>Inactive</span>
                         </label>
                         <label class="attach-checkbox-inline">
-                            <input type="radio" value="advanced" x-model="item.status" />
+                            <x-enterprise.radio value="advanced" x-model="item.status" />
                             <span>Advanced</span>
                         </label>
                     </div>
@@ -613,7 +613,7 @@
 
                     <div class="space-y-3">
                         <label class="attach-checkbox-inline">
-                            <input type="checkbox" x-model="item.manage_inventory_by_warehouse" />
+                            <x-enterprise.checkbox x-model="item.manage_inventory_by_warehouse" />
                             <span>Manage Inventory by Warehouse</span>
                         </label>
                         <x-enterprise.field-row label="Required (Purchasing UoM)" for="item_inventory_required" class="grid-cols-[200px_minmax(0,1fr)]"><x-enterprise.input id="item_inventory_required" x-model="item.inventory_level_required" class="attach-input input-field-filled" /></x-enterprise.field-row>

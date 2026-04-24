@@ -126,20 +126,26 @@
                     <div class="mb-3 text-sm font-semibold text-gray-900">Group By</div>
 
                     <div class="space-y-2">
-                        <label class="mel-radio-option">
-                            <input type="radio" value="chapter" wire:model.live="groupBy" />
-                            <span>Chapter</span>
-                        </label>
+                        <x-enterprise.radio
+                            value="chapter"
+                            label="Chapter"
+                            labelClass="mel-radio-option"
+                            wire:model.live="groupBy"
+                        />
 
-                        <label class="mel-radio-option">
-                            <input type="radio" value="chapter-section" wire:model.live="groupBy" />
-                            <span>Chapter - Section</span>
-                        </label>
+                        <x-enterprise.radio
+                            value="chapter-section"
+                            label="Chapter - Section"
+                            labelClass="mel-radio-option"
+                            wire:model.live="groupBy"
+                        />
 
-                        <label class="mel-radio-option">
-                            <input type="radio" value="none" wire:model.live="groupBy" />
-                            <span>None</span>
-                        </label>
+                        <x-enterprise.radio
+                            value="none"
+                            label="None"
+                            labelClass="mel-radio-option"
+                            wire:model.live="groupBy"
+                        />
                     </div>
                 </div>
             </div>

@@ -58,15 +58,17 @@
                     </div>
 
                     <div class="space-y-3">
-                        <label class="inline-flex items-center gap-3 text-sm text-gray-700">
-                            <input type="radio" wire:model="viewMode" value="all" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" />
-                            <span>View all hierarchy of equipments</span>
-                        </label>
+                        <x-enterprise.radio
+                            value="all"
+                            label="View all hierarchy of equipments"
+                            wire:model="viewMode"
+                        />
 
-                        <label class="inline-flex items-center gap-3 text-sm text-gray-700">
-                            <input type="radio" wire:model="viewMode" value="sons" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" />
-                            <span>View only son equipments</span>
-                        </label>
+                        <x-enterprise.radio
+                            value="sons"
+                            label="View only son equipments"
+                            wire:model="viewMode"
+                        />
                     </div>
 
                     <div>
