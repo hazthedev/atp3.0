@@ -45,12 +45,13 @@ Fifth L1. Employee records and HR master data.
   - Status / Gender / Marital Status / Period dropdowns driven by static option arrays on the component
 - **EmployeeSeeder** — 2 sample employees (`WS-001` / `WS-002`)
 - 6 feature tests covering mount / save / cancel / null-coercion / full-name concatenation
+- **Membership tab editors** (#85) — `EmployeeMembershipForm` Livewire component: Roles + Teams add/remove rows + 7 feature tests.
+- **Flight Ops tab editors** (#86) — `EmployeeFlightOpsForm` Livewire component: Crew Positions + Employee Assignments add/remove rows + 6 feature tests.
+- **Attachments tab editor** (#87) — `EmployeeAttachmentsForm` Livewire component: metadata add/remove rows + feature tests. Actual file upload still deferred.
 
 ### Stubbed / pending follow-up PRs
 
-- **Membership tab** — Roles + Teams row management. Tables exist but no editor UI yet; tab renders an empty-state placeholder.
-- **Flight Ops Crew Management positions list** + **Employee Assignment list** — same status: tables exist, editor UI deferred.
-- **Attachments tab** — table exists; Browse / Display / Delete UI deferred.
+- **Attachments file upload** — only metadata (Target Path / File Name / Date) is editable today. Browse / Display still deferred until the cross-app file-upload pattern is decided.
 - **Photo upload** — placeholder div in the header. Upload + storage to be wired when the file-upload pattern is decided across the app.
 - **Reference data** — Position, Department, Branch, Manager, User Code, Sales Employee, Cost Center, Bank, Country fields are free strings. Will become dropdown-driven once their reference tables ship.
 - **Required-field affordance** — SAP shows red bold labels + yellow background for required fields (First Name, Last Name, Employee No., Ext. Employee No., Cost Center, Start Date, Status, Termination Date, Termination Reason, all Address fields, Mission Type, Maint. Center Code, Maint. Center Name, etc.). Catalog gap shared with Equipment Card; tracked under `feature/required-field-affordance`.
@@ -91,12 +92,12 @@ Screenshots received and mapped (`/hr/employee-master-data` shell):
 
 In rough priority order:
 
-1. **Membership tab** — Roles + Teams row editor (pencil-launched modal pattern)
-2. **Required-field affordance** — cross-cutting; unblocks SAP red-label rendering across HR + Equipment Card + others
-3. **Photo upload** — header card photo placeholder needs a file-upload mechanism
-4. **Reference data tables** — Position, Department, Branch, Cost Center, Bank, Marital Status (etc.) promote to lookup tables
+1. **Required-field affordance** — cross-cutting; unblocks SAP red-label rendering across HR + Equipment Card + others
+2. **Attachments file upload + Photo upload** — both blocked on cross-app file-upload pattern decision
+3. **Reference data tables** — Position, Department, Branch, Cost Center, Bank, Marital Status (etc.) promote to lookup tables
 
 ## Last updated
 
 - 2026-04-25 — placeholder created.
-- 2026-04-27 — Employee Master Data foundation (PR opening this version): 6 tables migration, 6 models, EmployeeIndexPage + EmployeeMasterDataForm Livewire components, 8-tab shell, EmployeeSeeder, 6 feature tests. Child-table tabs render empty-state placeholders pending follow-up PRs.
+- 2026-04-27 — Employee Master Data foundation (#82): 6 tables migration, 6 models, EmployeeIndexPage + EmployeeMasterDataForm Livewire components, 8-tab shell, EmployeeSeeder, 6 feature tests. Child-table tabs render empty-state placeholders.
+- 2026-04-27 — Action buttons moved to upper-right (#84). Membership tab editor shipped (#85). Flight Ops tab editor shipped (#86). Attachments metadata editor shipped (#87). Three of four child-table tab placeholders now closed; remaining file-upload work deferred behind cross-app pattern decision.

@@ -67,26 +67,26 @@
                                     <tr wire:key="item-counter-row-{{ $index }}" @class(['bg-amber-50' => $isEditing])>
                                         <td class="border border-gray-200 px-2 py-1 text-gray-500">{{ $index + 1 }}</td>
                                         <td class="border border-gray-200 p-0">
-                                            <x-enterprise.select wire:model="rows.{{ $index }}.counter_ref_id" variant="cell" @disabled(! $isEditing)>
+                                            <x-enterprise.select wire:model="rows.{{ $index }}.counter_ref_id" variant="cell" :disabled="! $isEditing">
                                                 <option value=""></option>
                                                 @foreach ($counterRefOptions as $opt)
                                                     <option value="{{ $opt['id'] }}">{{ $opt['name'] }}</option>
                                                 @endforeach
                                             </x-enterprise.select>
                                         </td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.max_value_dec" variant="cell" @readonly(! $isEditing) /></td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.max_value_hhmm" variant="cell" @readonly(! $isEditing) /></td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.tolerance_dec" variant="cell" @readonly(! $isEditing) /></td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.tolerance_hhmm" variant="cell" @readonly(! $isEditing) /></td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="rows.{{ $index }}.orange_light_percent" variant="cell" @readonly(! $isEditing) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.max_value_dec" variant="cell" :readonly="! $isEditing" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.max_value_hhmm" variant="cell" :readonly="! $isEditing" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.tolerance_dec" variant="cell" :readonly="! $isEditing" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.tolerance_hhmm" variant="cell" :readonly="! $isEditing" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="rows.{{ $index }}.orange_light_percent" variant="cell" :readonly="! $isEditing" /></td>
                                         <td class="border border-gray-200 p-0">
-                                            <x-enterprise.select wire:model="rows.{{ $index }}.status" variant="cell" @disabled(! $isEditing)>
+                                            <x-enterprise.select wire:model="rows.{{ $index }}.status" variant="cell" :disabled="! $isEditing">
                                                 @foreach ($statusOptions as $option)
                                                     <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                                 @endforeach
                                             </x-enterprise.select>
                                         </td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.modif_ref" variant="cell" @readonly(! $isEditing) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="rows.{{ $index }}.modif_ref" variant="cell" :readonly="! $isEditing" /></td>
                                         <td class="border border-gray-200 px-1 py-1 align-middle">
                                             <div class="flex items-center justify-center gap-1">
                                                 <button type="button"
@@ -131,11 +131,11 @@
                                 </thead>
                                 <tbody>
                                     <tr @class(['bg-amber-50' => $editingCalendar])>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="calendar.label" variant="cell" @readonly(! $editingCalendar) /></td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="calendar.limit_days" variant="cell" @readonly(! $editingCalendar) /></td>
-                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="calendar.orange_light_days" variant="cell" @readonly(! $editingCalendar) /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input wire:model="calendar.label" variant="cell" :readonly="! $editingCalendar" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="calendar.limit_days" variant="cell" :readonly="! $editingCalendar" /></td>
+                                        <td class="border border-gray-200 p-0"><x-enterprise.input type="number" wire:model="calendar.orange_light_days" variant="cell" :readonly="! $editingCalendar" /></td>
                                         <td class="border border-gray-200 p-0">
-                                            <x-enterprise.select wire:model="calendar.status" variant="cell" @disabled(! $editingCalendar)>
+                                            <x-enterprise.select wire:model="calendar.status" variant="cell" :disabled="! $editingCalendar">
                                                 @foreach ($statusOptions as $option)
                                                     <option value="{{ $option['name'] }}">{{ $option['code'] }} - {{ $option['name'] }}</option>
                                                 @endforeach
