@@ -1130,13 +1130,12 @@
                         @foreach ($addressFields as $field)
                             <div class="grid grid-cols-[104px_minmax(0,1fr)] items-center gap-3">
                                 <label for="{{ $field['name'] }}" class="text-sm font-medium text-gray-600">{{ $field['label'] }}</label>
-                                <input
-                                    id="{{ $field['name'] }}"
-                                    name="{{ $field['name'] }}"
-                                    type="text"
-                                    value="{{ $field['value'] }}"
+                                <x-enterprise.input
+                                    :id="$field['name']"
+                                    :name="$field['name']"
+                                    :value="$field['value']"
                                     readonly
-                                    class="input-field input-field-filled"
+                                    class="input-field-filled"
                                 />
                             </div>
                         @endforeach
@@ -1147,14 +1146,16 @@
                             <div class="space-y-3">
                                 <p class="text-sm font-medium text-gray-600">Obtain address from</p>
                                 <div class="space-y-2">
-                                    <label class="flex items-center gap-3 text-sm text-gray-700">
-                                        <input type="radio" name="equipment_address_source" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                        <span>Owner</span>
-                                    </label>
-                                    <label class="flex items-center gap-3 text-sm text-gray-700">
-                                        <input type="radio" name="equipment_address_source" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                        <span>Operator</span>
-                                    </label>
+                                    <x-enterprise.radio
+                                        label="Owner"
+                                        value="owner"
+                                        name="equipment_address_source"
+                                    />
+                                    <x-enterprise.radio
+                                        label="Operator"
+                                        value="operator"
+                                        name="equipment_address_source"
+                                    />
                                 </div>
                             </div>
 
@@ -1165,13 +1166,13 @@
 
                         <div class="grid grid-cols-[92px_minmax(0,1fr)] items-end gap-3">
                             <label for="equipment_location" class="text-sm font-medium text-gray-600">Location</label>
-                            <textarea
+                            <x-enterprise.textarea
                                 id="equipment_location"
                                 name="equipment_location"
                                 rows="5"
                                 readonly
-                                class="input-field input-field-filled min-h-[168px] resize-none"
-                            >{{ $selectedRecord['location'] }}</textarea>
+                                class="input-field-filled min-h-[168px]"
+                            >{{ $selectedRecord['location'] }}</x-enterprise.textarea>
                         </div>
                     </div>
                 </div>
