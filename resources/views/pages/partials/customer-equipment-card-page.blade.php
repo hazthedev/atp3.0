@@ -182,11 +182,11 @@
     ];
 
     $propertiesTopLeftFields = [
-        ['name' => 'manufacturer_item_code', 'label' => 'Manufacturer Item Code', 'value' => $selectedRecord['manufacturer_item_code'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'manufacturer_item_code', 'label' => 'Manufacturer Item Code', 'value' => $selectedRecord['manufacturer_item_code'], 'variant' => 'lookup'],
         ['name' => 'manufacturing_date', 'label' => 'Manufacturing date', 'value' => $selectedRecord['manufacturing_date'], 'variant' => null],
         ['name' => 'first_date_of_using', 'label' => 'First date of using', 'value' => $selectedRecord['first_date_of_using'], 'variant' => null],
         ['name' => 'delivery_date', 'label' => 'Delivery Date', 'value' => $selectedRecord['delivery_date'], 'variant' => null],
-        ['name' => 'configuration_standard', 'label' => 'Configuration standard', 'value' => $selectedRecord['configuration_standard'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'configuration_standard', 'label' => 'Configuration standard', 'value' => $selectedRecord['configuration_standard'], 'variant' => 'lookup'],
     ];
 
     $propertiesTopRightFields = [
@@ -195,14 +195,14 @@
     ];
 
     $propertiesOperationalFields = [
-        ['name' => 'mission_type', 'label' => 'Mission Type', 'value' => $selectedRecord['mission_type'], 'variant' => 'indicator', 'tone' => 'green'],
-        ['name' => 'maint_center_code', 'label' => 'Maint. Center Code', 'value' => $selectedRecord['maint_center_code'], 'variant' => null],
-        ['name' => 'maint_center_name', 'label' => 'Maint. Center Name', 'value' => $selectedRecord['maint_center_name'], 'variant' => null],
+        ['name' => 'mission_type', 'label' => 'Mission Type', 'value' => $selectedRecord['mission_type'], 'variant' => 'lookup'],
+        ['name' => 'maint_center_code', 'label' => 'Maint. Center Code', 'value' => $selectedRecord['maint_center_code'], 'variant' => 'lookup'],
+        ['name' => 'maint_center_name', 'label' => 'Maint. Center Name', 'value' => $selectedRecord['maint_center_name'], 'variant' => 'lookup'],
         ['name' => 'external_key', 'label' => 'External Key', 'value' => $selectedRecord['external_key'], 'variant' => null],
-        ['name' => 'environment_type', 'label' => 'Environment Type', 'value' => $selectedRecord['environment_type'], 'variant' => 'indicator', 'tone' => 'green'],
-        ['name' => 'utilization_model', 'label' => 'Utilization Model', 'value' => $selectedRecord['utilization_model'], 'variant' => 'arrow-indicator', 'tone' => 'green'],
-        ['name' => 'contract_type', 'label' => 'Contract Type', 'value' => $selectedRecord['contract_type'], 'variant' => 'indicator', 'tone' => 'green'],
-        ['name' => 'oil_type', 'label' => 'Oil Type', 'value' => $selectedRecord['oil_type'], 'variant' => null],
+        ['name' => 'environment_type', 'label' => 'Environment Type', 'value' => $selectedRecord['environment_type'], 'variant' => 'lookup'],
+        ['name' => 'utilization_model', 'label' => 'Utilization Model', 'value' => $selectedRecord['utilization_model'], 'variant' => 'arrow-lookup'],
+        ['name' => 'contract_type', 'label' => 'Contract Type', 'value' => $selectedRecord['contract_type'], 'variant' => 'lookup'],
+        ['name' => 'oil_type', 'label' => 'Oil Type', 'value' => $selectedRecord['oil_type'], 'variant' => 'lookup'],
     ];
 
     $addressFields = [
