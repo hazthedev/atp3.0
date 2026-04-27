@@ -29,12 +29,9 @@ class EquipmentShowForm extends Component
     public string $category_part = '';
     public string $variant = '';
     public string $status = '';
-    public string $owner_code = '';
     public string $owner_name = '';
-    public string $operator_code = '';
     public string $operator_name = '';
     public string $maintenance_plan = '';
-    public string $mel = '';
 
     public function mount(int $equipmentId): void
     {
@@ -57,12 +54,9 @@ class EquipmentShowForm extends Component
         $this->category_part = $eq->category_part ?? '';
         $this->variant = $eq->variant ?? '';
         $this->status = $eq->status ?? '';
-        $this->owner_code = $eq->owner_code ?? '';
         $this->owner_name = $eq->owner_name ?? '';
-        $this->operator_code = $eq->operator_code ?? '';
         $this->operator_name = $eq->operator_name ?? '';
         $this->maintenance_plan = $eq->maintenance_plan ?? '';
-        $this->mel = $eq->mel ?? '';
     }
 
     #[On('save-edit-form')]
@@ -80,12 +74,9 @@ class EquipmentShowForm extends Component
             'category_part' => $this->category_part ?: null,
             'variant' => $this->variant ?: null,
             'status' => $this->status ?: 'On Aircraft',
-            'owner_code' => $this->owner_code ?: null,
             'owner_name' => $this->owner_name ?: null,
-            'operator_code' => $this->operator_code ?: null,
             'operator_name' => $this->operator_name ?: null,
             'maintenance_plan' => $this->maintenance_plan ?: null,
-            'mel' => $this->mel ?: null,
         ]);
 
         $this->dispatch('record-saved');

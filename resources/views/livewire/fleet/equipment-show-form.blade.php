@@ -17,43 +17,31 @@
         <x-enterprise.input variant="tree" wire:model="serial_number" />
     </div>
     <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">Owner Code</label>
-        <x-enterprise.input variant="arrow-lookup" wire:model="owner_code" />
+        <label class="block text-sm font-medium text-gray-700">Owner Name</label>
+        <x-enterprise.input wire:model="owner_name" />
     </div>
     <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Item No.</label>
         <x-enterprise.input variant="arrow-lookup" wire:model="item_no" readonly />
     </div>
     <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">Owner Name</label>
-        <x-enterprise.input wire:model="owner_name" />
+        <label class="block text-sm font-medium text-gray-700">Operator Name</label>
+        <x-enterprise.input variant="lookup" wire:model="operator_name" />
     </div>
     <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Item Description</label>
         <x-enterprise.input wire:model="item_description" readonly />
     </div>
     <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">Operator Code</label>
-        <x-enterprise.input variant="arrow-lookup" wire:model="operator_code" />
+        <label class="block text-sm font-medium text-gray-700">Maintenance Plan</label>
+        <x-enterprise.input variant="indicator" tone="green" wire:model="maintenance_plan" />
     </div>
     <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Category Part</label>
         <x-enterprise.input variant="lookup" wire:model="category_part" />
     </div>
     <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">Operator Name</label>
-        <x-enterprise.input variant="lookup" wire:model="operator_name" />
-    </div>
-    <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Variant</label>
         <x-enterprise.input variant="lookup" wire:model="variant" />
-    </div>
-    <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">Maintenance Plan</label>
-        <x-enterprise.input variant="indicator" tone="green" wire:model="maintenance_plan" />
-    </div>
-    <div class="space-y-1.5 md:col-start-2">
-        <label class="block text-sm font-medium text-gray-700">MEL</label>
-        <x-enterprise.input variant="indicator" tone="green" wire:model="mel" />
     </div>
 </div>
