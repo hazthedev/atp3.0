@@ -218,7 +218,7 @@
 
     $workOrderRows = [
         [
-            'code' => 'SDHOP0684',
+            'code' => 'SHOP0684',
             'intervention_type' => 'Maintenance',
             'status' => 'Planned',
             'start_date' => '',
