@@ -26,7 +26,7 @@
     </div>
     <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Owner Name</label>
-        <x-enterprise.input variant="lookup" wire:model="owner_name" />
+        <x-enterprise.input wire:model="owner_name" />
     </div>
     <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Item Description</label>
@@ -50,7 +50,7 @@
     </div>
     <div class="space-y-1.5">
         <label class="block text-sm font-medium text-gray-700">Maintenance Plan</label>
-        <x-enterprise.input variant="arrow-indicator" tone="green" wire:model="maintenance_plan" />
+        <x-enterprise.input variant="indicator" tone="green" wire:model="maintenance_plan" />
     </div>
     <div class="space-y-1.5 md:col-start-2">
         <label class="block text-sm font-medium text-gray-700">MEL</label>
