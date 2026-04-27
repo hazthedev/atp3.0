@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Fleet Synthesis — Details')
+@section('title', 'Fleet Dashboard — Details')
 
 @php
     $rows = [
@@ -110,12 +110,12 @@
     >
         <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div class="space-y-2">
-                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">Fleet Synthesis</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">Fleet Dashboard</p>
                 <h2 class="text-2xl font-bold text-gray-900">Details <span class="text-gray-400 font-normal">(<span x-text="total"></span>)</span></h2>
                 <p class="max-w-3xl text-sm text-gray-500">Flat list of every Visit, Task List and Technical Log matching the current filter.</p>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('reports.fleet-synthesis') }}" class="btn-ghost">
+                <a href="{{ route('dashboard.fleet') }}" class="btn-ghost">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                     Back
                 </a>
@@ -134,7 +134,7 @@
                             <span>Format</span>
                         </div>
                         <div class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm">
-                            <span class="text-gray-700">Fleet Synthesis – Details</span>
+                            <span class="text-gray-700">Fleet Dashboard – Details</span>
                             <span class="text-xs text-gray-400">XLS</span>
                             <button class="btn-secondary !py-1 !text-xs" @click="alert('Generate XLS — mockup')">Generate</button>
                         </div>

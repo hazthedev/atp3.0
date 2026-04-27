@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
  *
  * SAP scatters Work Order data across MOR2, MOR3, MOR4, MOR8, MOR9,
  * MORA, MORB, MORC, plus the applied archives AMR4/AMR8. Here we
- * collapse just the fields surfaced by the Fleet Synthesis / MRO
+ * collapse just the fields surfaced by the Fleet Dashboard / MRO
  * list pages. Additional columns can be added incrementally.
  */
 return new class extends Migration

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Fleet Synthesis')
+@section('title', 'Fleet Dashboard')
 
 @php
     // Real aircraft list from SAP @MRO_OUTM (Utilization Model headers — one per A/C).
@@ -36,8 +36,8 @@
         })"
     >
         <x-page-header
-            title="Fleet Synthesis"
-            description="Filter the fleet, then open the colored Dashboard or the detailed task list."
+            title="Fleet Dashboard"
+            description="Filter the fleet, then open the colored matrix or the detailed task list."
         />
 
         <section class="rounded-2xl border border-gray-200 bg-white shadow-sm">
@@ -127,8 +127,8 @@
             </div>
 
             <footer class="flex items-center justify-end gap-2 border-t border-gray-100 px-6 py-4">
-                <a href="{{ route('reports.fleet-synthesis.dashboard') }}" class="btn-secondary">Dashboard</a>
-                <a href="{{ route('reports.fleet-synthesis.details') }}" class="btn-primary">Details</a>
+                <a href="{{ route('dashboard.fleet.matrix') }}" class="btn-secondary">Matrix</a>
+                <a href="{{ route('dashboard.fleet.details') }}" class="btn-primary">Details</a>
             </footer>
         </section>
 

@@ -23,7 +23,9 @@ Route::get('/', static fn () => view('pages.dashboard'))->name('dashboard');
 Route::prefix('dashboard')->name('dashboard.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
         ['/user', 'pages.stub', 'user'],
-        ['/fleet', 'pages.stub', 'fleet'],
+        ['/fleet', 'pages.dashboard.fleet', 'fleet'],
+        ['/fleet/matrix', 'pages.dashboard.fleet.matrix', 'fleet.matrix'],
+        ['/fleet/details', 'pages.dashboard.fleet.details', 'fleet.details'],
     ]);
 });
 
@@ -203,9 +205,6 @@ Route::prefix('flight')->name('flight.')->group(function () use ($registerRoutes
 
 Route::prefix('reports')->name('reports.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
-        ['/fleet-synthesis', 'pages.reports.fleet-synthesis', 'fleet-synthesis'],
-        ['/fleet-synthesis/dashboard', 'pages.reports.fleet-synthesis.dashboard', 'fleet-synthesis.dashboard'],
-        ['/fleet-synthesis/details', 'pages.reports.fleet-synthesis.details', 'fleet-synthesis.details'],
         ['/fleet-report', 'pages.reports.fleet-report', 'fleet-report'],
         ['/time-tracking', 'pages.reports.time-tracking', 'time-tracking'],
         ['/historical-equipment-hierarchy', 'pages.reports.historical-equipment-hierarchy', 'historical-equipment-hierarchy'],

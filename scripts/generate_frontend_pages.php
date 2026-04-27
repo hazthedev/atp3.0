@@ -312,7 +312,6 @@ $add('mro/work-order/index', 'Work Order', 'list-page', ['title' => 'Work Order'
 $add('mro/time-tracking', 'Time Tracking', 'list-page', ['title' => 'Time Tracking', 'description' => 'Preview time-tracking entries and approval states.']);
 
 foreach ([
-    'fleet-synthesis' => 'Fleet Synthesis',
     'fleet-report' => 'Fleet Report',
     'time-tracking' => 'Time Tracking',
 ] as $slug => $title) {

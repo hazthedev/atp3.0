@@ -11,7 +11,7 @@
     <div class="space-y-6">
         <x-page-header
             title="Utilization Models"
-            description="Per-aircraft monthly utilisation rates. Used by Fleet Synthesis to convert Hours/Cycles remaining into a calendar Due Date (spec Notes 4.1–4.3)."
+            description="Per-aircraft monthly utilisation rates. Used by Fleet Dashboard to convert Hours/Cycles remaining into a calendar Due Date (spec Notes 4.1–4.3)."
         >
             <x-slot name="actions">
                 <span class="inline-flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">

@@ -10,7 +10,7 @@ use Illuminate\Database\Seeder;
 /**
  * Source: @MRO_MOR2 + mocked-up lifecycle states.
  * SAP's WO data is spread across MOR2 → MORC + AMR4/AMR8 archives. Here we seed a
- * representative spread of lifecycle states that match the Fleet Synthesis Details
+ * representative spread of lifecycle states that match the Fleet Dashboard Details
  * "Next Due WO" column and Work Order list pages.
  */
 class WorkOrderSeeder extends Seeder

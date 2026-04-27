@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Schema;
 /**
  * technical_logs ← @MRO_OTLG (Technical Log / MEL / CFD)
  *
- * Drives the Fleet Synthesis MEL/CFD column:
+ * Drives the Fleet Dashboard MEL/CFD column:
  * rows with status = Deferred (@MRO_OSTA code '-0000021') + future deadline.
  *
  * Only a curated subset of the 60+ SAP columns is mapped — the ones the
- * Fleet Synthesis Details screen actually displays.
+ * Fleet Dashboard Details screen actually displays.
  */
 return new class extends Migration
 {
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('mel_item_ref')->nullable();
             $table->string('ata_chapter')->nullable();
             $table->date('discovery_date')->nullable(); // U_DefDate
-            $table->date('deadline_date')->nullable(); // U_DeadLine — Fleet Synthesis alarm driver
+            $table->date('deadline_date')->nullable(); // U_DeadLine — Fleet Dashboard alarm driver
             $table->date('closure_date')->nullable(); // U_CDate
             $table->boolean('is_deferral')->default(false);
             $table->text('discovery_description')->nullable(); // U_Desc

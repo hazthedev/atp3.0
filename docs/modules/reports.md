@@ -13,9 +13,10 @@ Tenth L1. Fleet commercial and fleet management reports plus time tracking.
 | Time Tracking → Personal experience | Per-user hour tracking |
 
 Plus two legacy top-level reports still routed:
-- `reports.fleet-synthesis` (exposed via Dashboard L1)
 - `reports.fleet-report`
 - `reports.time-tracking` (legacy top-level)
+
+Note: `reports.fleet-synthesis*` was relocated to `dashboard.fleet[.matrix|.details]` on 2026-04-27 — see Dashboard L1 module doc.
 
 ### DB tables owned here
 
@@ -29,7 +30,7 @@ None yet.
 
 ### Shipped
 - All routes registered (PR #39)
-- Legacy pages for `fleet-synthesis`, `fleet-report`, `time-tracking`, `historical-equipment-hierarchy`, `view-modification-on-equipment` have existing Blade views
+- Legacy pages for `fleet-report`, `time-tracking`, `historical-equipment-hierarchy`, `view-modification-on-equipment` have existing Blade views
 
 ### Stubbed (pages.stub)
 - All 12 Fleet Commercial + Fleet Management report variants
@@ -52,7 +53,7 @@ starting: request Weststar samples for at least:
 ## Design decisions
 
 - Reports are grouped by **consumer** (Commercial vs Management), not by data source.
-- Legacy (`fleet-synthesis`, etc.) routes kept for backwards compatibility with existing pages.
+- Legacy `fleet-report` / `time-tracking` routes kept for backwards compatibility with existing pages.
 
 ## Cross-L1 touchpoints
 
