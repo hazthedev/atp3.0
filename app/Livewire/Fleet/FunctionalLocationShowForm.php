@@ -18,9 +18,7 @@ class FunctionalLocationShowForm extends Component
     public string $type = '';
     public string $status = '';
     public string $maintenance_plan = '';
-    public string $owner_code = '';
     public string $owner_name = '';
-    public string $operator_code = '';
     public string $operator_name = '';
     public string $mel = '';
 
@@ -44,9 +42,7 @@ class FunctionalLocationShowForm extends Component
         $this->type = $fl->type ?? '';
         $this->status = $fl->status ?? '';
         $this->maintenance_plan = $fl->maintenance_plan ?? '';
-        $this->owner_code = $fl->owner_code ?? '';
         $this->owner_name = $fl->owner_name ?? '';
-        $this->operator_code = $fl->operator_code ?? '';
         $this->operator_name = $fl->operator_name ?? '';
         $this->mel = $fl->mel ?? '';
     }
@@ -67,9 +63,7 @@ class FunctionalLocationShowForm extends Component
             'type' => $this->type ?: null,
             'status' => $this->status ?: 'Airworthy',
             'maintenance_plan' => $this->maintenance_plan ?: null,
-            'owner_code' => $this->owner_code ?: null,
             'owner_name' => $this->owner_name ?: null,
-            'operator_code' => $this->operator_code ?: null,
             'operator_name' => $this->operator_name ?: null,
             'mel' => $this->mel ?: null,
         ]);

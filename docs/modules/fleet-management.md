@@ -120,13 +120,13 @@ Huge. In rough priority order:
 2. **Attach / Detach Equipment** end-to-end — ties into installed-base hierarchy
 3. **Modification** module (Technical Publications Administration / Application)
 4. **Maintenance Plan Administration** — compose visits + tasks into programs
-5. **FL trim per revamped spec** — the reverted PR #41 changes (decide keep/discard before re-applying)
-6. **Installed-base hierarchy table** — fixes the naive lookup in PenaltyEngine, unblocks sub-equipment targeting
-7. **subject_type enum** — centralise the 17 string literals per advisor recommendation
-8. **Counter history UI** — the "Counter History" button on FL exists but isn't wired
+5. **Installed-base hierarchy table** — fixes the naive lookup in PenaltyEngine, unblocks sub-equipment targeting
+6. **subject_type enum** — centralise the 17 string literals per advisor recommendation
+7. **Counter history UI** — the "Counter History" button on FL exists but isn't wired
 
 ## Last updated
 
+- 2026-04-27 — `refactor/fl-page-trim` (supersedes the reverted PR #41). Trimmed the FL show page per a fresh user-authored kill list. View-layer + Livewire bindings only; no DB schema change. Removed: top-card `owner_code` / `operator_code` rows; General-tab `mission_type` / `environment_type` / `oi_type` rows; Counters tab `Residual` + `Equi. ID` columns from both tables; Properties tab `Installed Base Data Anomaly` section; Events sub-tabs `Repairs` and `Others`. `FunctionalLocationShowForm` no longer binds `owner_code` / `operator_code` (DB columns stay; ChangeCustomerInformationPage remains the canonical mutator). Stripped the 3 General-tab mock keys from `FunctionalLocationCatalog`. Spec at `docs/superpowers/specs/2026-04-27-fl-page-restructure-trim-design.md`. Trim item is now resolved — the "FL trim per revamped spec" entry under Outstanding can be considered done.
 - 2026-04-25 — module file created. Substantial work shipped; input pipeline (flights) not yet started.
 - 2026-04-24 — PR #62 `refactor/adoption-fleet-management` (Phase A2 of the enterprise-components adoption campaign) — 10 Fleet/Maintenance Livewire views migrated to enterprise components. Hot spots fixed: `change-equipment-customer-information-page` (inline `style="grid-template-columns"` hack removed in favour of `<x-enterprise.field-row>`); `maintenance-plan-administration-page` (6 filter selects → bare `<x-enterprise.select>`, 5 readonly display fields → `<x-enterprise.input variant="disabled">`). Edit Record toggle scopes, arrow-chevron list-table semantics, and the FL show-form's spec-driven variants (`tree`, `arrow-lookup`, `arrow-indicator`, `indicator` with `tone="green"`) all preserved. Radio inputs left raw (no `<x-enterprise.radio>` at the time).
 - 2026-04-25 — PR #65 `refactor/enterprise-catalog-followups` — added `<x-enterprise.radio>` component, then migrated radios in `minimum-equipment-list-page`, `maintenance-plan-administration-page`, `simulation-on-fleet-page`. Migrated the `functional-location-counters-manager` modal: 11 cell inputs to `variant="cell"`, 3 dense h-3.5 checkboxes preserved via the new `inputClass` prop on `<x-enterprise.checkbox>`. Penalties-tab inputs deliberately not migrated (use `.input-field`, not the cell pattern).
