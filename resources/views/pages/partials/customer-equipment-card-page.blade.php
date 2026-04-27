@@ -1233,7 +1233,11 @@
 
     <div x-cloak x-show="activeTab === 'remark'" class="space-y-6">
         <x-card title="Remark" description="Free-form remark workspace for the selected equipment." padding="p-6">
-                <div class="min-h-[360px] rounded-xl border border-gray-200 bg-gray-50/30"></div>
+                @if ($equipmentModel)
+                    @livewire('fleet.equipment-remark-form', ['equipmentId' => $equipmentModel->id], key('equipment-remark-form-'.$equipmentModel->id))
+                @else
+                    <div class="min-h-[360px] rounded-xl border border-gray-200 bg-gray-50/30"></div>
+                @endif
         </x-card>
     </div>
 

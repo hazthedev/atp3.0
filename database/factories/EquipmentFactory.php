@@ -36,6 +36,7 @@ class EquipmentFactory extends Factory
             'sheet' => null,
             'mark' => null,
             'mel_item' => null,
+            'remark_text' => null,
         ];
     }
 }
