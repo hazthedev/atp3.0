@@ -99,36 +99,36 @@
     ];
 
     $generalMetaFields = [
-        ['name' => 'chapter', 'label' => 'Chapter', 'value' => $selectedRecord['chapter']],
-        ['name' => 'section', 'label' => 'Section', 'value' => $selectedRecord['section']],
-        ['name' => 'subject', 'label' => 'Subject', 'value' => $selectedRecord['subject']],
-        ['name' => 'sheet', 'label' => 'Sheet', 'value' => $selectedRecord['sheet']],
-        ['name' => 'mark', 'label' => 'Mark', 'value' => $selectedRecord['mark']],
-        ['name' => 'mel_item', 'label' => 'MEL Item', 'value' => $selectedRecord['mel_item']],
+        ['name' => 'chapter', 'label' => 'Chapter', 'value' => $selectedRecord['chapter'], 'variant' => null],
+        ['name' => 'section', 'label' => 'Section', 'value' => $selectedRecord['section'], 'variant' => null],
+        ['name' => 'subject', 'label' => 'Subject', 'value' => $selectedRecord['subject'], 'variant' => null],
+        ['name' => 'sheet', 'label' => 'Sheet', 'value' => $selectedRecord['sheet'], 'variant' => null],
+        ['name' => 'mark', 'label' => 'Mark', 'value' => $selectedRecord['mark'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'mel_item', 'label' => 'MEL Item', 'value' => $selectedRecord['mel_item'], 'variant' => 'lookup'],
     ];
 
     $nextHigherAssemblyFields = [
-        ['name' => 'next_higher_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['next_higher_serial_number']],
-        ['name' => 'next_higher_item_no', 'label' => 'Item No.', 'value' => $selectedRecord['next_higher_item_no']],
-        ['name' => 'next_higher_category_part', 'label' => 'Category Part', 'value' => $selectedRecord['next_higher_category_part']],
-        ['name' => 'next_higher_equipment_no', 'label' => 'Equipment No', 'value' => $selectedRecord['next_higher_equipment_no']],
-        ['name' => 'next_higher_item_desc', 'label' => 'Item Desc.', 'value' => $selectedRecord['next_higher_item_desc']],
+        ['name' => 'next_higher_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['next_higher_serial_number'], 'variant' => 'tree'],
+        ['name' => 'next_higher_item_no', 'label' => 'Item No.', 'value' => $selectedRecord['next_higher_item_no'], 'variant' => null],
+        ['name' => 'next_higher_category_part', 'label' => 'Category Part', 'value' => $selectedRecord['next_higher_category_part'], 'variant' => 'lookup'],
+        ['name' => 'next_higher_equipment_no', 'label' => 'Equipment No', 'value' => $selectedRecord['next_higher_equipment_no'], 'variant' => null],
+        ['name' => 'next_higher_item_desc', 'label' => 'Item Desc.', 'value' => $selectedRecord['next_higher_item_desc'], 'variant' => null],
     ];
 
     $topAssemblyFields = [
-        ['name' => 'top_assembly_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['top_assembly_serial_number']],
-        ['name' => 'top_assembly_item_no', 'label' => 'Item No.', 'value' => $selectedRecord['top_assembly_item_no']],
-        ['name' => 'top_assembly_category_part', 'label' => 'Category Part', 'value' => $selectedRecord['top_assembly_category_part']],
-        ['name' => 'top_assembly_equipment_no', 'label' => 'Equipment No', 'value' => $selectedRecord['top_assembly_equipment_no']],
-        ['name' => 'top_assembly_item_desc', 'label' => 'Item Desc.', 'value' => $selectedRecord['top_assembly_item_desc']],
+        ['name' => 'top_assembly_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['top_assembly_serial_number'], 'variant' => 'tree'],
+        ['name' => 'top_assembly_item_no', 'label' => 'Item No.', 'value' => $selectedRecord['top_assembly_item_no'], 'variant' => null],
+        ['name' => 'top_assembly_category_part', 'label' => 'Category Part', 'value' => $selectedRecord['top_assembly_category_part'], 'variant' => 'lookup'],
+        ['name' => 'top_assembly_equipment_no', 'label' => 'Equipment No', 'value' => $selectedRecord['top_assembly_equipment_no'], 'variant' => null],
+        ['name' => 'top_assembly_item_desc', 'label' => 'Item Desc.', 'value' => $selectedRecord['top_assembly_item_desc'], 'variant' => null],
     ];
 
     $functionalLocationFields = [
-        ['name' => 'functional_location_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['functional_location_serial_number']],
-        ['name' => 'functional_location_registration', 'label' => 'Registration', 'value' => $selectedRecord['functional_location_registration']],
-        ['name' => 'functional_location_type', 'label' => 'Type', 'value' => $selectedRecord['functional_location_type']],
-        ['name' => 'functional_location_code', 'label' => 'Code', 'value' => $selectedRecord['functional_location_code']],
-        ['name' => 'functional_location_position', 'label' => 'Position', 'value' => $selectedRecord['functional_location_position']],
+        ['name' => 'functional_location_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['functional_location_serial_number'], 'variant' => 'tree'],
+        ['name' => 'functional_location_registration', 'label' => 'Registration', 'value' => $selectedRecord['functional_location_registration'], 'variant' => null],
+        ['name' => 'functional_location_type', 'label' => 'Type', 'value' => $selectedRecord['functional_location_type'], 'variant' => 'lookup'],
+        ['name' => 'functional_location_code', 'label' => 'Code', 'value' => $selectedRecord['functional_location_code'], 'variant' => 'arrow-lookup'],
+        ['name' => 'functional_location_position', 'label' => 'Position', 'value' => $selectedRecord['functional_location_position'], 'variant' => null],
     ];
 
     $tabs = [
@@ -356,23 +356,30 @@
             <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
                 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
                     @foreach (array_slice($generalMetaFields, 0, 5) as $field)
-                        <x-form.input
-                            :label="$field['label']"
-                            :name="$field['name']"
-                            :value="$field['value']"
-                            readonly
-                            class="input-field-filled"
-                        />
+                        <div class="space-y-1.5">
+                            <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                            <x-enterprise.input
+                                variant="{{ $field['variant'] }}"
+                                tone="{{ $field['tone'] ?? null }}"
+                                :name="$field['name']"
+                                :value="$field['value']"
+                                readonly
+                                class="input-field-filled"
+                            />
+                        </div>
                     @endforeach
                 </div>
 
-                <x-form.input
-                    :label="$generalMetaFields[5]['label']"
-                    :name="$generalMetaFields[5]['name']"
-                    :value="$generalMetaFields[5]['value']"
-                    readonly
-                    class="input-field-filled"
-                />
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-medium text-gray-700">{{ $generalMetaFields[5]['label'] }}</label>
+                    <x-enterprise.input
+                        variant="{{ $generalMetaFields[5]['variant'] }}"
+                        :name="$generalMetaFields[5]['name']"
+                        :value="$generalMetaFields[5]['value']"
+                        readonly
+                        class="input-field-filled"
+                    />
+                </div>
             </div>
 
             <div class="mt-6 space-y-4">
@@ -386,25 +393,33 @@
 
                             <div class="grid gap-4 md:grid-cols-3">
                                 @foreach (array_slice($nextHigherAssemblyFields, 0, 3) as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            data-edit-locked="true"
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
 
                             <div class="grid gap-4 md:grid-cols-2">
                                 @foreach (array_slice($nextHigherAssemblyFields, 3, 2) as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            data-edit-locked="true"
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -426,25 +441,33 @@
 
                             <div class="grid gap-4 md:grid-cols-3">
                                 @foreach (array_slice($topAssemblyFields, 0, 3) as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            data-edit-locked="true"
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
 
                             <div class="grid gap-4 md:grid-cols-2">
                                 @foreach (array_slice($topAssemblyFields, 3, 2) as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            data-edit-locked="true"
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -461,25 +484,33 @@
 
                             <div class="grid gap-4 md:grid-cols-3">
                                 @foreach (array_slice($functionalLocationFields, 0, 3) as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            data-edit-locked="true"
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
 
                             <div class="grid gap-4 md:grid-cols-2">
                                 @foreach (array_slice($functionalLocationFields, 3, 2) as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            data-edit-locked="true"
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
