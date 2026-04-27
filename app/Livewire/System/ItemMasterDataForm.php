@@ -17,8 +17,6 @@ class ItemMasterDataForm extends Component
     public string $manufacturer = '';
     public string $item_group = '';
     public string $item_class = '';
-    public string $item_type = 'Items';
-    public string $uom_group = 'Manual';
 
     public function mount(int $itemId): void
     {
@@ -39,8 +37,6 @@ class ItemMasterDataForm extends Component
         $this->manufacturer = $item->manufacturer ?? '';
         $this->item_group = $item->item_group ?? '';
         $this->item_class = $item->item_class ?? '';
-        $this->item_type = $item->item_type ?? 'Items';
-        $this->uom_group = $item->uom_group ?? 'Manual';
     }
 
     #[On('save-edit-form')]
@@ -58,8 +54,6 @@ class ItemMasterDataForm extends Component
             'manufacturer' => $this->manufacturer ?: null,
             'item_group' => $this->item_group ?: null,
             'item_class' => $this->item_class ?: null,
-            'item_type' => $this->item_type ?: 'Items',
-            'uom_group' => $this->uom_group ?: 'Manual',
         ]);
 
         $this->dispatch('record-saved');
