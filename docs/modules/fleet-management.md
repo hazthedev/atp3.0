@@ -73,7 +73,7 @@ planning, and operational inputs.
 
 - Attach / Detach Equipment flows (pages exist, logic partial)
 - Modification module (Apply to FL / Apply to Equipment / Equipment Reference Evolution)
-- Configuration Control, Airworthiness Review (FL)
+- Configuration Control, Airworthiness Review (FL) — Configuration Control should match the "Equipment Tree" feature in SAP Aero One
 - Technical Publications Administration / Application (under Fleet Management L2)
 - Maintenance Plan Administration / Utilisation Model / Maintenance Planning
 - Operational Inputs — Defects specifically
