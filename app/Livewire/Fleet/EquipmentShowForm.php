@@ -10,10 +10,22 @@ use Livewire\Component;
 
 class EquipmentShowForm extends Component
 {
+    public const STATUS_OPTIONS = [
+        'Ghost',
+        'In Repair',
+        'On Aircraft',
+        'Quarantine',
+        'Removed',
+        'Scrap',
+        'Serviceable',
+    ];
+
     public int $equipmentId;
 
     public string $equipment_no = '';
     public string $serial_number = '';
+    public string $item_no = '';
+    public string $item_description = '';
     public string $category_part = '';
     public string $variant = '';
     public string $status = '';
@@ -32,7 +44,7 @@ class EquipmentShowForm extends Component
 
     private function loadFromDb(): void
     {
-        $eq = Equipment::find($this->equipmentId);
+        $eq = Equipment::with('item')->find($this->equipmentId);
 
         if ($eq === null) {
             return;
@@ -40,6 +52,8 @@ class EquipmentShowForm extends Component
 
         $this->equipment_no = (string) ($eq->equipment_no ?? '');
         $this->serial_number = $eq->serial_number ?? '';
+        $this->item_no = $eq->item->code ?? '';
+        $this->item_description = $eq->item->description ?? '';
         $this->category_part = $eq->category_part ?? '';
         $this->variant = $eq->variant ?? '';
         $this->status = $eq->status ?? '';
