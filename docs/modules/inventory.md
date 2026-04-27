@@ -61,3 +61,4 @@ Fourth L1. Item master data and inventory management.
 ## Last updated
 
 - 2026-04-25 — module file created. Identity card persists; rest is mock.
+- 2026-04-24 — PR #63 `refactor/adoption-inventory` (Phase A3 of the enterprise-components adoption campaign) — 3 files migrated to enterprise components: `system/item-master-data-form` (Livewire Identity card, 7 raw text inputs → `<x-enterprise.input>`), `fleet/item-counters-manager` (counter-modal grid with cell inputs/selects), `pages/system/item-master-data/partials/form` (Alpine mock preview — 11 text inputs, 11 selects, 1 textarea, 5 inline-label checkboxes via Option-A bare mode). Counter-template modal pattern preserved; `wire:model` and `@readonly`/`@disabled` intact. Deferred: 3 status radios (no enterprise radio at the time — closed by PR #65).

@@ -61,10 +61,39 @@ The 10 L1s (matching `config/navigation.php`):
   `resources/views/livewire/fleet/functional-location-search-page.blade.php`
   for the reference implementation.
 - **Auto-merge** squash-merge PRs without asking, per the user's durable preference.
-  Branches named `feature/*`, `fix/*`, `refactor/*`, `docs/*` are expected.
+  Branches named `feature/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`,
+  `test/*` are expected.
 - **Reference data CRUD** uses the pencil-launched Livewire modal pattern (see
   MeasureUnitsManager / CounterRefsManager). Rows read-only until the yellow
   pencil is clicked.
+
+## Component vocabulary — which to use when
+
+The repo carries two parallel form component layers. The decision between them
+is **not a coin flip** — pick by call-site shape:
+
+- **`<x-enterprise.*>`** — for SAP-style dense detail forms (User / FL /
+  Equipment / Work Order / Item Master Data detail pages, inline-edit grids,
+  Livewire admin modals). Bare fields composed inside
+  `<x-enterprise.field-row>`, `<x-enterprise.lookup-row>`,
+  `<x-enterprise.control-row>`, `<x-enterprise.date-row>`, or
+  `<x-enterprise.textarea-row>`. **Always pick the right `variant` from the
+  decision tree in `docs/ui-variants.md` before writing Blade.**
+- **`<x-form.*>`** — for simple one-off forms where label + input + error need
+  to travel together as a single composite (auth pages like login/register,
+  single-input search filters, the customer-equipment-card dynamic field
+  loop). Has built-in error rendering; the enterprise vocabulary does not.
+- **When in doubt, default to `<x-enterprise.*>`.** It's the dominant
+  vocabulary (3:1 callsite ratio) and the variant catalog teaches
+  recognition. Reach for `<x-form.*>` only when the form's shape — composite
+  label + error — is exactly what you need.
+- **Never hand-roll a hybrid** (e.g. `<x-form.label>` wrapping
+  `<x-enterprise.input>`). Pick one vocabulary per form and stick with it.
+- **Never hand-roll raw `<input>` / `<select>` / `<textarea>` / `<input
+  type="checkbox">` / `<input type="radio">`.** If no existing component +
+  variant fits, stop and propose a catalog gap-fill PR with a `docs/ui-variants.md`
+  update — don't build one-off styling inline. (See `feedback_components_no_hand_roll`
+  memory.)
 
 ## Where to look first
 
@@ -88,5 +117,15 @@ php artisan config:cache
 php artisan route:cache                            # only when routes changed
 ```
 
-Note: faker is dev-only. On prod, `php artisan db:seed` without `--class=`
-will fail on the UserFactory fake() call — always target individual seeders.
+**Compiled assets are checked in.** `public/build/` is committed to the repo
+because the cPanel deploy environment has no Node runtime. Regenerate with
+`npm run build` on a dev machine and commit the resulting `public/build/`
+whenever Tailwind classes or Vite-imported JS change. Skipping the rebuild
+won't break the app but new Tailwind utilities (e.g. variant modifiers like
+`read-only:` / `disabled:`) won't render until the bundle catches up.
+
+**Seeders:** `UserFactory` throws if invoked in production, and
+`DatabaseSeeder` already gates its dev-only test user behind
+`! app()->environment('production')`. `php artisan db:seed --force` is safe
+on prod because no seeder calls `fake()` or any factory. Still prefer
+`--class=XxxSeeder` for surgical reseeds.

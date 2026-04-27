@@ -69,3 +69,5 @@ Everything. Priority list needs user direction. Candidate starting points:
 ## Last updated
 
 - 2026-04-25 — module file created. All stubbed; no real reports yet.
+- 2026-04-24 — PR #64 `refactor/adoption-reports` — migrated raw form elements in the two Livewire-backed report pages: `historical-equipment-hierarchy-page` (6 readonly equipment fields + Date/Time inputs → `<x-enterprise.input>`, radios left raw at the time) and `view-modification-on-equipment-page` (Equipment No readonly + `includeSubLevels` checkbox → enterprise components). The 12 stubbed report variants are untouched.
+- 2026-04-25 — PR #65 — the 2 viewMode radios in `historical-equipment-hierarchy-page` migrated to the new `<x-enterprise.radio>` (added in this same PR).
