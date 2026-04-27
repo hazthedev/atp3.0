@@ -275,7 +275,8 @@ Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes):
 
 Route::prefix('hr')->name('hr.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
-        ['/employee-master-data', 'pages.stub', 'employee-master-data'],
+        ['/employee-master-data', 'pages.hr.employee-master-data.index', 'employee-master-data'],
+        ['/employee-master-data/{id}/edit', 'pages.hr.employee-master-data.edit', 'employee-master-data.edit'],
     ]);
 });
 
