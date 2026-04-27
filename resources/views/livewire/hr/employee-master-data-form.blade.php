@@ -17,10 +17,18 @@
      data-edit-scope
      :data-editing="editing">
 
-    <x-page-header
-        title="Employee Master Data"
-        description="Detail card for the selected employee. Click Edit Record to make changes."
-    />
+    <div class="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-start">
+        <x-page-header
+            title="Employee Master Data"
+            description="Detail card for the selected employee. Click Edit Record to make changes."
+        />
+        <div class="flex flex-wrap items-center gap-3 lg:flex-shrink-0">
+            <a href="{{ route('hr.employee-master-data') }}" class="btn-secondary">Back to list</a>
+            <button type="button" class="btn-secondary" x-show="editing" @click="$dispatch('cancel-edit-form'); editing = false">Cancel</button>
+            <button type="button" class="btn-primary" x-show="!editing" @click="editing = true">Edit Record</button>
+            <button type="button" class="btn-primary" x-show="editing" @click="$dispatch('save-edit-form')">Save</button>
+        </div>
+    </div>
 
     <x-card padding="p-6">
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_220px]">
@@ -420,10 +428,4 @@
         </x-card>
     </div>
 
-    <div class="sticky-form-actions">
-        <a href="{{ route('hr.employee-master-data') }}" class="btn-secondary mr-auto">Back to list</a>
-        <button type="button" class="btn-secondary" x-show="editing" @click="$dispatch('cancel-edit-form'); editing = false">Cancel</button>
-        <button type="button" class="btn-primary" x-show="!editing" @click="editing = true">Edit Record</button>
-        <button type="button" class="btn-primary" x-show="editing" @click="$dispatch('save-edit-form')">Save</button>
-    </div>
 </div>
