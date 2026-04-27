@@ -30,6 +30,12 @@ class EquipmentFactory extends Factory
             'operator_name' => null,
             'maintenance_plan' => null,
             'mel' => null,
+            'chapter' => null,
+            'section' => null,
+            'subject' => null,
+            'sheet' => null,
+            'mark' => null,
+            'mel_item' => null,
         ];
     }
 }

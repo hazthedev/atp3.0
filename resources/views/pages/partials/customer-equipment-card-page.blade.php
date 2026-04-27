@@ -353,34 +353,38 @@
 
     <div x-cloak x-show="activeTab === 'general'" class="space-y-6">
         <x-card title="General" description="Assembly relationships and linked functional-location context for the selected equipment." padding="p-6">
-            <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
-                <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-                    @foreach (array_slice($generalMetaFields, 0, 5) as $field)
-                        <div class="space-y-1.5">
-                            <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
-                            <x-enterprise.input
-                                variant="{{ $field['variant'] }}"
-                                tone="{{ $field['tone'] ?? null }}"
-                                :name="$field['name']"
-                                :value="$field['value']"
-                                readonly
-                                class="input-field-filled"
-                            />
-                        </div>
-                    @endforeach
-                </div>
+            @if ($equipmentModel)
+                @livewire('fleet.equipment-general-meta-form', ['equipmentId' => $equipmentModel->id], key('equipment-general-meta-form-'.$equipmentModel->id))
+            @else
+                <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
+                    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+                        @foreach (array_slice($generalMetaFields, 0, 5) as $field)
+                            <div class="space-y-1.5">
+                                <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                <x-enterprise.input
+                                    variant="{{ $field['variant'] }}"
+                                    tone="{{ $field['tone'] ?? null }}"
+                                    :name="$field['name']"
+                                    :value="$field['value']"
+                                    readonly
+                                    class="input-field-filled"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
 
-                <div class="space-y-1.5">
-                    <label class="block text-sm font-medium text-gray-700">{{ $generalMetaFields[5]['label'] }}</label>
-                    <x-enterprise.input
-                        variant="{{ $generalMetaFields[5]['variant'] }}"
-                        :name="$generalMetaFields[5]['name']"
-                        :value="$generalMetaFields[5]['value']"
-                        readonly
-                        class="input-field-filled"
-                    />
+                    <div class="space-y-1.5">
+                        <label class="block text-sm font-medium text-gray-700">{{ $generalMetaFields[5]['label'] }}</label>
+                        <x-enterprise.input
+                            variant="{{ $generalMetaFields[5]['variant'] }}"
+                            :name="$generalMetaFields[5]['name']"
+                            :value="$generalMetaFields[5]['value']"
+                            readonly
+                            class="input-field-filled"
+                        />
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="mt-6 space-y-4">
                 <div class="rounded-xl border border-gray-200 bg-gray-50/80 p-5">

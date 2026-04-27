@@ -29,6 +29,12 @@ class Equipment extends Model
         'operator_name',
         'maintenance_plan',
         'mel',
+        'chapter',
+        'section',
+        'subject',
+        'sheet',
+        'mark',
+        'mel_item',
     ];
 
     protected $casts = [
