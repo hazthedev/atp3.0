@@ -24,6 +24,12 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        if (app()->environment('production')) {
+            throw new \LogicException(
+                'UserFactory must not run in production. Use UserSeeder or a direct INSERT.'
+            );
+        }
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
