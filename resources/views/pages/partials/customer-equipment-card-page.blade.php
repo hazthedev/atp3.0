@@ -13,13 +13,10 @@
         'category_part' => '',
         'variant' => 'AW139',
         'status' => 'On Aircraft',
-        'owner_code' => '300028',
         'owner_name' => '*WESTSTAR',
-        'operator_code' => '300028',
         'operator_name' => '*WESTSTAR',
         'operator_name_display' => 'Weststar',
         'maintenance_plan' => 'AW139 AMP ISS 7 REV 4 / GOCOM',
-        'mel' => '',
         'chapter' => 'AC',
         'section' => '00',
         'subject' => '00',
@@ -41,34 +38,12 @@
         'functional_location_registration' => 'M104-04',
         'functional_location_type' => 'AW139',
         'functional_location_position' => 'Airframe',
-        'manufacturer_item_code' => '',
         'manufacturing_date' => '',
         'first_date_of_using' => '',
         'delivery_date' => '',
-        'configuration_standard' => '',
-        'purchase_cost_of_engine' => '',
-        'remark_text' => '',
-        'mission_type' => '',
         'maint_center_code' => '',
         'maint_center_name' => '',
-        'external_key' => '',
-        'environment_type' => '',
         'utilization_model' => '9M-WAA',
-        'contract_type' => '',
-        'oil_type' => '',
-        'address_name' => '',
-        'street' => '',
-        'block' => '',
-        'city' => '',
-        'zip_code' => '',
-        'county' => '',
-        'state' => '',
-        'country' => '',
-        'location' => '',
-        'anomaly_on_data' => '',
-        'lock_flag' => '',
-        'updated_by' => 'Wan Mohammad R',
-        'update_date' => '29.04.19',
     ], $record ?? []);
 
     $clearFieldValues = static function (array $fields): array {
@@ -90,12 +65,9 @@
 
     $summaryRightFields = [
         ['name' => 'status', 'label' => 'Status', 'value' => $selectedRecord['status']],
-        ['name' => 'owner_code', 'label' => 'Owner Code', 'value' => $selectedRecord['owner_code']],
         ['name' => 'owner_name', 'label' => 'Owner Name', 'value' => $selectedRecord['owner_name']],
-        ['name' => 'operator_code', 'label' => 'Operator Code', 'value' => $selectedRecord['operator_code']],
         ['name' => 'operator_name_display', 'label' => 'Operator Name', 'value' => $selectedRecord['operator_name_display']],
         ['name' => 'maintenance_plan', 'label' => 'Maintenance Plan', 'value' => $selectedRecord['maintenance_plan']],
-        ['name' => 'mel', 'label' => 'MEL', 'value' => $selectedRecord['mel']],
     ];
 
     $generalMetaFields = [
@@ -138,14 +110,12 @@
         ['id' => 'modifications', 'label' => 'Modif.', 'icon' => 'adjustments-horizontal'],
         ['id' => 'events', 'label' => 'Events', 'icon' => 'bell'],
         ['id' => 'properties', 'label' => 'Properties', 'icon' => 'sliders'],
-        ['id' => 'address', 'label' => 'Address', 'icon' => 'document'],
-        ['id' => 'trans', 'label' => 'Trans.', 'icon' => 'document'],
-        ['id' => 'remark', 'label' => 'Remark', 'icon' => 'document-text'],
+        ['id' => 'maintenance', 'label' => 'Maintenance', 'icon' => 'wrench-screwdriver'],
     ];
 
-    $propertiesTabs = [
-        ['id' => 'properties-1', 'label' => 'Properties1'],
-        ['id' => 'properties-2', 'label' => 'Properties2'],
+    $maintenanceTabs = [
+        ['id' => 'task-list-sub-equipment', 'label' => 'Task List on sub equipment'],
+        ['id' => 'task-list-history', 'label' => 'Task List History of equipment'],
     ];
 
     $billOfMaterialRows = collect(['2', '4', '5', '7', '8', '15', '18', '3', '6', '9'])
@@ -163,9 +133,7 @@
 
     $eventTabs = [
         ['id' => 'workpackages', 'label' => 'Workpackages'],
-        ['id' => 'repairs', 'label' => 'Repairs'],
         ['id' => 'installed-base', 'label' => 'Installed Base'],
-        ['id' => 'others', 'label' => 'Others'],
         ['id' => 'technical-log', 'label' => 'Technical Log'],
         ['id' => 'work-orders', 'label' => 'Work Orders'],
         ['id' => 'operations', 'label' => 'Operations'],
@@ -182,38 +150,15 @@
     ];
 
     $propertiesTopLeftFields = [
-        ['name' => 'manufacturer_item_code', 'label' => 'Manufacturer Item Code', 'value' => $selectedRecord['manufacturer_item_code'], 'variant' => 'lookup'],
         ['name' => 'manufacturing_date', 'label' => 'Manufacturing date', 'value' => $selectedRecord['manufacturing_date'], 'variant' => null],
         ['name' => 'first_date_of_using', 'label' => 'First date of using', 'value' => $selectedRecord['first_date_of_using'], 'variant' => null],
         ['name' => 'delivery_date', 'label' => 'Delivery Date', 'value' => $selectedRecord['delivery_date'], 'variant' => null],
-        ['name' => 'configuration_standard', 'label' => 'Configuration standard', 'value' => $selectedRecord['configuration_standard'], 'variant' => 'lookup'],
-    ];
-
-    $propertiesTopRightFields = [
-        ['name' => 'purchase_cost_of_engine', 'label' => 'Purchase Cost of Engine', 'value' => $selectedRecord['purchase_cost_of_engine'], 'variant' => null],
-        ['name' => 'remark_text', 'label' => 'Remark', 'value' => $selectedRecord['remark_text'], 'variant' => null],
     ];
 
     $propertiesOperationalFields = [
-        ['name' => 'mission_type', 'label' => 'Mission Type', 'value' => $selectedRecord['mission_type'], 'variant' => 'lookup'],
         ['name' => 'maint_center_code', 'label' => 'Maint. Center Code', 'value' => $selectedRecord['maint_center_code'], 'variant' => 'lookup'],
         ['name' => 'maint_center_name', 'label' => 'Maint. Center Name', 'value' => $selectedRecord['maint_center_name'], 'variant' => 'lookup'],
-        ['name' => 'external_key', 'label' => 'External Key', 'value' => $selectedRecord['external_key'], 'variant' => null],
-        ['name' => 'environment_type', 'label' => 'Environment Type', 'value' => $selectedRecord['environment_type'], 'variant' => 'lookup'],
         ['name' => 'utilization_model', 'label' => 'Utilization Model', 'value' => $selectedRecord['utilization_model'], 'variant' => 'arrow-lookup'],
-        ['name' => 'contract_type', 'label' => 'Contract Type', 'value' => $selectedRecord['contract_type'], 'variant' => 'lookup'],
-        ['name' => 'oil_type', 'label' => 'Oil Type', 'value' => $selectedRecord['oil_type'], 'variant' => 'lookup'],
-    ];
-
-    $addressFields = [
-        ['name' => 'address_name', 'label' => 'Name', 'value' => $selectedRecord['address_name']],
-        ['name' => 'street', 'label' => 'Street', 'value' => $selectedRecord['street']],
-        ['name' => 'block', 'label' => 'Block', 'value' => $selectedRecord['block']],
-        ['name' => 'city', 'label' => 'City', 'value' => $selectedRecord['city']],
-        ['name' => 'zip_code', 'label' => 'Zip Code', 'value' => $selectedRecord['zip_code']],
-        ['name' => 'county', 'label' => 'County', 'value' => $selectedRecord['county']],
-        ['name' => 'state', 'label' => 'State', 'value' => $selectedRecord['state']],
-        ['name' => 'country', 'label' => 'Country', 'value' => $selectedRecord['country']],
     ];
 
     $workOrderRows = [
@@ -228,12 +173,53 @@
         ],
     ];
 
-    $blankTransactionRows = range(1, 8);
-    $placeholderPanels = [];
+    $maintenancePlanAppliedToFields = [
+        ['name' => 'maintenance_fl_code', 'label' => 'Functional Location', 'value' => $selectedRecord['functional_location_code'], 'variant' => 'arrow-lookup'],
+        ['name' => 'maintenance_fl_serial_number', 'label' => 'Serial Number', 'value' => $selectedRecord['functional_location_serial_number'], 'variant' => null],
+        ['name' => 'maintenance_fl_type', 'label' => 'FL Type', 'value' => $selectedRecord['functional_location_type'], 'variant' => 'arrow-lookup'],
+        ['name' => 'maintenance_fl_registration', 'label' => 'Registration', 'value' => $selectedRecord['functional_location_registration'], 'variant' => null],
+    ];
+
+    $maintenancePlanFilterOptions = [
+        'AW139 AMP ISS 7 REV 4 / GOCOM' => 'AW139 AMP ISS 7 REV 4 / GOCOM',
+        'AW139 AMP ISS 6 REV 8 / GOCOM' => 'AW139 AMP ISS 6 REV 8 / GOCOM',
+        'EC225 AMP ISS 4 REV 2 / GOCOM' => 'EC225 AMP ISS 4 REV 2 / GOCOM',
+    ];
+
+    $linkedTaskListRows = [
+        ['reference' => 'AW139 PWC MM ENG', 'short_description' => 'Engine (Including sub components not specified)', 'mod_ref' => '', 'status' => 'Applicable', 'on_condition' => false, 'condition_monitoring' => false, 'initialized' => true, 'comment' => 'ENGINE RIGHT 5000:00 hrs OVH'],
+        ['reference' => 'AW139 SB CAT8 41100 R9', 'short_description' => 'TURBOSHAFT ENGINE NO. 5 BEARING OUTPUT SHAFT SEAL - REPLA…', 'mod_ref' => 'CAT8 41100 R9', 'status' => 'Applied', 'on_condition' => false, 'condition_monitoring' => false, 'initialized' => false, 'comment' => ''],
+        ['reference' => 'AW139 TCCA AD CF-2012-24', 'short_description' => 'SECOND STAGE POWER TURBINE DISK DAMAGE', 'mod_ref' => 'CF-2012-24', 'status' => 'Non applicable', 'on_condition' => false, 'condition_monitoring' => false, 'initialized' => false, 'comment' => 'ENGINE POST SB41056'],
+        ['reference' => 'EOAS AW139/EOAS/277 - 9M-WAX', 'short_description' => 'AW139 WESTSTAR FLEET - ENGINE OIL ANALYSIS', 'mod_ref' => 'AW139/EOAS/277 - 9M-WAX', 'status' => 'Non applicable', 'on_condition' => false, 'condition_monitoring' => false, 'initialized' => false, 'comment' => 'TASK DEACTIVATED DUE TO NO OIL SAMPLING KIT AVAILABLE.'],
+        ['reference' => 'EOAS AW139/EOAS/333 Rev A', 'short_description' => 'PWC PT6-67C SB 41113 REV 1 TURBOSHAFT ENGINE COUPLING NUT…', 'mod_ref' => 'AW139/EOAS/333 Rev A', 'status' => 'Applied', 'on_condition' => false, 'condition_monitoring' => false, 'initialized' => false, 'comment' => 'Complied with on 17/7/2020. Refer WO-23131.'],
+    ];
+
+    $maintenanceStandardCounterRows = [
+        ['tone' => 'green', 'description' => 'TSN', 'reading_date' => '03.04.26', 'obj_value' => '13356:43', 'next_appli' => '14825:40', 'interval' => '5000:00', 'remaining' => '1468:57', 'last_appli' => '9825:40', 'sub_eq_reading_date' => '03.04.26', 'sub_eq_value' => '13467:03', 'sub_eq_next_appli' => '14936:00', 'sub_eq_remaining' => '1468:57', 'sub_eq_last_appli' => '', 'interval_ori' => '5000:00', 'tolerance' => '0:00', 'alarm' => '300:00'],
+    ];
+
+    $maintenanceCalendarCounterRows = [];
+
+    $taskListsAppliedRows = [
+        ['reference' => 'EOAS EO-20-095-N139M', 'short_description' => 'PWC PT6-67C SB 41113 REV 1 TURBOSHAFT', 'mod_ref' => 'EOAS EO-20-095-N139M'],
+        ['reference' => 'AW139 SB CAT8 41100 R9', 'short_description' => 'TURBOSHAFT ENGINE NO. 5 BEARING OUTPUT SHAFT SEAL - REPLACEME', 'mod_ref' => 'AW139 SB CAT8 41100 R9'],
+        ['reference' => 'EOAS EO-20-003-N139I ISS C', 'short_description' => 'PREVENTIVE MAINTENANCE: COMPRESSOR BLEED OFF VALVE (BOV) CLO', 'mod_ref' => 'EOAS EO-20-003-N139I ISS C'],
+    ];
+
+    $taskListApplicationHistoryRows = [
+        ['application_date' => '17.07.20', 'work_order' => 'WO-23131', 'repair_id' => '57675', 'comment' => '', 'maintenance_plan' => 'AW139 AMP ISS 7 REV 5 / GOCOM AMP ISS 1 REV 3', 'object_code' => '9M-WAA', 'object_information' => 'AW139/31324'],
+    ];
+
+    $schedulingInformationRows = [
+        ['description' => 'TSN', 'value_dec' => '', 'value_hhmm' => ''],
+        ['description' => 'CSN', 'value_dec' => '', 'value_hhmm' => ''],
+        ['description' => 'START', 'value_dec' => '', 'value_hhmm' => ''],
+        ['description' => 'E#1CC', 'value_dec' => '', 'value_hhmm' => ''],
+    ];
 
     $metadata = [
-        ['label' => 'Updated By', 'value' => $selectedRecord['updated_by']],
-        ['label' => 'Update Date', 'value' => $selectedRecord['update_date']],
+        ['label' => 'Updated By', 'value' => 'Wan Mohammad R'],
+        ['label' => 'Update Date', 'value' => '29.04.19'],
     ];
 
     if ($emptyState) {
@@ -244,12 +230,17 @@
         $topAssemblyFields = $clearFieldValues($topAssemblyFields);
         $functionalLocationFields = $clearFieldValues($functionalLocationFields);
         $propertiesTopLeftFields = $clearFieldValues($propertiesTopLeftFields);
-        $propertiesTopRightFields = $clearFieldValues($propertiesTopRightFields);
         $propertiesOperationalFields = $clearFieldValues($propertiesOperationalFields);
-        $addressFields = $clearFieldValues($addressFields);
+        $maintenancePlanAppliedToFields = $clearFieldValues($maintenancePlanAppliedToFields);
         $billOfMaterialRows = collect();
         $installedBaseRows = [];
         $workOrderRows = [];
+        $linkedTaskListRows = [];
+        $maintenanceStandardCounterRows = [];
+        $maintenanceCalendarCounterRows = [];
+        $taskListsAppliedRows = [];
+        $taskListApplicationHistoryRows = [];
+        $schedulingInformationRows = [];
         $metadata = [
             ['label' => 'Updated By', 'value' => ''],
             ['label' => 'Update Date', 'value' => ''],
@@ -323,10 +314,8 @@
 
         <div class="mt-5 flex flex-wrap gap-3">
             @if ($recordLoaded)
-                <a href="{{ route('fleet.modification.equipment-reference-evolution') }}" class="btn-secondary">Change References</a>
                 <a href="{{ route('fleet.technical-logs.create', ['equipment_id' => $selectedRecord['id']]) }}" class="btn-secondary">Technical Log</a>
             @else
-                <button type="button" class="btn-secondary" disabled>Change References</button>
                 <button type="button" class="btn-secondary" disabled>Technical Log</button>
             @endif
         </div>
@@ -594,8 +583,6 @@
                                 <th class="table-th">Reading Date</th>
                                 <th class="table-th">Max</th>
                                 <th class="table-th">Remaining</th>
-                                <th class="table-th">Residual</th>
-                                <th class="table-th">Equi. ID</th>
                                 <th class="table-th">Info. Source</th>
                             </tr>
                         </x-slot>
@@ -615,16 +602,12 @@
                                         <td class="table-td">{{ optional($c->reading_date)->format('d.m.y') }}</td>
                                         <td class="table-td">{{ $max }}</td>
                                         <td class="table-td">{{ $c->remaining }}</td>
-                                        <td class="table-td">{{ $c->residual }}</td>
-                                        <td class="table-td">{{ $c->linked_equipment_id }}</td>
                                         <td class="table-td">{{ $c->info_source }}</td>
                                     </tr>
                                 @endforeach
                             @else
                                 @foreach ($blankCounterRows as $rowNumber)
                                     <tr class="table-row">
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
                                         <td class="table-td"><span class="invisible">.</span></td>
                                         <td class="table-td"><span class="invisible">.</span></td>
                                         <td class="table-td"><span class="invisible">.</span></td>
@@ -648,8 +631,6 @@
                                 <th class="table-th">Unit</th>
                                 <th class="table-th">Limit</th>
                                 <th class="table-th">Remaining</th>
-                                <th class="table-th">Residual</th>
-                                <th class="table-th">Equi. ID</th>
                                 <th class="table-th">Info. Source</th>
                             </tr>
                         </x-slot>
@@ -669,15 +650,11 @@
                                     <td class="table-td">Days</td>
                                     <td class="table-td">{{ $dbCalendarCounter->limit }}</td>
                                     <td class="table-td">{{ $dbCalendarCounter->remaining }}</td>
-                                    <td class="table-td">{{ $dbCalendarCounter->residual }}</td>
-                                    <td class="table-td"></td>
                                     <td class="table-td">{{ $dbCalendarCounter->info_source }}</td>
                                 </tr>
                             @else
                                 @foreach ($blankCounterSummaryRows as $rowNumber)
                                     <tr class="table-row">
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
                                         <td class="table-td"><span class="invisible">.</span></td>
                                         <td class="table-td"><span class="invisible">.</span></td>
                                         <td class="table-td"><span class="invisible">.</span></td>
@@ -802,35 +779,6 @@
                         </x-data-table>
                     </div>
 
-                    <div x-cloak x-show="activeTab === 'repairs'">
-                        <x-data-table>
-                            <x-slot name="thead">
-                                <tr>
-                                    <th class="table-th">Code</th>
-                                    <th class="table-th">Intervention Type</th>
-                                    <th class="table-th">Status</th>
-                                    <th class="table-th">Date In</th>
-                                    <th class="table-th">Date Out</th>
-                                    <th class="table-th">Return Reason</th>
-                                    <th class="table-th">Subject</th>
-                                </tr>
-                            </x-slot>
-                            <x-slot name="tbody">
-                                @foreach ($blankEventRows as $rowNumber)
-                                    <tr class="table-row">
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                    </tr>
-                                @endforeach
-                            </x-slot>
-                        </x-data-table>
-                    </div>
-
                     <div x-cloak x-show="activeTab === 'installed-base'" class="space-y-4">
                         <x-data-table>
                             <x-slot name="thead">
@@ -878,31 +826,6 @@
                             </div>
                             <button type="button" class="btn-secondary">Display Counter</button>
                         </div>
-                    </div>
-
-                    <div x-cloak x-show="activeTab === 'others'">
-                        <x-data-table>
-                            <x-slot name="thead">
-                                <tr>
-                                    <th class="table-th">Code</th>
-                                    <th class="table-th">Creation date</th>
-                                    <th class="table-th">Date Event</th>
-                                    <th class="table-th">Type</th>
-                                    <th class="table-th">Subject</th>
-                                </tr>
-                            </x-slot>
-                            <x-slot name="tbody">
-                                @foreach ($blankEventRows as $rowNumber)
-                                    <tr class="table-row">
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                        <td class="table-td"><span class="invisible">.</span></td>
-                                    </tr>
-                                @endforeach
-                            </x-slot>
-                        </x-data-table>
                     </div>
 
                     <div x-cloak x-show="activeTab === 'technical-log'">
@@ -1012,12 +935,50 @@
     </div>
 
     <div x-cloak x-show="activeTab === 'properties'" class="space-y-6">
-        <x-card title="Properties" description="Commercial, configuration, and anomaly metadata for the selected equipment." padding="p-6">
-                <div class="space-y-5" x-data="tabs('properties-1')">
+        <x-card title="Properties" description="Commercial and configuration metadata for the selected equipment." padding="p-6">
+                <div class="space-y-5">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        @foreach ($propertiesTopLeftFields as $field)
+                            <div class="space-y-1.5">
+                                <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                <x-enterprise.input
+                                    variant="{{ $field['variant'] }}"
+                                    tone="{{ $field['tone'] ?? null }}"
+                                    :name="$field['name']"
+                                    :value="$field['value']"
+                                    readonly
+                                    class="input-field-filled"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="grid gap-4 md:grid-cols-2">
+                        @foreach ($propertiesOperationalFields as $field)
+                            <div class="space-y-1.5">
+                                <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                <x-enterprise.input
+                                    variant="{{ $field['variant'] }}"
+                                    tone="{{ $field['tone'] ?? null }}"
+                                    :name="$field['name']"
+                                    :value="$field['value']"
+                                    readonly
+                                    class="input-field-filled"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+        </x-card>
+    </div>
+
+    <div x-cloak x-show="activeTab === 'maintenance'" class="space-y-6">
+        <x-card title="Maintenance" description="Task lists scoped to this equipment installation, plus the historical record of applied tasks." padding="p-6">
+                <div class="space-y-5" x-data="tabs('task-list-sub-equipment')">
                     <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 pt-3">
                         <div class="subtab-shell">
                             <ul class="subtab-list">
-                                @foreach ($propertiesTabs as $tab)
+                                @foreach ($maintenanceTabs as $tab)
                                     <li class="subtab-item">
                                         <button
                                             type="button"
@@ -1033,26 +994,14 @@
                         </div>
                     </div>
 
-                    <div x-cloak x-show="activeTab === 'properties-1'" class="space-y-5">
-                        <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
-                            <div class="grid gap-4 md:grid-cols-2">
-                                @foreach ($propertiesTopLeftFields as $field)
-                                    <div class="space-y-1.5">
-                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
-                                        <x-enterprise.input
-                                            variant="{{ $field['variant'] }}"
-                                            tone="{{ $field['tone'] ?? null }}"
-                                            :name="$field['name']"
-                                            :value="$field['value']"
-                                            readonly
-                                            class="input-field-filled"
-                                        />
-                                    </div>
-                                @endforeach
+                    <div x-cloak x-show="activeTab === 'task-list-sub-equipment'" class="space-y-6">
+                        <div class="rounded-xl border border-gray-200 bg-gray-50/80 p-5">
+                            <div class="flex items-center gap-3">
+                                <h4 class="text-sm font-semibold text-gray-900">Maintenance Plan Applied To</h4>
+                                <div class="h-px flex-1 bg-gray-200"></div>
                             </div>
-
-                            <div class="grid gap-4 md:grid-cols-2">
-                                @foreach ($propertiesTopRightFields as $field)
+                            <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                @foreach ($maintenancePlanAppliedToFields as $field)
                                     <div class="space-y-1.5">
                                         <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
                                         <x-enterprise.input
@@ -1067,199 +1016,303 @@
                             </div>
                         </div>
 
-                        <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-                            <div class="grid gap-4 md:grid-cols-2">
-                                @foreach ($propertiesOperationalFields as $field)
-                                    <div class="space-y-1.5">
-                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
-                                        <x-enterprise.input
-                                            variant="{{ $field['variant'] }}"
-                                            tone="{{ $field['tone'] ?? null }}"
-                                            :name="$field['name']"
-                                            :value="$field['value']"
-                                            readonly
-                                            class="input-field-filled"
-                                        />
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="rounded-xl border border-gray-200 bg-gray-50/80 p-5">
-                                <div class="flex items-center gap-3">
-                                    <h4 class="text-sm font-semibold text-gray-900">Installed Base Data Anomaly</h4>
-                                    <div class="h-px flex-1 bg-gray-200"></div>
-                                </div>
-
-                                <div class="mt-4 space-y-4">
-                                    <div class="flex flex-wrap gap-5">
-                                        <x-enterprise.checkbox
-                                            label="Anomaly on Data"
-                                            inline
-                                            @checked($selectedRecord['anomaly_on_data'] !== '')
-                                        />
-                                        <x-enterprise.checkbox
-                                            label="Lock"
-                                            labelClass="flex items-center text-sm text-gray-400"
-                                            inline
-                                            disabled
-                                            data-edit-locked="true"
-                                            @checked($selectedRecord['lock_flag'] !== '')
-                                        />
-                                    </div>
-
-                                    <div class="flex justify-start xl:justify-end">
-                                        <button type="button" class="btn-secondary px-4 py-2 text-xs">Comment</button>
-                                    </div>
-
-                                    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_120px]">
-                                        <x-form.input
-                                            label="Updated By"
-                                            name="properties_updated_by"
-                                            :value="$selectedRecord['updated_by']"
-                                            readonly
-                                            class="input-field-filled"
-                                        />
-                                        <x-form.input
-                                            label="Date"
-                                            name="properties_update_date"
-                                            :value="$selectedRecord['update_date']"
-                                            readonly
-                                            class="input-field-filled"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div x-cloak x-show="activeTab === 'properties-2'">
-                        <div class="min-h-[360px] rounded-xl border border-gray-200 bg-gray-50/30"></div>
-                    </div>
-                </div>
-        </x-card>
-    </div>
-
-    <div x-cloak x-show="activeTab === 'address'" class="space-y-6">
-        <x-card title="Address" description="Address capture and owner/operator sourcing for the selected equipment." padding="p-6">
-                <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-                    <div class="grid gap-4 md:grid-cols-2">
-                        @foreach ($addressFields as $field)
-                            <div class="grid grid-cols-[104px_minmax(0,1fr)] items-center gap-3">
-                                <label for="{{ $field['name'] }}" class="text-sm font-medium text-gray-600">{{ $field['label'] }}</label>
-                                <x-enterprise.input
-                                    :id="$field['name']"
-                                    :name="$field['name']"
-                                    :value="$field['value']"
-                                    readonly
-                                    class="input-field-filled"
-                                />
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="space-y-6">
-                        <div class="grid gap-4 sm:grid-cols-[minmax(0,1fr)_172px] sm:items-start">
-                            <div class="space-y-3">
-                                <p class="text-sm font-medium text-gray-600">Obtain address from</p>
-                                <div class="space-y-2">
-                                    <x-enterprise.radio
-                                        label="Owner"
-                                        value="owner"
-                                        name="equipment_address_source"
-                                    />
-                                    <x-enterprise.radio
-                                        label="Operator"
-                                        value="operator"
-                                        name="equipment_address_source"
-                                    />
-                                </div>
-                            </div>
-
-                            <div class="pt-6 sm:pt-7">
-                                <button type="button" class="btn-secondary w-full justify-center">Obtain</button>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-[92px_minmax(0,1fr)] items-end gap-3">
-                            <label for="equipment_location" class="text-sm font-medium text-gray-600">Location</label>
-                            <x-enterprise.textarea
-                                id="equipment_location"
-                                name="equipment_location"
-                                rows="5"
+                        <div class="grid gap-3 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                            <label for="maintenance_plan_filter" class="text-sm font-medium text-gray-600">Filter on Maintenance Plan</label>
+                            <x-form.select
+                                id="maintenance_plan_filter"
+                                name="maintenance_plan_filter"
+                                :options="$maintenancePlanFilterOptions"
                                 readonly
-                                class="input-field-filled min-h-[168px]"
-                            >{{ $selectedRecord['location'] }}</x-enterprise.textarea>
+                                class="input-field-filled max-w-md"
+                            />
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-sm font-semibold text-gray-900">Linked Task Lists</h4>
+                            <x-data-table>
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th class="table-th">Reference</th>
+                                        <th class="table-th">Short Description</th>
+                                        <th class="table-th">Mod. Ref.</th>
+                                        <th class="table-th">Status</th>
+                                        <th class="table-th">On Condition</th>
+                                        <th class="table-th">Condition Monitoring</th>
+                                        <th class="table-th">Initialized</th>
+                                        <th class="table-th">Comment</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @foreach ($linkedTaskListRows as $row)
+                                        <tr class="table-row">
+                                            <td class="table-td">
+                                                <span class="inline-flex items-center gap-3 font-semibold text-gray-900">
+                                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
+                                                        <x-icon name="chevron-right" class="h-3.5 w-3.5" />
+                                                    </span>
+                                                    <span>{{ $row['reference'] }}</span>
+                                                </span>
+                                            </td>
+                                            <td class="table-td">{{ $row['short_description'] }}</td>
+                                            <td class="table-td">
+                                                @if ($row['mod_ref'] !== '')
+                                                    <span class="inline-flex items-center gap-3 font-semibold text-gray-900">
+                                                        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
+                                                            <x-icon name="chevron-right" class="h-3.5 w-3.5" />
+                                                        </span>
+                                                        <span>{{ $row['mod_ref'] }}</span>
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td class="table-td">{{ $row['status'] }}</td>
+                                            <td class="table-td"><x-enterprise.checkbox inline disabled @checked($row['on_condition']) /></td>
+                                            <td class="table-td"><x-enterprise.checkbox inline disabled @checked($row['condition_monitoring']) /></td>
+                                            <td class="table-td"><x-enterprise.checkbox inline disabled @checked($row['initialized']) /></td>
+                                            <td class="table-td">{{ $row['comment'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach (range(count($linkedTaskListRows) + 1, 8) as $rowNumber)
+                                        <tr class="table-row">
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-data-table>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-sm font-semibold text-gray-900">Standard Counters</h4>
+                            <x-data-table>
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th class="table-th">!</th>
+                                        <th class="table-th">Description</th>
+                                        <th class="table-th">Reading Date</th>
+                                        <th class="table-th">Obj. Value</th>
+                                        <th class="table-th">Next Appli.</th>
+                                        <th class="table-th">Interval</th>
+                                        <th class="table-th">Remaining</th>
+                                        <th class="table-th">Last Appli.</th>
+                                        <th class="table-th">Sub Eq. Reading Date</th>
+                                        <th class="table-th">Sub Eq. Value</th>
+                                        <th class="table-th">Sub Eq. Next Appli.</th>
+                                        <th class="table-th">Sub Eq. Remaining</th>
+                                        <th class="table-th">Sub Eq. Last Appli.</th>
+                                        <th class="table-th">Interval Ori.</th>
+                                        <th class="table-th">Tolerance</th>
+                                        <th class="table-th">Alarm</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @foreach ($maintenanceStandardCounterRows as $row)
+                                        <tr class="table-row">
+                                            <td class="table-td"><span class="inline-block h-2.5 w-2.5 rounded-full {{ $row['tone'] === 'green' ? 'bg-emerald-500' : 'bg-amber-500' }}"></span></td>
+                                            <td class="table-td font-medium text-gray-900">{{ $row['description'] }}</td>
+                                            <td class="table-td">{{ $row['reading_date'] }}</td>
+                                            <td class="table-td">{{ $row['obj_value'] }}</td>
+                                            <td class="table-td">{{ $row['next_appli'] }}</td>
+                                            <td class="table-td">{{ $row['interval'] }}</td>
+                                            <td class="table-td">{{ $row['remaining'] }}</td>
+                                            <td class="table-td">{{ $row['last_appli'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_reading_date'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_value'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_next_appli'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_remaining'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_last_appli'] }}</td>
+                                            <td class="table-td">{{ $row['interval_ori'] }}</td>
+                                            <td class="table-td">{{ $row['tolerance'] }}</td>
+                                            <td class="table-td">{{ $row['alarm'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach (range(count($maintenanceStandardCounterRows) + 1, 4) as $rowNumber)
+                                        <tr class="table-row">
+                                            @foreach (range(1, 16) as $colNumber)
+                                                <td class="table-td"><span class="invisible">.</span></td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-data-table>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex flex-wrap items-end justify-between gap-3">
+                                <h4 class="text-sm font-semibold text-gray-900">Calendar Counters</h4>
+                                <div class="flex items-center gap-3">
+                                    <label for="maintenance_calendar_unit" class="text-sm font-medium text-gray-600">Unit of Measure</label>
+                                    <x-enterprise.input
+                                        id="maintenance_calendar_unit"
+                                        name="maintenance_calendar_unit"
+                                        value="Days"
+                                        readonly
+                                        class="input-field-filled w-32"
+                                    />
+                                </div>
+                            </div>
+                            <x-data-table>
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th class="table-th">Description</th>
+                                        <th class="table-th">Obj Next Appli.</th>
+                                        <th class="table-th">Interval</th>
+                                        <th class="table-th">Remaining</th>
+                                        <th class="table-th">Last Appli.</th>
+                                        <th class="table-th">Sub Eq. Next Appli.</th>
+                                        <th class="table-th">Sub Eq. Remaining</th>
+                                        <th class="table-th">Sub Eq. Last Appli.</th>
+                                        <th class="table-th">Interval Ori.</th>
+                                        <th class="table-th">Tolerance</th>
+                                        <th class="table-th">Alarm</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @foreach ($maintenanceCalendarCounterRows as $row)
+                                        <tr class="table-row">
+                                            <td class="table-td font-medium text-gray-900">{{ $row['description'] }}</td>
+                                            <td class="table-td">{{ $row['obj_next_appli'] }}</td>
+                                            <td class="table-td">{{ $row['interval'] }}</td>
+                                            <td class="table-td">{{ $row['remaining'] }}</td>
+                                            <td class="table-td">{{ $row['last_appli'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_next_appli'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_remaining'] }}</td>
+                                            <td class="table-td">{{ $row['sub_eq_last_appli'] }}</td>
+                                            <td class="table-td">{{ $row['interval_ori'] }}</td>
+                                            <td class="table-td">{{ $row['tolerance'] }}</td>
+                                            <td class="table-td">{{ $row['alarm'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach (range(count($maintenanceCalendarCounterRows) + 1, 4) as $rowNumber)
+                                        <tr class="table-row">
+                                            @foreach (range(1, 11) as $colNumber)
+                                                <td class="table-td"><span class="invisible">.</span></td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-data-table>
+                        </div>
+                    </div>
+
+                    <div x-cloak x-show="activeTab === 'task-list-history'" class="space-y-6">
+                        <div class="space-y-2">
+                            <h4 class="text-sm font-semibold text-gray-900">Task Lists Applied</h4>
+                            <x-data-table>
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th class="table-th">Reference</th>
+                                        <th class="table-th">Short Description</th>
+                                        <th class="table-th">Mod. Ref.</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @foreach ($taskListsAppliedRows as $row)
+                                        <tr class="table-row">
+                                            <td class="table-td">
+                                                <span class="inline-flex items-center gap-3 font-semibold text-gray-900">
+                                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
+                                                        <x-icon name="chevron-right" class="h-3.5 w-3.5" />
+                                                    </span>
+                                                    <span>{{ $row['reference'] }}</span>
+                                                </span>
+                                            </td>
+                                            <td class="table-td">{{ $row['short_description'] }}</td>
+                                            <td class="table-td">
+                                                <span class="inline-flex items-center gap-3 font-semibold text-gray-900">
+                                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
+                                                        <x-icon name="chevron-right" class="h-3.5 w-3.5" />
+                                                    </span>
+                                                    <span>{{ $row['mod_ref'] }}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach (range(count($taskListsAppliedRows) + 1, 6) as $rowNumber)
+                                        <tr class="table-row">
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                            <td class="table-td"><span class="invisible">.</span></td>
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-data-table>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-sm font-semibold text-gray-900">Task List Application History</h4>
+                            <x-data-table>
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th class="table-th">Application Date</th>
+                                        <th class="table-th">Work Order</th>
+                                        <th class="table-th">Repair ID</th>
+                                        <th class="table-th">Comment</th>
+                                        <th class="table-th">Maintenance Plan</th>
+                                        <th class="table-th">Object Code</th>
+                                        <th class="table-th">Object Information</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @foreach ($taskListApplicationHistoryRows as $row)
+                                        <tr class="table-row">
+                                            <td class="table-td">{{ $row['application_date'] }}</td>
+                                            <td class="table-td">
+                                                <span class="inline-flex items-center gap-3 font-semibold text-gray-900">
+                                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
+                                                        <x-icon name="chevron-right" class="h-3.5 w-3.5" />
+                                                    </span>
+                                                    <span>{{ $row['work_order'] }}</span>
+                                                </span>
+                                            </td>
+                                            <td class="table-td">{{ $row['repair_id'] }}</td>
+                                            <td class="table-td">{{ $row['comment'] }}</td>
+                                            <td class="table-td">{{ $row['maintenance_plan'] }}</td>
+                                            <td class="table-td">{{ $row['object_code'] }}</td>
+                                            <td class="table-td">{{ $row['object_information'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach (range(count($taskListApplicationHistoryRows) + 1, 4) as $rowNumber)
+                                        <tr class="table-row">
+                                            @foreach (range(1, 7) as $colNumber)
+                                                <td class="table-td"><span class="invisible">.</span></td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-data-table>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-sm font-semibold text-gray-900">Scheduling Information recorded during the application</h4>
+                            <x-data-table>
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th class="table-th">Description</th>
+                                        <th class="table-th">Value (dec.)</th>
+                                        <th class="table-th">Value (hh:mm)</th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @foreach ($schedulingInformationRows as $row)
+                                        <tr class="table-row">
+                                            <td class="table-td font-medium text-gray-900">{{ $row['description'] }}</td>
+                                            <td class="table-td">{{ $row['value_dec'] }}</td>
+                                            <td class="table-td">{{ $row['value_hhmm'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-data-table>
                         </div>
                     </div>
                 </div>
         </x-card>
     </div>
-
-    <div x-cloak x-show="activeTab === 'trans'" class="space-y-6">
-        <x-card title="Trans." description="Transaction history grid for the selected equipment." padding="p-6">
-                <x-data-table>
-                    <x-slot name="thead">
-                        <tr>
-                            <th class="table-th">Trans. ...</th>
-                            <th class="table-th">Source</th>
-                            <th class="table-th">Docum...</th>
-                            <th class="table-th">Row No</th>
-                            <th class="table-th">Date</th>
-                            <th class="table-th">Whse</th>
-                            <th class="table-th">G/L Acct/BP ...</th>
-                            <th class="table-th">G/L Acct/BP Name</th>
-                            <th class="table-th">Directi...</th>
-                        </tr>
-                    </x-slot>
-
-                    <x-slot name="tbody">
-                        @foreach ($blankTransactionRows as $rowNumber)
-                            <tr class="table-row">
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                                <td class="table-td"><span class="invisible">.</span></td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-data-table>
-        </x-card>
-    </div>
-
-    <div x-cloak x-show="activeTab === 'remark'" class="space-y-6">
-        <x-card title="Remark" description="Free-form remark workspace for the selected equipment." padding="p-6">
-                @if ($equipmentModel)
-                    @livewire('fleet.equipment-remark-form', ['equipmentId' => $equipmentModel->id], key('equipment-remark-form-'.$equipmentModel->id))
-                @else
-                    <div class="min-h-[360px] rounded-xl border border-gray-200 bg-gray-50/30"></div>
-                @endif
-        </x-card>
-    </div>
-
-    @foreach ($placeholderPanels as $tabId => $panel)
-        <div x-cloak x-show="activeTab === '{{ $tabId }}'" class="space-y-6">
-            <x-card :title="$panel['title']" :description="$panel['description']" padding="p-6">
-                @if ($recordSelected)
-                    <x-empty-state
-                        icon="document"
-                        :label="$panel['title'] . ' preview'"
-                        description="This tab is reserved for the next implementation pass. The customer equipment card shell is ready, and this panel will be populated when its detailed screenshot/spec arrives."
-                    />
-                @else
-                    <x-empty-state
-                        icon="magnifying-glass"
-                        :label="'No equipment selected for ' . $panel['title']"
-                        description="Select a record from Search Equipments first, then this tab will show the customer equipment data for the chosen equipment."
-                    />
-                @endif
-            </x-card>
-        </div>
-    @endforeach
 
     <div class="sticky-form-actions">
         @if (! $recordLoaded)

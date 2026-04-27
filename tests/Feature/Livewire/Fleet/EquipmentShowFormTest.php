@@ -22,12 +22,9 @@ class EquipmentShowFormTest extends TestCase
             'category_part' => 'CAT-1',
             'variant' => 'V1',
             'status' => 'On Aircraft',
-            'owner_code' => 'OWN1',
             'owner_name' => 'Owner One',
-            'operator_code' => 'OP1',
             'operator_name' => 'Operator One',
             'maintenance_plan' => 'MP1',
-            'mel' => 'MEL1',
         ]);
 
         Livewire::test(EquipmentShowForm::class, ['equipmentId' => $eq->id])
@@ -36,12 +33,9 @@ class EquipmentShowFormTest extends TestCase
             ->assertSet('category_part', 'CAT-1')
             ->assertSet('variant', 'V1')
             ->assertSet('status', 'On Aircraft')
-            ->assertSet('owner_code', 'OWN1')
             ->assertSet('owner_name', 'Owner One')
-            ->assertSet('operator_code', 'OP1')
             ->assertSet('operator_name', 'Operator One')
-            ->assertSet('maintenance_plan', 'MP1')
-            ->assertSet('mel', 'MEL1');
+            ->assertSet('maintenance_plan', 'MP1');
     }
 
     public function test_save_action_persists_changes_to_the_model(): void
@@ -50,19 +44,16 @@ class EquipmentShowFormTest extends TestCase
         $eq = Equipment::factory()->create([
             'item_id' => $item->id,
             'serial_number' => 'SN-OLD-001',
-            'owner_code' => 'OWN-OLD',
         ]);
 
         Livewire::test(EquipmentShowForm::class, ['equipmentId' => $eq->id])
             ->set('serial_number', 'SN-NEW-001')
-            ->set('owner_code', 'OWN-NEW')
             ->set('owner_name', 'New Owner')
             ->call('save')
             ->assertDispatched('record-saved');
 
         $eq->refresh();
         $this->assertSame('SN-NEW-001', $eq->serial_number);
-        $this->assertSame('OWN-NEW', $eq->owner_code);
         $this->assertSame('New Owner', $eq->owner_name);
     }
 
@@ -72,21 +63,21 @@ class EquipmentShowFormTest extends TestCase
         $eq = Equipment::factory()->create([
             'item_id' => $item->id,
             'serial_number' => 'SN-ORIGINAL',
-            'owner_code' => 'OWN-ORIG',
+            'owner_name' => 'Owner Original',
         ]);
 
         Livewire::test(EquipmentShowForm::class, ['equipmentId' => $eq->id])
             ->set('serial_number', 'SN-DIRTY')
-            ->set('owner_code', 'OWN-DIRTY')
+            ->set('owner_name', 'Owner Dirty')
             ->call('cancelEdit')
             ->assertSet('serial_number', 'SN-ORIGINAL')
-            ->assertSet('owner_code', 'OWN-ORIG')
+            ->assertSet('owner_name', 'Owner Original')
             ->assertDispatched('record-saved');
 
         // DB unchanged
         $eq->refresh();
         $this->assertSame('SN-ORIGINAL', $eq->serial_number);
-        $this->assertSame('OWN-ORIG', $eq->owner_code);
+        $this->assertSame('Owner Original', $eq->owner_name);
     }
 
     public function test_mount_with_non_existent_id_leaves_fields_at_defaults(): void
@@ -119,11 +110,8 @@ class EquipmentShowFormTest extends TestCase
         $eq = Equipment::factory()->create(['item_id' => $item->id]);
 
         Livewire::test(EquipmentShowForm::class, ['equipmentId' => $eq->id])
-            // Decision-tree rule 6 — green indicator on Equipment No. and MEL
-            ->assertSeeHtmlInOrder([
-                'wire:model="equipment_no"',
-                'wire:model="mel"',
-            ])
+            // Decision-tree rule 6 — green indicator on Equipment No.
+            ->assertSeeHtml('wire:model="equipment_no"')
             // The Status select must replace the input — option list driven by
             // the STATUS_OPTIONS constant
             ->assertSeeHtml('<option value="On Aircraft">On Aircraft</option>')
