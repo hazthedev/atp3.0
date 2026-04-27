@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Fleet Synthesis — Dashboard')
+@section('title', 'Fleet Dashboard — Matrix')
 
 @php
     // Schedules Details sub-columns — driven by CAM-FS-0090 admin setting.
@@ -90,12 +90,12 @@
     <div class="space-y-6" x-data="{ refreshing: false, refresh() { this.refreshing = true; setTimeout(() => this.refreshing = false, 900); } }">
         <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div class="space-y-2">
-                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">Fleet Synthesis</p>
-                <h2 class="text-2xl font-bold text-gray-900">Dashboard</h2>
-                <p class="max-w-3xl text-sm text-gray-500">Click any <em>Quantity</em> or <em>Total</em> cell to drill into the Fleet Synthesis – Details screen for that scope.</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">Fleet Dashboard</p>
+                <h2 class="text-2xl font-bold text-gray-900">Matrix</h2>
+                <p class="max-w-3xl text-sm text-gray-500">Click any <em>Quantity</em> or <em>Total</em> cell to drill into the Fleet Dashboard – Details screen for that scope.</p>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('reports.fleet-synthesis') }}" class="btn-ghost">
+                <a href="{{ route('dashboard.fleet') }}" class="btn-ghost">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                     Back
                 </a>
@@ -165,7 +165,7 @@
                                     @if ($isSynthesis)
                                         <span class="text-slate-700">{{ $row['reg'] }}</span>
                                     @else
-                                        <a href="{{ route('reports.fleet-synthesis.details') }}?ac={{ $row['reg'] }}" class="font-medium text-blue-600 hover:underline">{{ $row['reg'] }}</a>
+                                        <a href="{{ route('dashboard.fleet.details') }}?ac={{ $row['reg'] }}" class="font-medium text-blue-600 hover:underline">{{ $row['reg'] }}</a>
                                     @endif
                                 </td>
 
@@ -173,7 +173,7 @@
                                     @php [$alarm, $qty, $total] = $row[$col]; @endphp
                                     <td class="{{ $col === 'all' || $col === $taskTypeCols[0] || $col === 'MEL/CFD' ? 'border-l border-gray-200' : '' }} px-2 py-3 text-center">
                                         @if ($alarm)
-                                            <a href="{{ route('reports.fleet-synthesis.details') }}?ac={{ $row['reg'] }}&col={{ urlencode($col) }}&alarm={{ $alarm }}"
+                                            <a href="{{ route('dashboard.fleet.details') }}?ac={{ $row['reg'] }}&col={{ urlencode($col) }}&alarm={{ $alarm }}"
                                                class="inline-flex h-9 w-10 items-center justify-center rounded-md text-sm font-bold shadow-sm transition hover:scale-105 {{ $alarmClasses[$alarm] }}">
                                                 {{ $qty }}
                                             </a>
@@ -181,7 +181,7 @@
                                     </td>
                                     <td class="px-2 py-3 text-center text-slate-600">
                                         @if ($total !== null)
-                                            <a href="{{ route('reports.fleet-synthesis.details') }}?ac={{ $row['reg'] }}&col={{ urlencode($col) }}" class="hover:text-blue-600 hover:underline">
+                                            <a href="{{ route('dashboard.fleet.details') }}?ac={{ $row['reg'] }}&col={{ urlencode($col) }}" class="hover:text-blue-600 hover:underline">
                                                 {{ $total }}
                                             </a>
                                         @endif

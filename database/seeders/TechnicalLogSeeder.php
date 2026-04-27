@@ -58,7 +58,7 @@ class TechnicalLogSeeder extends Seeder
                 'closure_date' => '2017-10-26',
                 'corrective_description' => 'M1. EASA AD 2017-0160 INSP C/OUT - KBR/WAA/15031',
             ],
-            // --- Fleet Synthesis-relevant deferred entries ---
+            // --- Fleet Dashboard-relevant deferred entries ---
             [
                 'code' => '00000020', 'log_number' => 'TL-24101', 'aircraft_registration' => '9M-WAD',
                 'status_code' => '-0000021', // Deferred

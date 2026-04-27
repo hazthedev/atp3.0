@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Schema;
  * utilization_models           ← @MRO_OUTM (22 A/C registrations: 9M-WAA, 9M-WAD, 9M-WSV…)
  * utilization_model_rates      ← @MRO_UTM2 (per-A/C × measure-unit × month values)
  *
- * The rates table drives the Fleet Synthesis "Due Date" calculation
+ * The rates table drives the Fleet Dashboard "Due Date" calculation
  * (hours/cycles → date conversion, spec Notes 4.1–4.3).
  */
 return new class extends Migration

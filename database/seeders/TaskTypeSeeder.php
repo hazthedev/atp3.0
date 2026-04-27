@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 /**
  * Source: @MRO_OTAT in weststar_atp3_aish.sql — 60 task types.
- * Includes the 6 primary Fleet Synthesis column types (AD/SB, EOAS, OOP, Kardex, Others, Checks).
+ * Includes the 6 primary Fleet Dashboard matrix column types (AD/SB, EOAS, OOP, Kardex, Others, Checks).
  */
 class TaskTypeSeeder extends Seeder
 {

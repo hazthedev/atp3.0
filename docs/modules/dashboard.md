@@ -10,8 +10,7 @@ into ATP 3.0.
 | L2 | Purpose |
 |---|---|
 | User Dashboard | Per-user widgets (TBD) |
-| Fleet Dashboard | Fleet-level KPIs (TBD) |
-| Fleet Synthesis | Existing synthesis report view (route `reports.fleet-synthesis`) |
+| Fleet Dashboard | Filter → matrix → details flow (relocated from Fleet Synthesis on 2026-04-27) |
 
 ### DB tables owned by Dashboard
 
@@ -25,11 +24,10 @@ None yet.
 
 ### Shipped
 - Sidebar links present.
-- Fleet Synthesis L2 routes to the existing `pages.reports.fleet-synthesis` view.
+- Fleet Dashboard L2 routes to the relocated synthesis filter / matrix / details flow.
 
 ### Stubbed
 - User Dashboard → `pages.stub`
-- Fleet Dashboard → `pages.stub`
 
 ### Not started
 Everything substantive. Dashboard widgets need a spec first.
@@ -53,3 +51,4 @@ None yet.
 ## Last updated
 
 - 2026-04-25 — module file created as placeholder. No substantive work yet.
+- 2026-04-27 — Fleet Synthesis content relocated under Fleet Dashboard. Sidebar Fleet Synthesis entry removed. Routes/URLs renamed `dashboard.fleet[.matrix|.details]`. See spec `2026-04-27-fleet-dashboard-relocate-synthesis-design.md`.
