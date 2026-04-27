@@ -182,27 +182,27 @@
     ];
 
     $propertiesTopLeftFields = [
-        ['name' => 'manufacturer_item_code', 'label' => 'Manufacturer Item Code', 'value' => $selectedRecord['manufacturer_item_code']],
-        ['name' => 'manufacturing_date', 'label' => 'Manufacturing date', 'value' => $selectedRecord['manufacturing_date']],
-        ['name' => 'first_date_of_using', 'label' => 'First date of using', 'value' => $selectedRecord['first_date_of_using']],
-        ['name' => 'delivery_date', 'label' => 'Delivery Date', 'value' => $selectedRecord['delivery_date']],
-        ['name' => 'configuration_standard', 'label' => 'Configuration standard', 'value' => $selectedRecord['configuration_standard']],
+        ['name' => 'manufacturer_item_code', 'label' => 'Manufacturer Item Code', 'value' => $selectedRecord['manufacturer_item_code'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'manufacturing_date', 'label' => 'Manufacturing date', 'value' => $selectedRecord['manufacturing_date'], 'variant' => null],
+        ['name' => 'first_date_of_using', 'label' => 'First date of using', 'value' => $selectedRecord['first_date_of_using'], 'variant' => null],
+        ['name' => 'delivery_date', 'label' => 'Delivery Date', 'value' => $selectedRecord['delivery_date'], 'variant' => null],
+        ['name' => 'configuration_standard', 'label' => 'Configuration standard', 'value' => $selectedRecord['configuration_standard'], 'variant' => 'indicator', 'tone' => 'green'],
     ];
 
     $propertiesTopRightFields = [
-        ['name' => 'purchase_cost_of_engine', 'label' => 'Purchase Cost of Engine', 'value' => $selectedRecord['purchase_cost_of_engine']],
-        ['name' => 'remark_text', 'label' => 'Remark', 'value' => $selectedRecord['remark_text']],
+        ['name' => 'purchase_cost_of_engine', 'label' => 'Purchase Cost of Engine', 'value' => $selectedRecord['purchase_cost_of_engine'], 'variant' => null],
+        ['name' => 'remark_text', 'label' => 'Remark', 'value' => $selectedRecord['remark_text'], 'variant' => null],
     ];
 
     $propertiesOperationalFields = [
-        ['name' => 'mission_type', 'label' => 'Mission Type', 'value' => $selectedRecord['mission_type']],
-        ['name' => 'maint_center_code', 'label' => 'Maint. Center Code', 'value' => $selectedRecord['maint_center_code']],
-        ['name' => 'maint_center_name', 'label' => 'Maint. Center Name', 'value' => $selectedRecord['maint_center_name']],
-        ['name' => 'external_key', 'label' => 'External Key', 'value' => $selectedRecord['external_key']],
-        ['name' => 'environment_type', 'label' => 'Environment Type', 'value' => $selectedRecord['environment_type']],
-        ['name' => 'utilization_model', 'label' => 'Utilization Model', 'value' => $selectedRecord['utilization_model']],
-        ['name' => 'contract_type', 'label' => 'Contract Type', 'value' => $selectedRecord['contract_type']],
-        ['name' => 'oil_type', 'label' => 'Oil Type', 'value' => $selectedRecord['oil_type']],
+        ['name' => 'mission_type', 'label' => 'Mission Type', 'value' => $selectedRecord['mission_type'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'maint_center_code', 'label' => 'Maint. Center Code', 'value' => $selectedRecord['maint_center_code'], 'variant' => null],
+        ['name' => 'maint_center_name', 'label' => 'Maint. Center Name', 'value' => $selectedRecord['maint_center_name'], 'variant' => null],
+        ['name' => 'external_key', 'label' => 'External Key', 'value' => $selectedRecord['external_key'], 'variant' => null],
+        ['name' => 'environment_type', 'label' => 'Environment Type', 'value' => $selectedRecord['environment_type'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'utilization_model', 'label' => 'Utilization Model', 'value' => $selectedRecord['utilization_model'], 'variant' => 'arrow-indicator', 'tone' => 'green'],
+        ['name' => 'contract_type', 'label' => 'Contract Type', 'value' => $selectedRecord['contract_type'], 'variant' => 'indicator', 'tone' => 'green'],
+        ['name' => 'oil_type', 'label' => 'Oil Type', 'value' => $selectedRecord['oil_type'], 'variant' => null],
     ];
 
     $addressFields = [
@@ -1037,25 +1037,32 @@
                         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
                             <div class="grid gap-4 md:grid-cols-2">
                                 @foreach ($propertiesTopLeftFields as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            tone="{{ $field['tone'] ?? null }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
 
                             <div class="grid gap-4 md:grid-cols-2">
                                 @foreach ($propertiesTopRightFields as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -1063,13 +1070,17 @@
                         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
                             <div class="grid gap-4 md:grid-cols-2">
                                 @foreach ($propertiesOperationalFields as $field)
-                                    <x-form.input
-                                        :label="$field['label']"
-                                        :name="$field['name']"
-                                        :value="$field['value']"
-                                        readonly
-                                        class="input-field-filled"
-                                    />
+                                    <div class="space-y-1.5">
+                                        <label class="block text-sm font-medium text-gray-700">{{ $field['label'] }}</label>
+                                        <x-enterprise.input
+                                            variant="{{ $field['variant'] }}"
+                                            tone="{{ $field['tone'] ?? null }}"
+                                            :name="$field['name']"
+                                            :value="$field['value']"
+                                            readonly
+                                            class="input-field-filled"
+                                        />
+                                    </div>
                                 @endforeach
                             </div>
 
@@ -1081,14 +1092,19 @@
 
                                 <div class="mt-4 space-y-4">
                                     <div class="flex flex-wrap gap-5">
-                                        <label class="flex items-center gap-3 text-sm text-gray-700">
-                                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" @checked($selectedRecord['anomaly_on_data'] !== '')>
-                                            <span>Anomaly on Data</span>
-                                        </label>
-                                        <label class="flex items-center gap-3 text-sm text-gray-400">
-                                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" @checked($selectedRecord['lock_flag'] !== '')>
-                                            <span>Lock</span>
-                                        </label>
+                                        <x-enterprise.checkbox
+                                            label="Anomaly on Data"
+                                            inline
+                                            @checked($selectedRecord['anomaly_on_data'] !== '')
+                                        />
+                                        <x-enterprise.checkbox
+                                            label="Lock"
+                                            labelClass="flex items-center text-sm text-gray-400"
+                                            inline
+                                            disabled
+                                            data-edit-locked="true"
+                                            @checked($selectedRecord['lock_flag'] !== '')
+                                        />
                                     </div>
 
                                     <div class="flex justify-start xl:justify-end">
