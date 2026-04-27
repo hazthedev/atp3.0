@@ -28,10 +28,6 @@
         <x-enterprise.input id="fl_registration" wire:model="registration" />
     </div>
     <div class="space-y-1.5">
-        <x-form.label for="fl_owner_code">Owner Code</x-form.label>
-        <x-enterprise.input id="fl_owner_code" wire:model="owner_code" variant="arrow-lookup" />
-    </div>
-    <div class="space-y-1.5">
         <x-form.label for="fl_type">Type</x-form.label>
         <x-enterprise.input id="fl_type" wire:model="type" variant="arrow-lookup" />
     </div>
@@ -42,10 +38,6 @@
     <div class="space-y-1.5">
         <x-form.label for="fl_mel">MEL</x-form.label>
         <x-enterprise.input id="fl_mel" wire:model="mel" variant="indicator" tone="green" />
-    </div>
-    <div class="space-y-1.5">
-        <x-form.label for="fl_operator_code">Operator Code</x-form.label>
-        <x-enterprise.input id="fl_operator_code" wire:model="operator_code" variant="arrow-lookup" />
     </div>
     <div class="space-y-1.5">
         <x-form.label for="fl_operator_name">Operator Name</x-form.label>
