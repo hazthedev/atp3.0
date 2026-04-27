@@ -35,6 +35,7 @@ class Equipment extends Model
         'sheet',
         'mark',
         'mel_item',
+        'remark_text',
     ];
 
     protected $casts = [
