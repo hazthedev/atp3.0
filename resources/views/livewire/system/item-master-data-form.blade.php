@@ -19,12 +19,4 @@
         <label class="block text-sm font-medium text-gray-700">Item Class</label>
         <x-enterprise.input wire:model="item_class" />
     </div>
-    <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">Item Type</label>
-        <x-enterprise.input wire:model="item_type" />
-    </div>
-    <div class="space-y-1.5">
-        <label class="block text-sm font-medium text-gray-700">UoM Group</label>
-        <x-enterprise.input wire:model="uom_group" />
-    </div>
 </div>
