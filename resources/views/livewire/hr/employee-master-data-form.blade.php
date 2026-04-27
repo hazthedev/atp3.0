@@ -198,11 +198,7 @@
     {{-- Membership tab --}}
     <div x-cloak x-show="activeTab === 'membership'">
         <x-card padding="p-6">
-            <x-empty-state
-                icon="user-group"
-                label="Membership editor pending"
-                description="Roles + Teams row management lands in a follow-up PR."
-            />
+            @livewire('hr.employee-membership-form', ['employeeId' => $employeeId], key('employee-membership-form-'.$employeeId))
         </x-card>
     </div>
 
