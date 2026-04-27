@@ -385,18 +385,12 @@
     {{-- Flight Ops tab --}}
     <div x-cloak x-show="activeTab === 'flight-ops'">
         <x-card padding="p-6">
-            <div class="grid grid-cols-[140px_minmax(0,1fr)] items-center gap-3 max-w-2xl">
+            <div class="grid grid-cols-[140px_minmax(0,1fr)] items-center gap-3 max-w-2xl mb-5">
                 <label class="text-sm font-medium text-gray-600">Home base</label>
                 <x-enterprise.input variant="lookup" wire:model="home_base" x-bind:disabled="!editing" />
             </div>
 
-            <div class="mt-5">
-                <x-empty-state
-                    icon="paper-airplane"
-                    label="Crew positions and assignments pending"
-                    description="The Flight Ops Crew Management positions list and Employee Assignment editor land in a follow-up PR."
-                />
-            </div>
+            @livewire('hr.employee-flight-ops-form', ['employeeId' => $employeeId], key('employee-flight-ops-form-'.$employeeId))
         </x-card>
     </div>
 
