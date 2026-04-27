@@ -99,4 +99,34 @@ class EquipmentShowFormTest extends TestCase
             ->assertSet('equipment_no', '')
             ->assertSet('status', '');
     }
+
+    public function test_item_no_and_item_description_hydrate_from_related_item(): void
+    {
+        $item = Item::factory()->create([
+            'code' => 'AW139',
+            'description' => 'AW139 Helicopter',
+        ]);
+        $eq = Equipment::factory()->create(['item_id' => $item->id]);
+
+        Livewire::test(EquipmentShowForm::class, ['equipmentId' => $eq->id])
+            ->assertSet('item_no', 'AW139')
+            ->assertSet('item_description', 'AW139 Helicopter');
+    }
+
+    public function test_render_applies_sap_variant_attributes_per_catalog(): void
+    {
+        $item = Item::factory()->create();
+        $eq = Equipment::factory()->create(['item_id' => $item->id]);
+
+        Livewire::test(EquipmentShowForm::class, ['equipmentId' => $eq->id])
+            // Decision-tree rule 6 — green indicator on Equipment No. and MEL
+            ->assertSeeHtmlInOrder([
+                'wire:model="equipment_no"',
+                'wire:model="mel"',
+            ])
+            // The Status select must replace the input — option list driven by
+            // the STATUS_OPTIONS constant
+            ->assertSeeHtml('<option value="On Aircraft">On Aircraft</option>')
+            ->assertSeeHtml('<option value="Serviceable">Serviceable</option>');
+    }
 }
