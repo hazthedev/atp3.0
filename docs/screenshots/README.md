@@ -13,7 +13,25 @@ can't verify a variant decision against the original intent — and bus-factor
 risk grows whenever the screenshots live only in chat history or someone's
 laptop.
 
-## Naming convention
+## Subfolder convention
+
+Two categories of reference shot live here:
+
+- **`input-variants/`** — isolated shots of one variant of `<x-enterprise.input>`
+  (one shot per variant, regardless of which `tone` happens to be active in the
+  example, since `tone` is runtime state). Filenames mirror the variant prop
+  value: `disabled.png`, `lookup.png`, `arrow-lookup.png`, `tree.png`,
+  `indicator.png`, `arrow-indicator.png`, `cell.png`. Cross-referenced inline
+  from each rule in [docs/ui-variants.md](../ui-variants.md).
+- **Root of `docs/screenshots/`** — full-screen captures of SAP / Aero One
+  reference screens (FL Customer card, Update Counters modal, Item Master Data
+  list, etc.) and Weststar spec briefs. Use the naming convention below.
+
+If we add isolated reference shots for other component families later (table
+variants, row layouts, etc.), follow the same pattern: one subfolder per
+component, one shot per variant.
+
+## Naming convention (full-screen captures)
 
 ```
 <l1-slug>-<screen-slug>-<batch>.png

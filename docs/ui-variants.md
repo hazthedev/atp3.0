@@ -13,45 +13,45 @@ default to a plain `<input class="input-field">` unless the decision tree says
 Check these in order — stop at the first match.
 
 1. **Field text is grey, background is grey, looks non-interactive**
-   → `variant="disabled"`
+   → `variant="disabled"` — [screenshot](screenshots/input-variants/disabled.png)
    *Use when the screenshot shows the field as read-only greyed out and it's
    rendered that way regardless of edit state.*
 
 2. **Field has a small LEFT-side arrow/chevron button AND a small colored
    dot/circle inside-or-adjacent-right**
-   → `variant="arrow-indicator"` with `tone="<color>"`
+   → `variant="arrow-indicator"` with `tone="<color>"` — [screenshot](screenshots/input-variants/arrow-indicator.png)
    where color is `green` / `amber` / `red` based on the dot colour.
    *Example: "Maintenance Plan" with an orange chevron on the left and a
    green circle on the right → `variant="arrow-indicator" tone="green"`.*
 
 3. **Field has a LEFT-side arrow/chevron button AND a RIGHT-side
    magnifying-glass / lookup icon button**
-   → `variant="arrow-lookup"`
+   → `variant="arrow-lookup"` — [screenshot](screenshots/input-variants/arrow-lookup.png)
    *Example: "Type" with orange left arrow and right lookup → arrow-lookup.*
 
 4. **Field has ONLY a RIGHT-side chevron that looks like a tree / hierarchy
    toggle (down-chevron or stacked-rows glyph), NO magnifying glass, NO colored
    dot**
-   → `variant="tree"`
+   → `variant="tree"` — [screenshot](screenshots/input-variants/tree.png)
    *Example: "Serial no" with a small down-chevron on the right.*
 
 5. **Field has ONLY a RIGHT-side magnifying-glass / lookup icon, NO left
    arrow**
-   → `variant="lookup"`
+   → `variant="lookup"` — [screenshot](screenshots/input-variants/lookup.png)
    *Example: "Country" that opens a search dialog on click. Sometimes shown
    alongside a red dot for "required" — the red dot is a separate required
    marker rendered at the label, NOT part of the variant.*
 
 6. **Field has ONLY a small colored dot/circle at the right edge with NO
    button decorations**
-   → `variant="indicator"` with `tone="<color>"`
+   → `variant="indicator"` with `tone="<color>"` — [screenshot](screenshots/input-variants/indicator.png)
    where color is `green` / `amber` / `red` based on the dot colour.
    *Example: "Code" with a green circle → `variant="indicator" tone="green"`.*
 
 7. **Borderless field inside a `<td>` in an inline-edit grid** (Category Part,
    Counter Refs, Measure Units, MRO Status, Item Groups accounting grid,
    Warehouses accounting grid)
-   → `variant="cell"`
+   → `variant="cell"` — *(reference screenshot pending — see Counter Refs manager in edit mode for the live example)*
    *Use when the screenshot shows a compact table with no visible field borders
    — only the table's own row/column grid lines. The field's editability flips
    with an `@readonly` / `@disabled` attribute driven by an `$isEditing` row
