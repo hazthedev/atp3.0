@@ -700,7 +700,10 @@
                                     <td x-text="index + 1"></td>
                                     <td x-text="row.name"></td>
                                     <td class="text-center">
-                                        <input type="checkbox" x-model="row.selected" class="h-4 w-4 rounded border-gray-300 text-[#2f5bff] focus:ring-[#2f5bff]" />
+                                        <x-enterprise.checkbox
+                                            x-model="row.selected"
+                                            inputClass="h-4 w-4 rounded border-gray-300 text-[#2f5bff] focus:ring-[#2f5bff]"
+                                        />
                                     </td>
                                 </tr>
                             </template>
