@@ -410,11 +410,7 @@
     {{-- Attachments tab --}}
     <div x-cloak x-show="activeTab === 'attachments'">
         <x-card padding="p-6">
-            <x-empty-state
-                icon="paper-clip"
-                label="Attachments editor pending"
-                description="Attachments table + Browse / Display / Delete actions land in a follow-up PR."
-            />
+            @livewire('hr.employee-attachments-form', ['employeeId' => $employeeId], key('employee-attachments-form-'.$employeeId))
         </x-card>
     </div>
 
