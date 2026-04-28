@@ -1,7 +1,7 @@
 @php
-    $tone = $tone ?? null;
-    $icon = $icon ?? 'check-circle';
-    $value = $value ?? '0';
+    $tone  = $tone ?? null;
+    $icon  = $icon ?? 'check-circle';
+    $value = $value ?? ($count ?? '0');
     $label = $label ?? '';
 
     $iconClasses = match ($tone) {
@@ -12,12 +12,12 @@
     };
 @endphp
 
-<div class="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-2.5 shadow-sm">
-    <div class="flex h-9 w-9 items-center justify-center rounded-md {{ $iconClasses }}">
-        <x-icon :name="$icon" class="h-5 w-5" />
+<div class="flex items-center gap-2 rounded border border-gray-200 bg-white px-2 py-1.5">
+    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded {{ $iconClasses }}">
+        <x-icon :name="$icon" class="h-4 w-4" />
     </div>
-    <div class="min-w-0">
-        <div class="text-lg font-bold text-gray-900">{{ $value }}</div>
-        <div class="truncate text-[11px] text-gray-500">{{ $label }}</div>
+    <div class="min-w-0 leading-tight">
+        <div class="text-base font-bold text-gray-900">{{ $value }}</div>
+        <div class="truncate text-[10px] text-gray-500">{{ $label }}</div>
     </div>
 </div>
