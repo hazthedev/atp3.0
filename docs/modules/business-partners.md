@@ -58,3 +58,4 @@ None yet.
 ## Last updated
 
 - 2026-04-25 — module file created. Pages exist but data is mocked.
+- 2026-04-28 — BP index aligned with the FL search data-table reference. Cell utility classes (`table-th` / `table-row` / `table-td`), `<x-data-table>` empty-state props, "Browse N records" subhead, lead-column anchor unified to `text-blue-600`, Edit button collapsed to `btn-secondary`. Spec: `docs/superpowers/specs/2026-04-28-index-tables-fl-parity-design.md`.

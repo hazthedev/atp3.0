@@ -22,53 +22,59 @@
 
         <p class="text-sm text-gray-500">Browse {{ $items->count() }} item master records.</p>
 
-        <x-data-table datatable>
+        <x-data-table
+            :empty="$items->isEmpty()"
+            empty-label="No items found"
+            empty-description="Try a different item number, description, or class."
+            search-meta=""
+            datatable
+        >
             <x-slot name="thead">
                 <tr>
-                    <th class="w-10" data-sortable="false">#</th>
-                    <th>Item No.</th>
-                    <th>Item Description</th>
-                    <th>In Stock</th>
-                    <th>Manufacturer</th>
-                    <th>Class</th>
-                    <th>Calibration</th>
-                    <th>Shelf Life</th>
-                    <th>Sales Item</th>
-                    <th>Manage by Batch/Serial</th>
-                    <th>Inventory Item</th>
-                    <th>Purchase Item</th>
-                    <th>Item Group</th>
-                    <th>UoM Group</th>
-                    <th>Alternative Part</th>
-                    <th>Serial No. Management</th>
-                    <th>Item Type</th>
+                    <th class="table-th w-10" data-sortable="false">#</th>
+                    <th class="table-th">Item No.</th>
+                    <th class="table-th">Item Description</th>
+                    <th class="table-th">In Stock</th>
+                    <th class="table-th">Manufacturer</th>
+                    <th class="table-th">Class</th>
+                    <th class="table-th">Calibration</th>
+                    <th class="table-th">Shelf Life</th>
+                    <th class="table-th">Sales Item</th>
+                    <th class="table-th">Manage by Batch/Serial</th>
+                    <th class="table-th">Inventory Item</th>
+                    <th class="table-th">Purchase Item</th>
+                    <th class="table-th">Item Group</th>
+                    <th class="table-th">UoM Group</th>
+                    <th class="table-th">Alternative Part</th>
+                    <th class="table-th">Serial No. Management</th>
+                    <th class="table-th">Item Type</th>
                 </tr>
             </x-slot>
 
             <x-slot name="tbody">
                 @foreach ($items as $index => $item)
-                    <tr class="hover:bg-neutral-secondary-soft">
-                        <td class="text-gray-500">{{ $index + 1 }}</td>
-                        <td class="font-medium whitespace-nowrap">
-                            <a href="{{ route('system.item-master-data.edit', ['id' => $item->id]) }}" class="font-semibold text-[#2f5bff] transition hover:text-[#284ef0] hover:underline">
+                    <tr class="table-row">
+                        <td class="table-td text-gray-500">{{ $index + 1 }}</td>
+                        <td class="table-td">
+                            <a href="{{ route('system.item-master-data.edit', ['id' => $item->id]) }}" class="font-semibold text-blue-600 hover:underline">
                                 {{ $item->code }}
                             </a>
                         </td>
-                        <td>{{ $item->description }}</td>
-                        <td class="text-right">{{ number_format((float) $item->in_stock, 2) }}</td>
-                        <td>{{ $item->manufacturer }}</td>
-                        <td>{{ $item->item_class }}</td>
-                        <td>{{ $item->calibration }}</td>
-                        <td>{{ $item->shelf_life }}</td>
-                        <td>{{ $item->sales_item }}</td>
-                        <td>{{ $item->manage_by_batch_serial }}</td>
-                        <td>{{ $item->inventory_item }}</td>
-                        <td>{{ $item->purchase_item }}</td>
-                        <td>{{ $item->item_group }}</td>
-                        <td>{{ $item->uom_group }}</td>
-                        <td>{{ $item->alternative_part }}</td>
-                        <td>{{ $item->serial_no_management }}</td>
-                        <td>{{ $item->item_type }}</td>
+                        <td class="table-td">{{ $item->description }}</td>
+                        <td class="table-td text-right">{{ number_format((float) $item->in_stock, 2) }}</td>
+                        <td class="table-td">{{ $item->manufacturer }}</td>
+                        <td class="table-td">{{ $item->item_class }}</td>
+                        <td class="table-td">{{ $item->calibration }}</td>
+                        <td class="table-td">{{ $item->shelf_life }}</td>
+                        <td class="table-td">{{ $item->sales_item }}</td>
+                        <td class="table-td">{{ $item->manage_by_batch_serial }}</td>
+                        <td class="table-td">{{ $item->inventory_item }}</td>
+                        <td class="table-td">{{ $item->purchase_item }}</td>
+                        <td class="table-td">{{ $item->item_group }}</td>
+                        <td class="table-td">{{ $item->uom_group }}</td>
+                        <td class="table-td">{{ $item->alternative_part }}</td>
+                        <td class="table-td">{{ $item->serial_no_management }}</td>
+                        <td class="table-td">{{ $item->item_type }}</td>
                     </tr>
                 @endforeach
             </x-slot>
