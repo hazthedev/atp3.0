@@ -21,9 +21,7 @@
                 <th class="table-th">Serial No.</th>
                 <th class="table-th">Registration</th>
                 <th class="table-th">Type</th>
-                <th class="table-th">Op. Code</th>
                 <th class="table-th">Operator name</th>
-                <th class="table-th">Ow. Code</th>
                 <th class="table-th">Owner</th>
                 <th class="table-th" data-sortable="false">Actions</th>
             </tr>
@@ -36,9 +34,7 @@
                     <td class="table-td">{{ $record['serial_no'] }}</td>
                     <td class="table-td">{{ $record['registration'] }}</td>
                     <td class="table-td">{{ $record['type'] }}</td>
-                    <td class="table-td">{{ $record['operator_code'] }}</td>
                     <td class="table-td">{{ $record['operator_name'] }}</td>
-                    <td class="table-td">{{ $record['owner_code'] }}</td>
                     <td class="table-td">{{ $record['owner_name'] }}</td>
                     <td class="table-td">
                         <div class="flex gap-2">
