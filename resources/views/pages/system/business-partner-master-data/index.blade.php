@@ -26,43 +26,46 @@
             </x-slot>
         </x-page-header>
 
-        <x-data-table datatable>
+        <p class="text-sm text-gray-500">Browse {{ count($partners) }} business partner records.</p>
+
+        <x-data-table
+            :empty="count($partners) === 0"
+            empty-label="No business partners found"
+            empty-description="Try a different code, name, or BP group."
+            search-meta=""
+            datatable
+        >
             <x-slot name="thead">
                 <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>BP Group</th>
-                    <th>BP Type</th>
-                    <th>Currency</th>
-                    <th>Contact Person</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th data-sortable="false">Actions</th>
+                    <th class="table-th">Code</th>
+                    <th class="table-th">Name</th>
+                    <th class="table-th">BP Group</th>
+                    <th class="table-th">BP Type</th>
+                    <th class="table-th">Currency</th>
+                    <th class="table-th">Contact Person</th>
+                    <th class="table-th">Email</th>
+                    <th class="table-th">Status</th>
+                    <th class="table-th" data-sortable="false">Actions</th>
                 </tr>
             </x-slot>
 
             <x-slot name="tbody">
                 @foreach ($partners as $partner)
-                    <tr class="hover:bg-neutral-secondary-soft cursor-pointer">
-                        <td class="font-medium text-heading whitespace-nowrap">
-                            <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="font-semibold text-[#2f5bff] transition hover:text-[#284ef0] hover:underline">
+                    <tr class="table-row">
+                        <td class="table-td">
+                            <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="font-semibold text-blue-600 hover:underline">
                                 {{ $partner['code'] }}
                             </a>
                         </td>
-                        <td>{{ $partner['name'] }}</td>
-                        <td>{{ $partner['bp_group'] }}</td>
-                        <td>{{ $partner['bp_type'] }}</td>
-                        <td>{{ $partner['currency'] }}</td>
-                        <td>{{ $partner['contact_person'] }}</td>
-                        <td>{{ $partner['email'] }}</td>
-                        <td>{{ $partner['status'] }}</td>
-                        <td>
-                            <a
-                                href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}"
-                                class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-[#9fb2ff] hover:text-[#2f5bff]"
-                            >
-                                Edit
-                            </a>
+                        <td class="table-td">{{ $partner['name'] }}</td>
+                        <td class="table-td">{{ $partner['bp_group'] }}</td>
+                        <td class="table-td">{{ $partner['bp_type'] }}</td>
+                        <td class="table-td">{{ $partner['currency'] }}</td>
+                        <td class="table-td">{{ $partner['contact_person'] }}</td>
+                        <td class="table-td">{{ $partner['email'] }}</td>
+                        <td class="table-td">{{ $partner['status'] }}</td>
+                        <td class="table-td">
+                            <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="btn-secondary px-3">Edit</a>
                         </td>
                     </tr>
                 @endforeach
