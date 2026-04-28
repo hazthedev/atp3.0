@@ -14,6 +14,7 @@ class EquipmentIndexPage extends Component
         $rows = Equipment::with('item')
             ->orderBy('id')
             ->get()
+            ->whereIn('id', [1, 2, 3])
             ->map(fn (Equipment $e): array => [
                 'id' => $e->id,
                 'item_no' => $e->item?->code ?? '',
@@ -25,9 +26,7 @@ class EquipmentIndexPage extends Component
                 'status' => $e->status ?? '',
                 'father_object_type' => $e->status === 'On Aircraft' ? 'Functional Location' : '',
                 'father_reference' => $e->status === 'On Aircraft' ? 'AW139 / M104-04' : '',
-                'operator_code' => $e->operator_code ?? '',
                 'operator_name' => $e->operator_name ?? '',
-                'owner_code' => $e->owner_code ?? '',
                 'owner_name' => $e->owner_name ?? '',
             ])
             ->values();

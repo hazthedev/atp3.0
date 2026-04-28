@@ -27,9 +27,7 @@
                 <th class="table-th">Status</th>
                 <th class="table-th">Father Object</th>
                 <th class="table-th">Father Reference</th>
-                <th class="table-th">Op. Code</th>
                 <th class="table-th">Operator Name</th>
-                <th class="table-th">Ow. Code</th>
                 <th class="table-th">Owner Name</th>
                 <th class="table-th" data-sortable="false">Actions</th>
             </tr>
@@ -63,9 +61,7 @@
                             <span class="font-medium text-blue-600">{{ $row['father_reference'] }}</span>
                         @endif
                     </td>
-                    <td class="table-td">{{ $row['operator_code'] }}</td>
                     <td class="table-td">{{ $row['operator_name'] }}</td>
-                    <td class="table-td">{{ $row['owner_code'] }}</td>
                     <td class="table-td">{{ $row['owner_name'] }}</td>
                     <td class="table-td">
                         <div class="flex gap-2">
