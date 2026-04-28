@@ -5,14 +5,13 @@
         ['id' => 'part-information', 'label' => 'Part Information'],
         ['id' => 'customers-information', 'label' => 'Customers Information'],
         ['id' => 'flight-ops', 'label' => 'Flight OPS'],
-        ['id' => 'result', 'label' => 'Result'],
     ];
 
     $typePreviewRows = range(1, 12);
 @endphp
 
 <div
-    class="space-y-6"
+    class="space-y-5"
     x-data="{
         filterStatusMessage: '',
         activeFilterTab: 'functional-location',
@@ -156,15 +155,15 @@
         </x-slot>
     </x-data-table>
 
-    <x-modal id="functional-location-filter-modal" title="Functional Location Filter" maxWidth="max-w-5xl">
-        <div class="space-y-5">
+    <x-modal id="functional-location-filter-modal" title="Functional Location Filter" maxWidth="max-w-4xl">
+        <div class="space-y-4">
             <div class="subtab-shell">
-                <ul class="subtab-list flex-wrap">
+                <ul class="subtab-list flex-wrap gap-1.5">
                     @foreach ($filterTabs as $tab)
                         <li class="subtab-item">
                             <button
                                 type="button"
-                                class="subtab-link"
+                                class="subtab-link px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em]"
                                 :class="activeFilterTab === '{{ $tab['id'] }}' ? 'subtab-link-active' : 'subtab-link-inactive'"
                                 @click="activeFilterTab = '{{ $tab['id'] }}'"
                             >
@@ -175,10 +174,10 @@
                 </ul>
             </div>
 
-            <div x-cloak x-show="activeFilterTab === 'functional-location'" class="space-y-4">
-                <x-enterprise.panel class="space-y-5">
-                    <div class="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_320px]">
-                        <div class="space-y-4">
+            <div x-cloak x-show="activeFilterTab === 'functional-location'" class="space-y-3">
+                <x-enterprise.panel class="space-y-4 p-4">
+                    <div class="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_280px]">
+                        <div class="space-y-3">
                             <x-enterprise.field-row label="Serial Number" for="fl_filter_serial_number" columns="sm:grid-cols-[128px_minmax(0,220px)]">
                                 <x-enterprise.input id="fl_filter_serial_number" x-model="flSerialNumber" />
                             </x-enterprise.field-row>
@@ -186,21 +185,21 @@
                                 <x-enterprise.input id="fl_filter_registration" x-model="flRegistration" />
                             </x-enterprise.field-row>
 
-                            <div class="space-y-2">
+                            <div class="space-y-1.5">
                                 <div class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Type</div>
-                                <div class="overflow-hidden rounded-xl border border-gray-200">
-                                    <table class="min-w-full border-collapse text-sm">
-                                        <thead class="bg-gray-50">
+                                <div class="overflow-hidden rounded-lg border border-gray-200">
+                                    <table class="min-w-full border-collapse text-xs">
+                                        <thead class="bg-gray-50/90">
                                             <tr>
-                                                <th class="border-b border-gray-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">#</th>
-                                                <th class="border-b border-gray-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Type</th>
+                                                <th class="border-b border-gray-200 px-2.5 py-1.5 text-left font-semibold uppercase tracking-[0.14em] text-gray-500">#</th>
+                                                <th class="border-b border-gray-200 px-2.5 py-1.5 text-left font-semibold uppercase tracking-[0.14em] text-gray-500">Type</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($typePreviewRows as $rowNumber)
                                                 <tr>
-                                                    <td class="border-b border-gray-100 px-3 py-2 text-gray-400">{{ $rowNumber }}</td>
-                                                    <td class="border-b border-gray-100 px-3 py-2 text-gray-400">{{ $rowNumber === 1 ? 'AW139' : '' }}</td>
+                                                    <td class="border-b border-gray-100 px-2.5 py-1.5 text-gray-400">{{ $rowNumber }}</td>
+                                                    <td class="border-b border-gray-100 px-2.5 py-1.5 text-gray-400">{{ $rowNumber === 1 ? 'AW139' : '' }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -209,8 +208,8 @@
                             </div>
                         </div>
 
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3">
+                        <div class="space-y-2.5">
+                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
                                 <x-enterprise.checkbox label="Maintenance Plan" x-model="flMaintenancePlan" />
                                 <x-enterprise.input variant="lookup" placeholder="Search plan" x-bind:disabled="!flMaintenancePlan" />
                             </div>
@@ -223,17 +222,17 @@
                                 </x-enterprise.select>
                             </x-enterprise.control-row>
 
-                            <div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3">
+                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
                                 <x-enterprise.checkbox label="Load Types" x-model="flLoadTypes" />
                                 <x-enterprise.input variant="lookup" placeholder="Select load type" x-bind:disabled="!flLoadTypes" />
                             </div>
 
-                            <div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3">
+                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
                                 <x-enterprise.checkbox label="Qualifications" x-model="flQualifications" />
                                 <x-enterprise.input variant="lookup" placeholder="Select qualification" x-bind:disabled="!flQualifications" />
                             </div>
 
-                            <div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3">
+                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
                                 <x-enterprise.checkbox label="Positions" x-model="flPositions" />
                                 <x-enterprise.input variant="lookup" placeholder="Select position" x-bind:disabled="!flPositions" />
                             </div>
@@ -242,10 +241,10 @@
                 </x-enterprise.panel>
             </div>
 
-            <div x-cloak x-show="activeFilterTab === 'properties'" class="space-y-4">
-                <x-enterprise.panel class="space-y-4">
-                    <div class="grid gap-4 xl:grid-cols-2">
-                        <div class="space-y-4">
+            <div x-cloak x-show="activeFilterTab === 'properties'" class="space-y-3">
+                <x-enterprise.panel class="space-y-3.5 p-4">
+                    <div class="grid gap-3.5 xl:grid-cols-2">
+                        <div class="space-y-3">
                             <x-enterprise.field-row label="Mission Type" for="fl_filter_mission_type" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
                                 <x-enterprise.input id="fl_filter_mission_type" x-model="propertiesMissionType" variant="lookup" />
                             </x-enterprise.field-row>
@@ -257,7 +256,7 @@
                             </x-enterprise.field-row>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-3">
                             <x-enterprise.field-row label="Date of Purchase" for="fl_filter_date_of_purchase" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
                                 <x-enterprise.input id="fl_filter_date_of_purchase" x-model="propertiesDateOfPurchase" />
                             </x-enterprise.field-row>
@@ -270,16 +269,16 @@
                         </div>
                     </div>
 
-                    <div class="rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3">
+                    <div class="rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
                         <x-enterprise.checkbox label="Only with anomaly on Data" x-model="propertiesOnlyAnomaly" />
                     </div>
                 </x-enterprise.panel>
             </div>
 
-            <div x-cloak x-show="activeFilterTab === 'part-information'" class="space-y-4">
-                <x-enterprise.panel class="space-y-4">
-                    <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                        <div class="space-y-4">
+            <div x-cloak x-show="activeFilterTab === 'part-information'" class="space-y-3">
+                <x-enterprise.panel class="space-y-3.5 p-4">
+                    <div class="grid gap-3.5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                        <div class="space-y-3">
                             <x-enterprise.field-row label="Serial Number" for="fl_filter_part_serial_number" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
                                 <x-enterprise.input id="fl_filter_part_serial_number" x-model="partSerialNumber" />
                             </x-enterprise.field-row>
@@ -291,7 +290,7 @@
                             </x-enterprise.field-row>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-3">
                             <x-enterprise.field-row label="Engine Variant" for="fl_filter_engine_variant" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
                                 <x-enterprise.input id="fl_filter_engine_variant" x-model="partEngineVariant" variant="lookup" />
                             </x-enterprise.field-row>
@@ -303,10 +302,11 @@
                 </x-enterprise.panel>
             </div>
 
-            <div x-cloak x-show="activeFilterTab === 'customers-information'" class="space-y-4">
-                <x-enterprise.panel class="space-y-6">
-                    <div class="grid gap-4 xl:grid-cols-2">
-                        <div class="space-y-4">
+            <div x-cloak x-show="activeFilterTab === 'customers-information'" class="space-y-3">
+                <x-enterprise.panel class="space-y-4 p-4">
+                    <div class="grid gap-3.5 xl:grid-cols-2">
+                        <div class="space-y-3 rounded-lg border border-gray-200 bg-gray-50/50 p-3">
+                            <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Owner</div>
                             <x-enterprise.field-row label="Customer Owner Code" for="fl_filter_owner_code" columns="sm:grid-cols-[164px_minmax(0,1fr)]">
                                 <x-enterprise.input id="fl_filter_owner_code" x-model="customerOwnerCode" variant="lookup" />
                             </x-enterprise.field-row>
@@ -315,7 +315,8 @@
                             </x-enterprise.field-row>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-3 rounded-lg border border-gray-200 bg-gray-50/50 p-3">
+                            <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Operator</div>
                             <x-enterprise.field-row label="Customer Operator Code" for="fl_filter_operator_code" columns="sm:grid-cols-[164px_minmax(0,1fr)]">
                                 <x-enterprise.input id="fl_filter_operator_code" x-model="customerOperatorCode" variant="lookup" />
                             </x-enterprise.field-row>
@@ -327,9 +328,9 @@
                 </x-enterprise.panel>
             </div>
 
-            <div x-cloak x-show="activeFilterTab === 'flight-ops'" class="space-y-4">
-                <x-enterprise.panel class="space-y-5">
-                    <div class="grid gap-4 xl:grid-cols-[180px_180px_180px]">
+            <div x-cloak x-show="activeFilterTab === 'flight-ops'" class="space-y-3">
+                <x-enterprise.panel class="space-y-4 p-4">
+                    <div class="grid gap-3 xl:grid-cols-[170px_170px_170px]">
                         <x-enterprise.field-row label="MTOW Min" for="fl_filter_mtow_min" columns="grid-cols-[84px_minmax(0,1fr)]">
                             <x-enterprise.input id="fl_filter_mtow_min" x-model="flightOpsMtowMin" />
                         </x-enterprise.field-row>
@@ -346,12 +347,12 @@
                         </x-enterprise.control-row>
                     </div>
 
-                    <x-enterprise.panel muted class="space-y-4">
+                    <x-enterprise.panel muted class="space-y-3 p-3.5">
                         <div class="text-sm font-semibold text-gray-900">Scheduled</div>
-                        <div class="grid gap-4 xl:grid-cols-2">
-                            <div class="space-y-3">
-                                <div class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Departure Date From</div>
-                                <div class="grid gap-3 grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)_88px]">
+                        <div class="grid gap-3 xl:grid-cols-2">
+                            <div class="space-y-2">
+                                <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Departure Range</div>
+                                <div class="grid gap-2.5 grid-cols-[minmax(0,1fr)_76px_minmax(0,1fr)_76px]">
                                     <x-enterprise.input x-model="departureFromDate" placeholder="Date" />
                                     <x-enterprise.input x-model="departureFromTime" placeholder="Time" />
                                     <x-enterprise.input x-model="departureToDate" placeholder="Date" />
@@ -359,9 +360,9 @@
                                 </div>
                             </div>
 
-                            <div class="space-y-3">
-                                <div class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Arrival Date From</div>
-                                <div class="grid gap-3 grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)_88px]">
+                            <div class="space-y-2">
+                                <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Arrival Range</div>
+                                <div class="grid gap-2.5 grid-cols-[minmax(0,1fr)_76px_minmax(0,1fr)_76px]">
                                     <x-enterprise.input x-model="arrivalFromDate" placeholder="Date" />
                                     <x-enterprise.input x-model="arrivalFromTime" placeholder="Time" />
                                     <x-enterprise.input x-model="arrivalToDate" placeholder="Date" />
@@ -373,41 +374,6 @@
                 </x-enterprise.panel>
             </div>
 
-            <div x-cloak x-show="activeFilterTab === 'result'" class="space-y-4">
-                <x-enterprise.panel class="space-y-4">
-                    <div>
-                        <div class="text-sm font-semibold text-gray-900">Result Preview</div>
-                        <p class="mt-1 text-sm text-gray-500">Mock apply mode only. The current filter set will close the modal and update the page status without filtering the dataset yet.</p>
-                    </div>
-
-                    <div class="grid gap-3 md:grid-cols-2">
-                        <div class="rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3 text-sm text-gray-600">
-                            <div class="font-medium text-gray-900">Functional Location</div>
-                            <div class="mt-1">Serial Number: <span x-text="flSerialNumber || 'Any'"></span></div>
-                            <div>Registration: <span x-text="flRegistration || 'Any'"></span></div>
-                            <div>Status: <span x-text="flOperationalStatus || 'Any'"></span></div>
-                        </div>
-                        <div class="rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3 text-sm text-gray-600">
-                            <div class="font-medium text-gray-900">Properties</div>
-                            <div class="mt-1">Mission Type: <span x-text="propertiesMissionType || 'Any'"></span></div>
-                            <div>Environment Type: <span x-text="propertiesEnvironmentType || 'Any'"></span></div>
-                            <div>Oil Type: <span x-text="propertiesOilType || 'Any'"></span></div>
-                        </div>
-                        <div class="rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3 text-sm text-gray-600">
-                            <div class="font-medium text-gray-900">Part Information</div>
-                            <div class="mt-1">Item No.: <span x-text="partItemNo || 'Any'"></span></div>
-                            <div>Engine Variant: <span x-text="partEngineVariant || 'Any'"></span></div>
-                            <div>Category Part: <span x-text="partCategoryPart || 'Any'"></span></div>
-                        </div>
-                        <div class="rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3 text-sm text-gray-600">
-                            <div class="font-medium text-gray-900">Customers / Flight OPS</div>
-                            <div class="mt-1">Owner Code: <span x-text="customerOwnerCode || 'Any'"></span></div>
-                            <div>Operator Code: <span x-text="customerOperatorCode || 'Any'"></span></div>
-                            <div>MTOW Min: <span x-text="flightOpsMtowMin || '0.00'"></span></div>
-                        </div>
-                    </div>
-                </x-enterprise.panel>
-            </div>
         </div>
 
         <x-slot name="footer">
