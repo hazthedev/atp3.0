@@ -79,13 +79,13 @@ return [
         'children' => [
             [
                 'label' => 'Business Partner Master Data',
-                'route' => 'system.business-partner-master-data.index',
+                'route' => 'business-partners.business-partner-master-data.index',
                 'icon' => 'briefcase',
                 'active_routes' => [
-                    'system.business-partner-master-data.index',
-                    'system.business-partner-master-data.create',
-                    'system.business-partner-master-data.show',
-                    'system.business-partner-master-data.edit',
+                    'business-partners.business-partner-master-data.index',
+                    'business-partners.business-partner-master-data.create',
+                    'business-partners.business-partner-master-data.show',
+                    'business-partners.business-partner-master-data.edit',
                 ],
             ],
         ],
@@ -96,13 +96,13 @@ return [
         'children' => [
             [
                 'label' => 'Item Master Data',
-                'route' => 'system.item-master-data.index',
+                'route' => 'inventory.item-master-data.index',
                 'icon' => 'briefcase',
                 'active_routes' => [
-                    'system.item-master-data.index',
-                    'system.item-master-data.create',
-                    'system.item-master-data.show',
-                    'system.item-master-data.edit',
+                    'inventory.item-master-data.index',
+                    'inventory.item-master-data.create',
+                    'inventory.item-master-data.show',
+                    'inventory.item-master-data.edit',
                 ],
             ],
         ],
@@ -113,12 +113,12 @@ return [
         'children' => [
             [
                 'label' => 'Employee Master Data',
-                'route' => 'hr.employee-master-data',
+                'route' => 'human-resources.employee-master-data',
                 'icon' => 'user-circle',
                 'active_routes' => [
-                    'hr.employee-master-data',
-                    'hr.employee-master-data.show',
-                    'hr.employee-master-data.edit',
+                    'human-resources.employee-master-data',
+                    'human-resources.employee-master-data.show',
+                    'human-resources.employee-master-data.edit',
                 ],
             ],
         ],

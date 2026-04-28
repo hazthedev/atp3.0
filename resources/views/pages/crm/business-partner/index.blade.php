@@ -62,7 +62,7 @@
                     <x-icon name="plus" class="h-4 w-4" />
                     New Business Partner
                 </a>
-                <a href="{{ route('system.business-partner-master-data.index') }}" class="btn-secondary">
+                <a href="{{ route('business-partners.business-partner-master-data.index') }}" class="btn-secondary">
                     <x-icon name="document-text" class="h-4 w-4" />
                     Master Data
                 </a>
@@ -263,7 +263,7 @@
             <x-enterprise.action-bar justify="between" class="border-t border-gray-200 pt-5">
                 <div class="flex flex-wrap items-center gap-3">
                     <a href="{{ route('crm.business-partner.create') }}" class="btn-primary">Create Account</a>
-                    <a href="{{ route('system.business-partner-master-data.index') }}" class="btn-secondary">Open Master Data</a>
+                    <a href="{{ route('business-partners.business-partner-master-data.index') }}" class="btn-secondary">Open Master Data</a>
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="attach-field-label">Displayed Records</span>

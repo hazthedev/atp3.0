@@ -36,7 +36,7 @@
             <div class="space-y-6">
                 <x-card title="Quick actions" description="Launch common flows from the dashboard without drilling into the menu.">
                     <div class="grid gap-3">
-                        <a href="{{ route('system.business-partner-master-data.create') }}" class="btn-primary justify-start">
+                        <a href="{{ route('business-partners.business-partner-master-data.create') }}" class="btn-primary justify-start">
                             <x-icon name="plus" class="h-4 w-4" />
                             Create business partner
                         </a>

@@ -25,7 +25,7 @@ None yet. Pages are plain Blade with inline Alpine state.
 ### Shipped
 - List index at `/crm/business-partner` (reference mock data)
 - Create / edit pages at `/crm/business-partner/create` and `/{id}/edit`
-- System-level BP Master Data routes (`/system/business-partner-master-data`) — parallel set for the Administration vocabulary
+- Business Partner Master Data routes (`/business-partners/business-partner-master-data`) — canonical module entry for BP master data
 - Edit Record toggle works on the edit form
 
 ### Stubbed / mocked
@@ -59,4 +59,5 @@ None yet.
 
 - 2026-04-25 — module file created. Pages exist but data is mocked.
 - 2026-04-28 — BP index aligned with the FL search data-table reference. Cell utility classes (`table-th` / `table-row` / `table-td`), `<x-data-table>` empty-state props, "Browse N records" subhead, lead-column anchor unified to `text-blue-600`, Edit button collapsed to `btn-secondary`. Spec: `docs/superpowers/specs/2026-04-28-index-tables-fl-parity-design.md`.
-- 2026-04-28 — Adopted FL Actions-column pattern. New `system.business-partner-master-data.show` route (read-only by default with Edit Record toggle); existing `*.edit` route now pre-opens editing on first paint. Index Actions column now has a `View | Edit` button pair; lead-column anchor flips to `*.show`. Form partial gains `$startEditing` flag and `match($mode)` for page title/description. Spec: `docs/superpowers/specs/2026-04-28-index-actions-view-edit-pair-design.md`.
+- 2026-04-28 — Adopted FL Actions-column pattern. New `business-partners.business-partner-master-data.show` route (read-only by default with Edit Record toggle); existing `*.edit` route now pre-opens editing on first paint. Index Actions column now has a `View | Edit` button pair; lead-column anchor flips to `*.show`. Form partial gains `$startEditing` flag and `match($mode)` for page title/description. Spec: `docs/superpowers/specs/2026-04-28-index-actions-view-edit-pair-design.md`.
+- 2026-04-28 — Route family renamed from `system.business-partner-master-data.*` at `/system/business-partner-master-data...` to `business-partners.business-partner-master-data.*` at `/business-partners/business-partner-master-data...`. Old URLs and route names were removed to keep the module boundary clean. Spec: `docs/superpowers/specs/2026-04-28-master-data-route-module-rename-design.md`.

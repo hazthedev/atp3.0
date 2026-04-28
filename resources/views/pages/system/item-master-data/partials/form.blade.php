@@ -128,7 +128,7 @@
 >
     <x-page-header :title="$pageTitle" :description="$pageDescription">
         <x-slot name="actions">
-            <a href="{{ route('system.item-master-data.index') }}" class="btn-secondary">
+            <a href="{{ route('inventory.item-master-data.index') }}" class="btn-secondary">
                 <x-icon name="chevron-right" class="h-4 w-4 rotate-180" />
                 Back to List
             </a>

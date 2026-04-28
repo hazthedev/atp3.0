@@ -13,7 +13,7 @@
             description="Search and maintain item master records before opening the full purchasing, inventory, planning, and attachment setup."
         >
             <x-slot name="actions">
-                <a href="{{ route('system.item-master-data.create') }}" class="btn-primary">
+                <a href="{{ route('inventory.item-master-data.create') }}" class="btn-primary">
                     <x-icon name="plus" class="h-4 w-4" />
                     New Item
                 </a>
@@ -57,7 +57,7 @@
                     <tr class="table-row">
                         <td class="table-td text-gray-500">{{ $index + 1 }}</td>
                         <td class="table-td">
-                            <a href="{{ route('system.item-master-data.show', ['id' => $item->id]) }}" class="font-semibold text-blue-600 hover:underline">
+                            <a href="{{ route('inventory.item-master-data.show', ['id' => $item->id]) }}" class="font-semibold text-blue-600 hover:underline">
                                 {{ $item->code }}
                             </a>
                         </td>
@@ -78,8 +78,8 @@
                         <td class="table-td">{{ $item->item_type }}</td>
                         <td class="table-td">
                             <div class="flex gap-2">
-                                <a href="{{ route('system.item-master-data.show', ['id' => $item->id]) }}" class="btn-ghost px-3">View</a>
-                                <a href="{{ route('system.item-master-data.edit', ['id' => $item->id]) }}" class="btn-secondary px-3">Edit</a>
+                                <a href="{{ route('inventory.item-master-data.show', ['id' => $item->id]) }}" class="btn-ghost px-3">View</a>
+                                <a href="{{ route('inventory.item-master-data.edit', ['id' => $item->id]) }}" class="btn-secondary px-3">Edit</a>
                             </div>
                         </td>
                     </tr>

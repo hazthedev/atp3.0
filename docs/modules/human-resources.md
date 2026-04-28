@@ -37,8 +37,8 @@ Fifth L1. Employee records and HR master data.
 
 ### Shipped
 
-- **Employee list** (`/hr/employee-master-data`) — `<x-data-table>` with chevron-linked Employee No., Name, Position, Department, Status pills.
-- **Employee detail / edit** (`/hr/employee-master-data/{id}/edit`) — full SAP Employee Master Data shell:
+- **Employee list** (`/human-resources/employee-master-data`) — `<x-data-table>` with chevron-linked Employee No., Name, Position, Department, Status pills.
+- **Employee detail / edit** (`/human-resources/employee-master-data/{id}/edit`) — full SAP Employee Master Data shell:
   - Header card: First/Middle/Last Name, Employee No., Ext. Employee No., Active flag, Job Title, Position, Department, Branch, Manager, User Code, Sales Employee, Cost Center, Office Phone + Ext, Mobile Phone, Pager, Home Phone, Fax, E-Mail, Linked Vendor (`variant="lookup"`), photo placeholder
   - 8 tabs: Address (Work + Home), Membership, Administration, Personal, Finance, Flight Ops, Remarks, Attachments
   - Edit Record toggle: read-only by default, fields unlock on Edit Record click; Save / Cancel dispatch save-edit-form / cancel-edit-form events
@@ -65,7 +65,7 @@ Fifth L1. Employee records and HR master data.
 
 ## SAP / Weststar reference
 
-Screenshots received and mapped (`/hr/employee-master-data` shell):
+Screenshots received and mapped (`/human-resources/employee-master-data` shell):
 - Employee Master Data top form — header layout + Find/Cancel footer
 - Address tab — Work + Home blocks, 9 fields each, all red labels (required)
 - Membership tab — Roles + Teams tables side-by-side, Set Role as Default button
@@ -102,4 +102,5 @@ In rough priority order:
 - 2026-04-27 — Employee Master Data foundation (#82): 6 tables migration, 6 models, EmployeeIndexPage + EmployeeMasterDataForm Livewire components, 8-tab shell, EmployeeSeeder, 6 feature tests. Child-table tabs render empty-state placeholders.
 - 2026-04-27 — Action buttons moved to upper-right (#84). Membership tab editor shipped (#85). Flight Ops tab editor shipped (#86). Attachments metadata editor shipped (#87). Three of four child-table tab placeholders now closed; remaining file-upload work deferred behind cross-app pattern decision.
 - 2026-04-28 — Employee index aligned with the FL search data-table reference. Outer `<x-card>` wrapper dropped, `datatable` directive added (gives the page client-side search/sort/pagination it previously lacked), `<x-data-table>` empty-state props replace the inline `@forelse @empty` block, hand-rolled chevron-circle widget on the Employee No. column removed in favour of a plain `text-blue-600` link, "Browse N records" subhead added. Developer seeder hint dropped from the empty-state. Spec: `docs/superpowers/specs/2026-04-28-index-tables-fl-parity-design.md`.
-- 2026-04-28 — Adopted FL Actions-column pattern. New `hr.employee-master-data.show` route (read-only by default with Edit Record toggle); existing `*.edit` route now pre-opens editing on first paint. `EmployeeMasterDataForm` Livewire component gains `public bool $initialEditing = false` plus a `mount(int $employeeId, bool $initialEditing = false)` parameter. Index gains an Actions column (was missing) with a `View | Edit` button pair; lead-column anchor flips to `*.show`. Spec: `docs/superpowers/specs/2026-04-28-index-actions-view-edit-pair-design.md`.
+- 2026-04-28 — Adopted FL Actions-column pattern. New `human-resources.employee-master-data.show` route (read-only by default with Edit Record toggle); existing `*.edit` route now pre-opens editing on first paint. `EmployeeMasterDataForm` Livewire component gains `public bool $initialEditing = false` plus a `mount(int $employeeId, bool $initialEditing = false)` parameter. Index gains an Actions column (was missing) with a `View | Edit` button pair; lead-column anchor flips to `*.show`. Spec: `docs/superpowers/specs/2026-04-28-index-actions-view-edit-pair-design.md`.
+- 2026-04-28 — Route family renamed from `hr.employee-master-data.*` at `/hr/employee-master-data...` to `human-resources.employee-master-data.*` at `/human-resources/employee-master-data...`. Old URLs and route names were removed to keep the module boundary clean. Spec: `docs/superpowers/specs/2026-04-28-master-data-route-module-rename-design.md`.

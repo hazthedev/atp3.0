@@ -23,7 +23,7 @@
             description="Detail card for the selected employee. Click Edit Record to make changes."
         />
         <div class="flex flex-wrap items-center gap-3 lg:flex-shrink-0">
-            <a href="{{ route('hr.employee-master-data') }}" class="btn-secondary">Back to list</a>
+            <a href="{{ route('human-resources.employee-master-data') }}" class="btn-secondary">Back to list</a>
             <button type="button" class="btn-secondary" x-show="editing" @click="$dispatch('cancel-edit-form'); editing = false">Cancel</button>
             <button type="button" class="btn-primary" x-show="!editing" @click="editing = true">Edit Record</button>
             <button type="button" class="btn-primary" x-show="editing" @click="$dispatch('save-edit-form')">Save</button>

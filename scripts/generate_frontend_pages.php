@@ -107,8 +107,8 @@ $addCrud = static function (string $directory, string $title, string $routePrefi
 
 $addCrud('crm/business-partner', 'Business Partner', 'crm.business-partner', ['Partner ID', 'Partner Name', 'Category', 'Status', 'Updated']);
 $addCrud('maintenance/maintenance-program', 'Maintenance Program', 'maintenance.maintenance-program');
-$addCrud('system/item-master-data', 'Item Master Data', 'system.item-master-data');
-$addCrud('system/business-partner-master-data', 'Business Partner Master Data', 'system.business-partner-master-data');
+$addCrud('inventory/item-master-data', 'Item Master Data', 'inventory.item-master-data');
+$addCrud('business-partners/business-partner-master-data', 'Business Partner Master Data', 'business-partners.business-partner-master-data');
 $addCrud('system/user-management', 'User Management', 'system.user-management', ['User', 'Role', 'Team', 'Status', 'Last Login']);
 
 $addInline('fleet/functional-location/index', 'Search Functional Locations', "    @livewire('fleet.functional-location-search-page')");

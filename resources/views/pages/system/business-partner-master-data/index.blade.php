@@ -19,7 +19,7 @@
             description="Search and maintain business partner master-data records."
         >
             <x-slot name="actions">
-                <a href="{{ route('system.business-partner-master-data.create') }}" class="btn-primary">
+                <a href="{{ route('business-partners.business-partner-master-data.create') }}" class="btn-primary">
                     <x-icon name="plus" class="h-4 w-4" />
                     New Business Partner
                 </a>
@@ -53,7 +53,7 @@
                 @foreach ($partners as $partner)
                     <tr class="table-row">
                         <td class="table-td">
-                            <a href="{{ route('system.business-partner-master-data.show', ['id' => $partner['id']]) }}" class="font-semibold text-blue-600 hover:underline">
+                            <a href="{{ route('business-partners.business-partner-master-data.show', ['id' => $partner['id']]) }}" class="font-semibold text-blue-600 hover:underline">
                                 {{ $partner['code'] }}
                             </a>
                         </td>
@@ -66,8 +66,8 @@
                         <td class="table-td">{{ $partner['status'] }}</td>
                         <td class="table-td">
                             <div class="flex gap-2">
-                                <a href="{{ route('system.business-partner-master-data.show', ['id' => $partner['id']]) }}" class="btn-ghost px-3">View</a>
-                                <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="btn-secondary px-3">Edit</a>
+                                <a href="{{ route('business-partners.business-partner-master-data.show', ['id' => $partner['id']]) }}" class="btn-ghost px-3">View</a>
+                                <a href="{{ route('business-partners.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="btn-secondary px-3">Edit</a>
                             </div>
                         </td>
                     </tr>
