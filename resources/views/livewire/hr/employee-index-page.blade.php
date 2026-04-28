@@ -20,6 +20,7 @@
                 <th class="table-th">Position</th>
                 <th class="table-th">Department</th>
                 <th class="table-th">Status</th>
+                <th class="table-th" data-sortable="false">Actions</th>
             </tr>
         </x-slot>
 
@@ -27,7 +28,7 @@
             @foreach ($employees as $employee)
                 <tr class="table-row" wire:key="employee-row-{{ $employee->id }}">
                     <td class="table-td">
-                        <a href="{{ route('hr.employee-master-data.edit', ['id' => $employee->id]) }}" class="font-semibold text-blue-600 hover:underline">
+                        <a href="{{ route('hr.employee-master-data.show', ['id' => $employee->id]) }}" class="font-semibold text-blue-600 hover:underline">
                             {{ $employee->employee_no }}
                         </a>
                     </td>
@@ -40,6 +41,12 @@
                         @else
                             <span class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">Inactive</span>
                         @endif
+                    </td>
+                    <td class="table-td">
+                        <div class="flex gap-2">
+                            <a href="{{ route('hr.employee-master-data.show', ['id' => $employee->id]) }}" class="btn-ghost px-3">View</a>
+                            <a href="{{ route('hr.employee-master-data.edit', ['id' => $employee->id]) }}" class="btn-secondary px-3">Edit</a>
+                        </div>
                     </td>
                 </tr>
             @endforeach

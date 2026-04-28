@@ -1,6 +1,7 @@
 @php
     $mode = $mode ?? 'create';
-    $isEdit = $mode === 'edit';
+    $isEdit = $mode !== 'create';
+    $startEditing = $mode === 'edit';
     $recordId = (int) ($recordId ?? request()->route('id') ?? 300028);
 
     $defaults = [
@@ -112,10 +113,16 @@
         ]
         : [['code' => '', 'name' => '', 'type' => 'Linked Vendor']];
 
-    $pageTitle = $isEdit ? 'Edit Business Partner Master Data' : 'Create Business Partner Master Data';
-    $pageDescription = $isEdit
-        ? 'Maintain the legacy business partner master-data structure using the same modern enterprise workspace pattern already used in newer ATP modules.'
-        : 'Create a new business partner master-data record using the established modern enterprise form design already used elsewhere in ATP 3.0.';
+    $pageTitle = match ($mode) {
+        'edit'  => 'Edit Business Partner Master Data',
+        'show'  => 'Business Partner Master Data',
+        default => 'Create Business Partner Master Data',
+    };
+    $pageDescription = match ($mode) {
+        'edit'  => 'Maintain the legacy business partner master-data structure using the same modern enterprise workspace pattern already used in newer ATP modules.',
+        'show'  => 'Read-only detail card for the selected business partner. Click Edit Record to make changes.',
+        default => 'Create a new business partner master-data record using the established modern enterprise form design already used elsewhere in ATP 3.0.',
+    };
     $saveMessage = $isEdit ? 'Business partner master data preview updated.' : 'Business partner master data draft prepared.';
     $cancelMessage = $isEdit ? 'Preview changes cancelled for this business partner.' : 'Draft changes cleared for this preview session.';
     $inputClass = 'input-field attach-input';
@@ -124,7 +131,7 @@
 @endphp
 
 @if ($isEdit)
-<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
+<div x-data="editMode({{ $startEditing ? 'true' : 'false' }})" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
 @endif
 <div
     class="space-y-6"

@@ -1,6 +1,7 @@
 @php
     $mode = $mode ?? 'create';
-    $isEdit = $mode === 'edit';
+    $isEdit = $mode !== 'create';
+    $startEditing = $mode === 'edit';
     $recordId = (int) ($recordId ?? request()->route('id') ?? 410001);
     $displayId = $recordId > 0 ? $recordId : 410001;
 
@@ -92,16 +93,22 @@
         ['target_path' => '/spares/aw139/rotor', 'file_name' => 'AW139-install-notes.docx', 'attachment_date' => '2026-04-05'],
     ];
 
-    $pageTitle = $isEdit ? 'Edit Item Master Data' : 'Create Item Master Data';
-    $pageDescription = $isEdit
-        ? 'Maintain item setup across purchasing, sales, inventory, planning, properties, remarks, and attachments using the current enterprise workspace pattern.'
-        : 'Create a new item master data record using the modern tabbed workspace already used in ATP modules.';
+    $pageTitle = match ($mode) {
+        'edit'  => 'Edit Item Master Data',
+        'show'  => 'Item Master Data',
+        default => 'Create Item Master Data',
+    };
+    $pageDescription = match ($mode) {
+        'edit'  => 'Maintain item setup across purchasing, sales, inventory, planning, properties, remarks, and attachments using the current enterprise workspace pattern.',
+        'show'  => 'Read-only detail card for the selected item. Click Edit Record to make changes.',
+        default => 'Create a new item master data record using the modern tabbed workspace already used in ATP modules.',
+    };
     $saveMessage = $isEdit ? 'Item master data preview updated.' : 'Item master data draft prepared.';
     $cancelMessage = $isEdit ? 'Item master-data preview cancelled.' : 'Item master-data draft cancelled.';
 @endphp
 
 @if ($isEdit)
-<div x-data="editMode(false)" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
+<div x-data="editMode({{ $startEditing ? 'true' : 'false' }})" data-edit-scope x-bind:data-editing="editing ? 'true' : 'false'">
 @endif
 <div
     class="space-y-6"

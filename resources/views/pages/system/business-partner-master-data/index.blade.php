@@ -53,7 +53,7 @@
                 @foreach ($partners as $partner)
                     <tr class="table-row">
                         <td class="table-td">
-                            <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="font-semibold text-blue-600 hover:underline">
+                            <a href="{{ route('system.business-partner-master-data.show', ['id' => $partner['id']]) }}" class="font-semibold text-blue-600 hover:underline">
                                 {{ $partner['code'] }}
                             </a>
                         </td>
@@ -65,7 +65,10 @@
                         <td class="table-td">{{ $partner['email'] }}</td>
                         <td class="table-td">{{ $partner['status'] }}</td>
                         <td class="table-td">
-                            <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="btn-secondary px-3">Edit</a>
+                            <div class="flex gap-2">
+                                <a href="{{ route('system.business-partner-master-data.show', ['id' => $partner['id']]) }}" class="btn-ghost px-3">View</a>
+                                <a href="{{ route('system.business-partner-master-data.edit', ['id' => $partner['id']]) }}" class="btn-secondary px-3">Edit</a>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

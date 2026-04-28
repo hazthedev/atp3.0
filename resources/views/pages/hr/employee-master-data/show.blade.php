@@ -5,6 +5,6 @@
 @section('content')
     @livewire('hr.employee-master-data-form', [
         'employeeId' => (int) request()->route('id'),
-        'initialEditing' => true,
+        'initialEditing' => false,
     ])
 @endsection

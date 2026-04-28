@@ -48,6 +48,7 @@
                     <th class="table-th">Alternative Part</th>
                     <th class="table-th">Serial No. Management</th>
                     <th class="table-th">Item Type</th>
+                    <th class="table-th" data-sortable="false">Actions</th>
                 </tr>
             </x-slot>
 
@@ -56,7 +57,7 @@
                     <tr class="table-row">
                         <td class="table-td text-gray-500">{{ $index + 1 }}</td>
                         <td class="table-td">
-                            <a href="{{ route('system.item-master-data.edit', ['id' => $item->id]) }}" class="font-semibold text-blue-600 hover:underline">
+                            <a href="{{ route('system.item-master-data.show', ['id' => $item->id]) }}" class="font-semibold text-blue-600 hover:underline">
                                 {{ $item->code }}
                             </a>
                         </td>
@@ -75,6 +76,12 @@
                         <td class="table-td">{{ $item->alternative_part }}</td>
                         <td class="table-td">{{ $item->serial_no_management }}</td>
                         <td class="table-td">{{ $item->item_type }}</td>
+                        <td class="table-td">
+                            <div class="flex gap-2">
+                                <a href="{{ route('system.item-master-data.show', ['id' => $item->id]) }}" class="btn-ghost px-3">View</a>
+                                <a href="{{ route('system.item-master-data.edit', ['id' => $item->id]) }}" class="btn-secondary px-3">Edit</a>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </x-slot>

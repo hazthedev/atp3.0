@@ -275,6 +275,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($registerRoutes):
 Route::prefix('hr')->name('hr.')->group(function () use ($registerRoutes): void {
     $registerRoutes([
         ['/employee-master-data', 'pages.hr.employee-master-data.index', 'employee-master-data'],
+        ['/employee-master-data/{id}', 'pages.hr.employee-master-data.show', 'employee-master-data.show'],
         ['/employee-master-data/{id}/edit', 'pages.hr.employee-master-data.edit', 'employee-master-data.edit'],
     ]);
 });
@@ -289,9 +290,11 @@ Route::prefix('system')->name('system.')->group(function () use ($registerRoutes
     $registerRoutes([
         ['/item-master-data', 'pages.system.item-master-data.index', 'item-master-data.index'],
         ['/item-master-data/create', 'pages.system.item-master-data.create', 'item-master-data.create'],
+        ['/item-master-data/{id}', 'pages.system.item-master-data.show', 'item-master-data.show'],
         ['/item-master-data/{id}/edit', 'pages.system.item-master-data.edit', 'item-master-data.edit'],
         ['/business-partner-master-data', 'pages.system.business-partner-master-data.index', 'business-partner-master-data.index'],
         ['/business-partner-master-data/create', 'pages.system.business-partner-master-data.create', 'business-partner-master-data.create'],
+        ['/business-partner-master-data/{id}', 'pages.system.business-partner-master-data.show', 'business-partner-master-data.show'],
         ['/business-partner-master-data/{id}/edit', 'pages.system.business-partner-master-data.edit', 'business-partner-master-data.edit'],
         ['/technical-logs', 'pages.system.technical-logs.index', 'technical-logs.index'],
         ['/aircraft-type', 'pages.system.aircraft-type.index', 'aircraft-type.index'],

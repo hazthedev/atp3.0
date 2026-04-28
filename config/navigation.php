@@ -84,6 +84,7 @@ return [
                 'active_routes' => [
                     'system.business-partner-master-data.index',
                     'system.business-partner-master-data.create',
+                    'system.business-partner-master-data.show',
                     'system.business-partner-master-data.edit',
                 ],
             ],
@@ -100,6 +101,7 @@ return [
                 'active_routes' => [
                     'system.item-master-data.index',
                     'system.item-master-data.create',
+                    'system.item-master-data.show',
                     'system.item-master-data.edit',
                 ],
             ],
@@ -109,7 +111,16 @@ return [
         'label' => 'Human Resources',
         'icon' => 'identification',
         'children' => [
-            ['label' => 'Employee Master Data', 'route' => 'hr.employee-master-data', 'icon' => 'user-circle'],
+            [
+                'label' => 'Employee Master Data',
+                'route' => 'hr.employee-master-data',
+                'icon' => 'user-circle',
+                'active_routes' => [
+                    'hr.employee-master-data',
+                    'hr.employee-master-data.show',
+                    'hr.employee-master-data.edit',
+                ],
+            ],
         ],
     ],
     [

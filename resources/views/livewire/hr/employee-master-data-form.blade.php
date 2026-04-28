@@ -11,7 +11,7 @@
     ];
 @endphp
 
-<div x-data="{ editing: false, activeTab: 'address' }"
+<div x-data="{ editing: @json($this->initialEditing), activeTab: 'address' }"
      x-on:record-saved.window="editing = false"
      class="space-y-6"
      data-edit-scope
