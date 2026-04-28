@@ -155,7 +155,7 @@
         </x-slot>
     </x-data-table>
 
-    <x-modal id="functional-location-filter-modal" title="Functional Location Filter" maxWidth="max-w-4xl">
+    <x-modal id="functional-location-filter-modal" title="Functional Location Filter" maxWidth="max-w-5xl">
         <div class="space-y-4">
             <div class="subtab-shell">
                 <ul class="subtab-list flex-wrap gap-1.5">
@@ -163,7 +163,7 @@
                         <li class="subtab-item">
                             <button
                                 type="button"
-                                class="subtab-link px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em]"
+                                class="subtab-link px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em]"
                                 :class="activeFilterTab === '{{ $tab['id'] }}' ? 'subtab-link-active' : 'subtab-link-inactive'"
                                 @click="activeFilterTab = '{{ $tab['id'] }}'"
                             >
@@ -175,31 +175,33 @@
             </div>
 
             <div x-cloak x-show="activeFilterTab === 'functional-location'" class="space-y-3">
-                <x-enterprise.panel class="space-y-4 p-4">
-                    <div class="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_280px]">
+                <div class="min-h-[540px] rounded-xl border border-gray-200 bg-white p-4">
+                    <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_260px]">
                         <div class="space-y-3">
-                            <x-enterprise.field-row label="Serial Number" for="fl_filter_serial_number" columns="sm:grid-cols-[128px_minmax(0,220px)]">
+                            <div class="grid gap-2 sm:grid-cols-[104px_minmax(0,220px)] sm:items-center">
+                                <label for="fl_filter_serial_number" class="text-sm text-gray-700">Serial Number</label>
                                 <x-enterprise.input id="fl_filter_serial_number" x-model="flSerialNumber" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Registration" for="fl_filter_registration" columns="sm:grid-cols-[128px_minmax(0,220px)]">
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[104px_minmax(0,220px)] sm:items-center">
+                                <label for="fl_filter_registration" class="text-sm text-gray-700">Registration</label>
                                 <x-enterprise.input id="fl_filter_registration" x-model="flRegistration" />
-                            </x-enterprise.field-row>
+                            </div>
 
-                            <div class="space-y-1.5">
-                                <div class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Type</div>
-                                <div class="overflow-hidden rounded-lg border border-gray-200">
-                                    <table class="min-w-full border-collapse text-xs">
-                                        <thead class="bg-gray-50/90">
+                            <div class="space-y-2">
+                                <div class="text-sm text-gray-700">Type</div>
+                                <div class="overflow-hidden border border-gray-200">
+                                    <table class="min-w-full border-collapse text-sm">
+                                        <thead class="bg-gray-50">
                                             <tr>
-                                                <th class="border-b border-gray-200 px-2.5 py-1.5 text-left font-semibold uppercase tracking-[0.14em] text-gray-500">#</th>
-                                                <th class="border-b border-gray-200 px-2.5 py-1.5 text-left font-semibold uppercase tracking-[0.14em] text-gray-500">Type</th>
+                                                <th class="w-14 border border-gray-200 px-3 py-1.5 text-left text-xs font-medium text-gray-600">#</th>
+                                                <th class="border border-gray-200 px-3 py-1.5 text-left text-xs font-medium text-gray-600">Type</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($typePreviewRows as $rowNumber)
                                                 <tr>
-                                                    <td class="border-b border-gray-100 px-2.5 py-1.5 text-gray-400">{{ $rowNumber }}</td>
-                                                    <td class="border-b border-gray-100 px-2.5 py-1.5 text-gray-400">{{ $rowNumber === 1 ? 'AW139' : '' }}</td>
+                                                    <td class="border border-gray-200 px-3 py-2 text-gray-500">{{ $rowNumber }}</td>
+                                                    <td class="border border-gray-200 px-3 py-2 text-gray-700">{{ $rowNumber === 1 ? 'AW139' : '' }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -208,170 +210,188 @@
                             </div>
                         </div>
 
-                        <div class="space-y-2.5">
-                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
-                                <x-enterprise.checkbox label="Maintenance Plan" x-model="flMaintenancePlan" />
-                                <x-enterprise.input variant="lookup" placeholder="Search plan" x-bind:disabled="!flMaintenancePlan" />
+                        <div class="space-y-3 pt-1">
+                            <div class="grid grid-cols-[18px_minmax(0,1fr)_44px] items-center gap-2">
+                                <x-enterprise.checkbox x-model="flMaintenancePlan" />
+                                <label class="text-sm text-gray-700">Maintenance Plan</label>
+                                <button type="button" class="btn-secondary h-9 px-0 text-base font-semibold" x-bind:disabled="!flMaintenancePlan">...</button>
                             </div>
 
-                            <x-enterprise.control-row label="Status" for="fl_filter_status" columns="sm:grid-cols-[72px_minmax(0,1fr)]">
-                                <x-enterprise.select id="fl_filter_status" x-model="flOperationalStatus">
-                                    <option>Operational</option>
-                                    <option>Grounded</option>
-                                    <option>Under Review</option>
-                                </x-enterprise.select>
-                            </x-enterprise.control-row>
-
-                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
-                                <x-enterprise.checkbox label="Load Types" x-model="flLoadTypes" />
-                                <x-enterprise.input variant="lookup" placeholder="Select load type" x-bind:disabled="!flLoadTypes" />
+                            <div class="grid grid-cols-[18px_1fr] items-center gap-2">
+                                <span class="h-4 w-4"></span>
+                                <div class="space-y-1">
+                                    <label for="fl_filter_status" class="text-sm text-gray-700">Status</label>
+                                    <x-enterprise.select id="fl_filter_status" x-model="flOperationalStatus">
+                                        <option>Operational</option>
+                                        <option>Grounded</option>
+                                        <option>Under Review</option>
+                                    </x-enterprise.select>
+                                </div>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
-                                <x-enterprise.checkbox label="Qualifications" x-model="flQualifications" />
-                                <x-enterprise.input variant="lookup" placeholder="Select qualification" x-bind:disabled="!flQualifications" />
+                            <div class="grid grid-cols-[18px_minmax(0,1fr)_44px] items-center gap-2">
+                                <x-enterprise.checkbox x-model="flLoadTypes" />
+                                <label class="text-sm text-gray-700">Load Types</label>
+                                <button type="button" class="btn-secondary h-9 px-0 text-base font-semibold" x-bind:disabled="!flLoadTypes">...</button>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
-                                <x-enterprise.checkbox label="Positions" x-model="flPositions" />
-                                <x-enterprise.input variant="lookup" placeholder="Select position" x-bind:disabled="!flPositions" />
+                            <div class="grid grid-cols-[18px_minmax(0,1fr)_44px] items-center gap-2">
+                                <x-enterprise.checkbox x-model="flQualifications" />
+                                <label class="text-sm text-gray-700">Qualifications</label>
+                                <button type="button" class="btn-secondary h-9 px-0 text-base font-semibold" x-bind:disabled="!flQualifications">...</button>
+                            </div>
+
+                            <div class="grid grid-cols-[18px_minmax(0,1fr)_44px] items-center gap-2">
+                                <x-enterprise.checkbox x-model="flPositions" />
+                                <label class="text-sm text-gray-700">Positions</label>
+                                <button type="button" class="btn-secondary h-9 px-0 text-base font-semibold" x-bind:disabled="!flPositions">...</button>
                             </div>
                         </div>
                     </div>
-                </x-enterprise.panel>
+                </div>
             </div>
 
             <div x-cloak x-show="activeFilterTab === 'properties'" class="space-y-3">
-                <x-enterprise.panel class="space-y-3.5 p-4">
-                    <div class="grid gap-3.5 xl:grid-cols-2">
-                        <div class="space-y-3">
-                            <x-enterprise.field-row label="Mission Type" for="fl_filter_mission_type" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_mission_type" x-model="propertiesMissionType" variant="lookup" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Environment Type" for="fl_filter_environment_type" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_environment_type" x-model="propertiesEnvironmentType" variant="lookup" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Oil Type" for="fl_filter_oil_type" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
+                <div class="min-h-[540px] rounded-xl border border-gray-200 bg-white p-4">
+                    <div class="grid gap-x-8 gap-y-2 xl:grid-cols-[1fr_1fr]">
+                        <div class="space-y-2">
+                            <div class="grid gap-2 sm:grid-cols-[118px_minmax(0,140px)_20px] sm:items-center">
+                                <label for="fl_filter_mission_type" class="text-sm text-gray-700">Mission Type</label>
+                                <x-enterprise.input id="fl_filter_mission_type" x-model="propertiesMissionType" />
+                                <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[118px_minmax(0,140px)_20px] sm:items-center">
+                                <label for="fl_filter_environment_type" class="text-sm text-gray-700">Environment Type</label>
+                                <x-enterprise.input id="fl_filter_environment_type" x-model="propertiesEnvironmentType" />
+                                <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[118px_minmax(0,140px)] sm:items-center">
+                                <label for="fl_filter_oil_type" class="text-sm text-gray-700">Oil Type</label>
                                 <x-enterprise.input id="fl_filter_oil_type" x-model="propertiesOilType" />
-                            </x-enterprise.field-row>
+                            </div>
+                            <div class="pt-1">
+                                <x-enterprise.checkbox label="Only with anomaly on Data" x-model="propertiesOnlyAnomaly" />
+                            </div>
                         </div>
 
-                        <div class="space-y-3">
-                            <x-enterprise.field-row label="Date of Purchase" for="fl_filter_date_of_purchase" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
+                        <div class="space-y-2">
+                            <div class="grid gap-2 sm:grid-cols-[126px_minmax(0,160px)] sm:items-center">
+                                <label for="fl_filter_date_of_purchase" class="text-sm text-gray-700">Date of Purchase</label>
                                 <x-enterprise.input id="fl_filter_date_of_purchase" x-model="propertiesDateOfPurchase" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Purchase Price" for="fl_filter_purchase_price" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[126px_minmax(0,160px)] sm:items-center">
+                                <label for="fl_filter_purchase_price" class="text-sm text-gray-700">Purchase Price (in MY)</label>
                                 <x-enterprise.input id="fl_filter_purchase_price" x-model="propertiesPurchasePrice" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Cum. Flight Time" for="fl_filter_cum_flight_time" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[126px_minmax(0,160px)] sm:items-center">
+                                <label for="fl_filter_cum_flight_time" class="text-sm text-gray-700">Cum. Flight Time &gt; M</label>
                                 <x-enterprise.input id="fl_filter_cum_flight_time" x-model="propertiesCumFlightTime" />
-                            </x-enterprise.field-row>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2.5">
-                        <x-enterprise.checkbox label="Only with anomaly on Data" x-model="propertiesOnlyAnomaly" />
-                    </div>
-                </x-enterprise.panel>
+                </div>
             </div>
 
             <div x-cloak x-show="activeFilterTab === 'part-information'" class="space-y-3">
-                <x-enterprise.panel class="space-y-3.5 p-4">
-                    <div class="grid gap-3.5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                        <div class="space-y-3">
-                            <x-enterprise.field-row label="Serial Number" for="fl_filter_part_serial_number" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_part_serial_number" x-model="partSerialNumber" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Item No." for="fl_filter_item_no" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_item_no" x-model="partItemNo" variant="lookup" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Part Description" for="fl_filter_part_description" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_part_description" x-model="partDescription" />
-                            </x-enterprise.field-row>
+                <div class="min-h-[540px] rounded-xl border border-gray-200 bg-white p-4">
+                    <div class="max-w-md space-y-2">
+                        <div class="grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)] sm:items-center">
+                            <label for="fl_filter_part_serial_number" class="text-sm text-gray-700">Serial Number</label>
+                            <x-enterprise.input id="fl_filter_part_serial_number" x-model="partSerialNumber" />
                         </div>
-
-                        <div class="space-y-3">
-                            <x-enterprise.field-row label="Engine Variant" for="fl_filter_engine_variant" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_engine_variant" x-model="partEngineVariant" variant="lookup" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Category Part" for="fl_filter_category_part" columns="sm:grid-cols-[132px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_category_part" x-model="partCategoryPart" />
-                            </x-enterprise.field-row>
+                        <div class="grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)_20px] sm:items-center">
+                            <label for="fl_filter_item_no" class="text-sm text-gray-700">Item No.</label>
+                            <x-enterprise.input id="fl_filter_item_no" x-model="partItemNo" />
+                            <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
+                        </div>
+                        <div class="grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)] sm:items-center">
+                            <label for="fl_filter_part_description" class="text-sm text-gray-700">Part Description</label>
+                            <x-enterprise.input id="fl_filter_part_description" x-model="partDescription" />
+                        </div>
+                        <div class="grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)_20px] sm:items-center">
+                            <label for="fl_filter_engine_variant" class="text-sm text-gray-700">Engine Variant</label>
+                            <x-enterprise.input id="fl_filter_engine_variant" x-model="partEngineVariant" />
+                            <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
+                        </div>
+                        <div class="grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)_20px] sm:items-center">
+                            <label for="fl_filter_category_part" class="text-sm text-gray-700">Category Part</label>
+                            <x-enterprise.input id="fl_filter_category_part" x-model="partCategoryPart" />
+                            <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
                         </div>
                     </div>
-                </x-enterprise.panel>
+                </div>
             </div>
 
             <div x-cloak x-show="activeFilterTab === 'customers-information'" class="space-y-3">
-                <x-enterprise.panel class="space-y-4 p-4">
-                    <div class="grid gap-3.5 xl:grid-cols-2">
-                        <div class="space-y-3 rounded-lg border border-gray-200 bg-gray-50/50 p-3">
-                            <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Owner</div>
-                            <x-enterprise.field-row label="Customer Owner Code" for="fl_filter_owner_code" columns="sm:grid-cols-[164px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_owner_code" x-model="customerOwnerCode" variant="lookup" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Customer Owner Name" for="fl_filter_owner_name" columns="sm:grid-cols-[164px_minmax(0,1fr)]">
+                <div class="min-h-[540px] rounded-xl border border-gray-200 bg-white p-4">
+                    <div class="max-w-xl space-y-10">
+                        <div class="space-y-2">
+                            <div class="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)_20px] sm:items-center">
+                                <label for="fl_filter_owner_code" class="text-sm text-gray-700">Customer Owner Code</label>
+                                <x-enterprise.input id="fl_filter_owner_code" x-model="customerOwnerCode" />
+                                <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)] sm:items-center">
+                                <label for="fl_filter_owner_name" class="text-sm text-gray-700">Customer Owner Name</label>
                                 <x-enterprise.input id="fl_filter_owner_name" x-model="customerOwnerName" />
-                            </x-enterprise.field-row>
+                            </div>
                         </div>
 
-                        <div class="space-y-3 rounded-lg border border-gray-200 bg-gray-50/50 p-3">
-                            <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Operator</div>
-                            <x-enterprise.field-row label="Customer Operator Code" for="fl_filter_operator_code" columns="sm:grid-cols-[164px_minmax(0,1fr)]">
-                                <x-enterprise.input id="fl_filter_operator_code" x-model="customerOperatorCode" variant="lookup" />
-                            </x-enterprise.field-row>
-                            <x-enterprise.field-row label="Customer Operator Name" for="fl_filter_operator_name" columns="sm:grid-cols-[164px_minmax(0,1fr)]">
+                        <div class="space-y-2">
+                            <div class="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)_20px] sm:items-center">
+                                <label for="fl_filter_operator_code" class="text-sm text-gray-700">Customer Operator Code</label>
+                                <x-enterprise.input id="fl_filter_operator_code" x-model="customerOperatorCode" />
+                                <button type="button" class="h-5 w-5 rounded-full border border-gray-300 text-[10px] leading-none text-gray-500">...</button>
+                            </div>
+                            <div class="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)] sm:items-center">
+                                <label for="fl_filter_operator_name" class="text-sm text-gray-700">Customer Operator Name</label>
                                 <x-enterprise.input id="fl_filter_operator_name" x-model="customerOperatorName" />
-                            </x-enterprise.field-row>
+                            </div>
                         </div>
                     </div>
-                </x-enterprise.panel>
+                </div>
             </div>
 
             <div x-cloak x-show="activeFilterTab === 'flight-ops'" class="space-y-3">
-                <x-enterprise.panel class="space-y-4 p-4">
-                    <div class="grid gap-3 xl:grid-cols-[170px_170px_170px]">
-                        <x-enterprise.field-row label="MTOW Min" for="fl_filter_mtow_min" columns="grid-cols-[84px_minmax(0,1fr)]">
+                <div class="min-h-[540px] rounded-xl border border-gray-200 bg-white p-4">
+                    <div class="max-w-3xl space-y-5">
+                        <div class="grid gap-3 xl:grid-cols-[136px_1fr_92px_1fr_92px] xl:items-center">
+                            <label for="fl_filter_mtow_min" class="text-sm text-gray-700">MTOW Min</label>
                             <x-enterprise.input id="fl_filter_mtow_min" x-model="flightOpsMtowMin" />
-                        </x-enterprise.field-row>
-                        <x-enterprise.field-row label="MTOW Max" for="fl_filter_mtow_max" columns="grid-cols-[84px_minmax(0,1fr)]">
+                            <label for="fl_filter_mtow_max" class="text-sm text-gray-700">MTOW Max</label>
                             <x-enterprise.input id="fl_filter_mtow_max" x-model="flightOpsMtowMax" />
-                        </x-enterprise.field-row>
-                        <x-enterprise.control-row label="Status" for="fl_filter_flight_ops_status" columns="grid-cols-[56px_minmax(0,1fr)]">
                             <x-enterprise.select id="fl_filter_flight_ops_status" x-model="flightOpsStatus">
                                 <option value="">Any</option>
                                 <option>Scheduled</option>
                                 <option>Dispatched</option>
                                 <option>Closed</option>
                             </x-enterprise.select>
-                        </x-enterprise.control-row>
-                    </div>
+                        </div>
 
-                    <x-enterprise.panel muted class="space-y-3 p-3.5">
-                        <div class="text-sm font-semibold text-gray-900">Scheduled</div>
-                        <div class="grid gap-3 xl:grid-cols-2">
-                            <div class="space-y-2">
-                                <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Departure Range</div>
-                                <div class="grid gap-2.5 grid-cols-[minmax(0,1fr)_76px_minmax(0,1fr)_76px]">
-                                    <x-enterprise.input x-model="departureFromDate" placeholder="Date" />
-                                    <x-enterprise.input x-model="departureFromTime" placeholder="Time" />
-                                    <x-enterprise.input x-model="departureToDate" placeholder="Date" />
-                                    <x-enterprise.input x-model="departureToTime" placeholder="Time" />
+                        <div class="max-w-2xl border border-gray-300 p-3">
+                            <div class="mb-3 text-sm text-gray-700">Scheduled</div>
+                            <div class="space-y-4 text-sm text-gray-700">
+                                <div class="grid gap-2 xl:grid-cols-[140px_1fr_72px_24px_1fr_72px] xl:items-center">
+                                    <div>Departure Date From</div>
+                                    <x-enterprise.input x-model="departureFromDate" />
+                                    <x-enterprise.input x-model="departureFromTime" />
+                                    <div class="text-center">To</div>
+                                    <x-enterprise.input x-model="departureToDate" />
+                                    <x-enterprise.input x-model="departureToTime" />
                                 </div>
-                            </div>
 
-                            <div class="space-y-2">
-                                <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Arrival Range</div>
-                                <div class="grid gap-2.5 grid-cols-[minmax(0,1fr)_76px_minmax(0,1fr)_76px]">
-                                    <x-enterprise.input x-model="arrivalFromDate" placeholder="Date" />
-                                    <x-enterprise.input x-model="arrivalFromTime" placeholder="Time" />
-                                    <x-enterprise.input x-model="arrivalToDate" placeholder="Date" />
-                                    <x-enterprise.input x-model="arrivalToTime" placeholder="Time" />
+                                <div class="grid gap-2 xl:grid-cols-[140px_1fr_72px_24px_1fr_72px] xl:items-center">
+                                    <div>Arrival Date From</div>
+                                    <x-enterprise.input x-model="arrivalFromDate" />
+                                    <x-enterprise.input x-model="arrivalFromTime" />
+                                    <div class="text-center">To</div>
+                                    <x-enterprise.input x-model="arrivalToDate" />
+                                    <x-enterprise.input x-model="arrivalToTime" />
                                 </div>
                             </div>
                         </div>
-                    </x-enterprise.panel>
-                </x-enterprise.panel>
+                    </div>
+                </div>
             </div>
 
         </div>

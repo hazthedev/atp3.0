@@ -13,7 +13,7 @@
     x-show="open"
     class="fixed inset-0 z-50 overflow-y-auto"
 >
-    <div class="flex min-h-screen items-center justify-center p-4">
+    <div class="flex min-h-full items-start justify-center p-4 sm:p-6">
         <div
             class="fixed inset-0 bg-gray-900/50"
             x-show="open"
@@ -27,7 +27,7 @@
         ></div>
 
         <div
-            class="relative w-full {{ $maxWidth }} rounded-2xl border border-gray-200 bg-white shadow-lg"
+            class="relative my-4 flex max-h-[calc(100vh-2rem)] w-full {{ $maxWidth }} flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg sm:max-h-[calc(100vh-3rem)]"
             x-show="open"
             x-transition:enter="ease-out duration-200"
             x-transition:enter-start="opacity-0 scale-95"
@@ -47,7 +47,7 @@
                 </button>
             </div>
 
-            <div class="space-y-4 px-6 py-5">
+            <div class="min-h-0 flex-1 overflow-y-auto px-6 py-5">
                 {{ $slot }}
             </div>
 
