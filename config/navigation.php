@@ -167,6 +167,15 @@ return [
                             'fleet.functional-location.edit',
                         ],
                     ],
+                    [
+                        'label' => 'Aircraft Card',
+                        'route' => 'fleet.functional-location.aircraft-card',
+                        'icon' => 'paper-airplane',
+                        'active_routes' => [
+                            'fleet.functional-location.aircraft-card',
+                            'fleet.functional-location.aircraft-card.show',
+                        ],
+                    ],
                     ['label' => 'Attach equipment to functional location', 'route' => 'fleet.functional-location.attach-equipment', 'icon' => 'link'],
                     ['label' => 'Detach equipment from functional location', 'route' => 'fleet.functional-location.detach-equipment', 'icon' => 'scissors'],
                     ['label' => 'Configuration Control', 'route' => 'fleet.functional-location.configuration-control', 'icon' => 'squares-2x2'],

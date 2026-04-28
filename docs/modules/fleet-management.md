@@ -52,6 +52,13 @@ planning, and operational inputs.
 
 ### Shipped
 
+- **Aircraft Card** (`/fleet/functional-location/aircraft-card`) — mock dashboard
+  page, 10 tabs (Overview / General / Configuration / Counters / Maintenance /
+  Tech Pubs / Defects / WP+WO / Journey Logs / Events). Picker over 3 demo
+  aircraft (A6-ATP, A6-EAS, A6-WSA). All data lives in
+  `App\Support\AircraftCardCatalog` — no DB integration. Edit Record toggle on
+  General tab; other tabs read-only. Filters/Print/Export/Actions buttons render
+  but are inert. Spec: `docs/superpowers/specs/2026-04-28-aircraft-card-mock-page-design.md`.
 - **FL Search** (`/fleet/functional-location`) — shared `<x-data-table datatable>` pattern.
 - **FL Show** (`/fleet/functional-location/{id}`) — full 7-tab detail page with Edit Record toggle, variants restored (PR #47, #49), trimmed per spec (PR #41 reverted — original kept). Top card uses `FunctionalLocationShowForm` Livewire for save persistence.
 - **Equipment list + detail** — including Customer Equipment Card page with Edit Record and save persistence on the summary card.
@@ -126,6 +133,24 @@ Huge. In rough priority order:
 
 ## Last updated
 
+- 2026-04-28 — `feature/aircraft-card-mock-page`. New L3 sidebar entry
+  **Aircraft Card** under Fleet Management → Functional Location, positioned
+  second (after FL Card, before Attach equipment). 10-tab dashboard mocked from
+  the user-supplied PDF brief. New files: `App\Livewire\Fleet\AircraftCardPage`,
+  `App\Support\AircraftCardCatalog` (3 demo aircraft, all 10 tabs of nested
+  array data per aircraft), `resources/views/pages/fleet/functional-location/aircraft-card.blade.php`
+  (route wrapper), `resources/views/livewire/fleet/aircraft-card-page.blade.php`
+  (shell + header + tab nav), 10 tab partials + 4 mini-partials
+  (`_header`, `_summary-tile`, `_donut`, `_sparkline`, `_status-pill`) under
+  `resources/views/livewire/fleet/aircraft-card/`. Donuts use CSS conic-gradient,
+  sparklines use inline SVG — no chart library. Edit Record pattern preserved
+  on General tab only; `save()` dispatches a Livewire event (no DB write).
+  Added `paper-airplane` icon to `<x-icon>`. Two new routes:
+  `fleet.functional-location.aircraft-card` (default = A6-ATP) and
+  `.aircraft-card.show` (with `{registration}` param). Picker dropdown switches
+  aircraft via `wire:click="switchAircraft(...)"`. 12 Livewire feature tests
+  cover mount/switch/setTab/edit cycle/route smoke (46 assertions). Spec at
+  `docs/superpowers/specs/2026-04-28-aircraft-card-mock-page-design.md`.
 - 2026-04-27 — `refactor/equipment-card-trim` (same playbook as the FL trim). Restructured the customer equipment card detail page per a user-authored kill list, plus added a new mock **Maintenance** tab. View-layer + Livewire bindings only; no DB schema change. Removed: top-card `owner_code` / `operator_code` / `mel` rows; Change References button; Counters tab `Residual` + `Equi. ID` columns from both tables; Events sub-tabs `Repairs` and `Others`; Properties1 fields `manufacturer_item_code`, `configuration_standard`, `mission_type`, `external_key`, `environment_type`, `contract_type`, `oil_type`, `purchase_cost_of_engine`, `remark_text`; Properties tab `Installed Base Data Anomaly` section; Properties tab subtab nav (collapsed to single un-tabbed pane); Address tab; Trans. tab; Remark tab. New Maintenance tab with two subtabs ("Task List on sub equipment" + "Task List History of equipment"), modeled on two SAP modal screenshots; mock data only. `EquipmentShowForm` no longer binds `owner_code` / `operator_code` / `mel` (DB columns stay; ChangeEquipmentCustomerInformationPage and AttachEquipmentPage remain the canonical mutators). `EquipmentShowFormTest` assertions trimmed accordingly (25 assertions still passing). Spec at `docs/superpowers/specs/2026-04-27-equipment-card-restructure-design.md`.
 - 2026-04-27 — `refactor/fl-page-trim` (supersedes the reverted PR #41). Trimmed the FL show page per a fresh user-authored kill list. View-layer + Livewire bindings only; no DB schema change. Removed: top-card `owner_code` / `operator_code` rows; General-tab `mission_type` / `environment_type` / `oi_type` rows; Counters tab `Residual` + `Equi. ID` columns from both tables; Properties tab `Installed Base Data Anomaly` section; Events sub-tabs `Repairs` and `Others`. `FunctionalLocationShowForm` no longer binds `owner_code` / `operator_code` (DB columns stay; ChangeCustomerInformationPage remains the canonical mutator). Stripped the 3 General-tab mock keys from `FunctionalLocationCatalog`. Spec at `docs/superpowers/specs/2026-04-27-fl-page-restructure-trim-design.md`. Trim item is now resolved — the "FL trim per revamped spec" entry under Outstanding can be considered done.
 - 2026-04-25 — module file created. Substantial work shipped; input pipeline (flights) not yet started.

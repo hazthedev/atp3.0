@@ -65,6 +65,8 @@ Route::prefix('fleet')->name('fleet.')->group(function () use ($registerRoutes):
         ['/functional-location/repair-information-cockpit', 'pages.fleet.functional-location.repair-information-cockpit', 'functional-location.repair-information-cockpit'],
         ['/functional-location/configuration-control', 'pages.fleet.functional-location.configuration-control', 'functional-location.configuration-control'],
         ['/functional-location/airworthiness-review', 'pages.fleet.functional-location.airworthiness-review', 'functional-location.airworthiness-review'],
+        ['/functional-location/aircraft-card', 'pages.fleet.functional-location.aircraft-card', 'functional-location.aircraft-card'],
+        ['/functional-location/aircraft-card/{registration}', 'pages.fleet.functional-location.aircraft-card', 'functional-location.aircraft-card.show'],
         ['/functional-location/{id}', 'pages.fleet.functional-location.show', 'functional-location.show'],
         ['/functional-location/{id}/edit', 'pages.fleet.functional-location.edit', 'functional-location.edit'],
         ['/technical-publications/administration', 'pages.stub', 'technical-publications.administration'],
