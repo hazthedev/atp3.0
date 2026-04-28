@@ -30,6 +30,7 @@ class EmployeeMasterDataForm extends Component
     public const PERIOD_OPTIONS = ['Hour', 'Day', 'Week', 'Month', 'Year'];
 
     public int $employeeId;
+    public bool $initialEditing = false;
 
     // Header
     public string $first_name = '';
@@ -118,9 +119,10 @@ class EmployeeMasterDataForm extends Component
     // Remarks
     public string $remarks = '';
 
-    public function mount(int $employeeId): void
+    public function mount(int $employeeId, bool $initialEditing = false): void
     {
         $this->employeeId = $employeeId;
+        $this->initialEditing = $initialEditing;
         $this->loadFromDb();
     }
 

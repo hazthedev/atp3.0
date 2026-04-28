@@ -59,3 +59,4 @@ None yet.
 
 - 2026-04-25 — module file created. Pages exist but data is mocked.
 - 2026-04-28 — BP index aligned with the FL search data-table reference. Cell utility classes (`table-th` / `table-row` / `table-td`), `<x-data-table>` empty-state props, "Browse N records" subhead, lead-column anchor unified to `text-blue-600`, Edit button collapsed to `btn-secondary`. Spec: `docs/superpowers/specs/2026-04-28-index-tables-fl-parity-design.md`.
+- 2026-04-28 — Adopted FL Actions-column pattern. New `system.business-partner-master-data.show` route (read-only by default with Edit Record toggle); existing `*.edit` route now pre-opens editing on first paint. Index Actions column now has a `View | Edit` button pair; lead-column anchor flips to `*.show`. Form partial gains `$startEditing` flag and `match($mode)` for page title/description. Spec: `docs/superpowers/specs/2026-04-28-index-actions-view-edit-pair-design.md`.
