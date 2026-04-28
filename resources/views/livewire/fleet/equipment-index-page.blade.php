@@ -31,6 +31,7 @@
                 <th class="table-th">Operator Name</th>
                 <th class="table-th">Ow. Code</th>
                 <th class="table-th">Owner Name</th>
+                <th class="table-th" data-sortable="false">Actions</th>
             </tr>
         </x-slot>
 
@@ -66,6 +67,12 @@
                     <td class="table-td">{{ $row['operator_name'] }}</td>
                     <td class="table-td">{{ $row['owner_code'] }}</td>
                     <td class="table-td">{{ $row['owner_name'] }}</td>
+                    <td class="table-td">
+                        <div class="flex gap-2">
+                            <a href="{{ route('fleet.equipment.show', ['id' => $row['id']]) }}" class="btn-ghost px-3">View</a>
+                            <a href="{{ route('fleet.equipment.customer-equipment-card', ['id' => $row['id']]) }}" class="btn-secondary px-3">Edit</a>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
         </x-slot>
